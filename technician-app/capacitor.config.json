@@ -6,12 +6,13 @@
   "npmClient": "npm",
   "version": "1.0.0",
   "server": {
-    "androidScheme": "https"
+    "androidScheme": "http",
+    "allowNavigation": ["*"]
   },
   "android": {
     "allowMixedContent": true,
     "captureInput": true,
-    "webContentsDebuggingEnabled": false
+    "webContentsDebuggingEnabled": true
   },
   "plugins": {
     "SplashScreen": {
