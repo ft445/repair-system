@@ -37,7 +37,10 @@ jobs:
           if [ ! -f capacitor.config.json ]; then
             npx cap init 黄师傅维修 com.weixiutong.technician --webDir dist --no-git
           fi
-          npx cap add android
+          # 如果 android 目录已存在则跳过 add
+          if [ ! -d android ]; then
+            npx cap add android
+          fi
 
       - name: 构建 H5
         working-directory: technician-app
