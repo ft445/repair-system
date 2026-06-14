@@ -1,0 +1,102 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:2:1-29:12
+INJECTED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:2:1-29:12
+INJECTED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:2:1-29:12
+INJECTED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:2:1-29:12
+MERGED from [androidx.webkit:webkit:1.11.0] C:\Users\Administrator\.gradle\caches\8.14.3\transforms\770207f88775d1f541f1a2aef0296956\transformed\webkit-1.11.0\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.core:core:1.1.0] C:\Users\Administrator\.gradle\caches\8.14.3\transforms\b2f108e6759036c05dce8ebda18d5d3f\transformed\core-1.1.0\AndroidManifest.xml:17:1-26:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\Administrator\.gradle\caches\8.14.3\transforms\95c309a54c1d03c1ed9961b627d2f6f7\transformed\versionedparcelable-1.1.0\AndroidManifest.xml:17:1-27:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] C:\Users\Administrator\.gradle\caches\8.14.3\transforms\9bfe1002a30c535c99a02d4768129988\transformed\lifecycle-runtime-2.0.0\AndroidManifest.xml:17:1-22:12
+	package
+		ADDED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:3:5-40
+		INJECTED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml
+	android:versionName
+		ADDED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:5:5-32
+		INJECTED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:2:11-69
+	android:versionCode
+		ADDED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:4:5-30
+		INJECTED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml
+uses-permission#android.permission.INTERNET
+ADDED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:6:5-66
+	android:name
+		ADDED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:6:22-64
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:7:5-78
+	android:name
+		ADDED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:7:22-76
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:8:5-78
+	android:name
+		ADDED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:8:22-76
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:9:5-80
+	android:name
+		ADDED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:9:22-78
+uses-permission#android.permission.CAMERA
+ADDED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:10:5-64
+	android:name
+		ADDED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:10:22-62
+uses-permission#android.permission.RECORD_AUDIO
+ADDED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:11:5-70
+	android:name
+		ADDED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:11:22-68
+uses-permission#android.permission.CALL_PHONE
+ADDED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:12:5-68
+	android:name
+		ADDED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:12:22-66
+application
+ADDED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:13:5-28:19
+INJECTED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:13:5-28:19
+MERGED from [androidx.core:core:1.1.0] C:\Users\Administrator\.gradle\caches\8.14.3\transforms\b2f108e6759036c05dce8ebda18d5d3f\transformed\core-1.1.0\AndroidManifest.xml:24:5-89
+MERGED from [androidx.core:core:1.1.0] C:\Users\Administrator\.gradle\caches\8.14.3\transforms\b2f108e6759036c05dce8ebda18d5d3f\transformed\core-1.1.0\AndroidManifest.xml:24:5-89
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\Administrator\.gradle\caches\8.14.3\transforms\95c309a54c1d03c1ed9961b627d2f6f7\transformed\versionedparcelable-1.1.0\AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\Administrator\.gradle\caches\8.14.3\transforms\95c309a54c1d03c1ed9961b627d2f6f7\transformed\versionedparcelable-1.1.0\AndroidManifest.xml:24:5-25:19
+	android:extractNativeLibs
+		INJECTED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.1.0] C:\Users\Administrator\.gradle\caches\8.14.3\transforms\b2f108e6759036c05dce8ebda18d5d3f\transformed\core-1.1.0\AndroidManifest.xml:24:18-86
+	android:label
+		ADDED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:14:9-30
+	android:allowBackup
+		ADDED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:15:9-35
+	android:theme
+		ADDED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:18:9-40
+	android:usesCleartextTraffic
+		ADDED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:16:9-44
+activity#com.weixiutong.technician.MainActivity
+ADDED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:19:9-27:20
+	android:exported
+		ADDED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:22:13-36
+	android:configChanges
+		ADDED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:21:13-74
+	android:name
+		ADDED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:20:13-41
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:23:13-26:29
+action#android.intent.action.MAIN
+ADDED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:24:17-68
+	android:name
+		ADDED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:24:25-66
+category#android.intent.category.LAUNCHER
+ADDED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:25:17-76
+	android:name
+		ADDED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:25:27-74
+uses-sdk
+INJECTED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml
+MERGED from [androidx.webkit:webkit:1.11.0] C:\Users\Administrator\.gradle\caches\8.14.3\transforms\770207f88775d1f541f1a2aef0296956\transformed\webkit-1.11.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.webkit:webkit:1.11.0] C:\Users\Administrator\.gradle\caches\8.14.3\transforms\770207f88775d1f541f1a2aef0296956\transformed\webkit-1.11.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.core:core:1.1.0] C:\Users\Administrator\.gradle\caches\8.14.3\transforms\b2f108e6759036c05dce8ebda18d5d3f\transformed\core-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.1.0] C:\Users\Administrator\.gradle\caches\8.14.3\transforms\b2f108e6759036c05dce8ebda18d5d3f\transformed\core-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\Administrator\.gradle\caches\8.14.3\transforms\95c309a54c1d03c1ed9961b627d2f6f7\transformed\versionedparcelable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\Administrator\.gradle\caches\8.14.3\transforms\95c309a54c1d03c1ed9961b627d2f6f7\transformed\versionedparcelable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] C:\Users\Administrator\.gradle\caches\8.14.3\transforms\9bfe1002a30c535c99a02d4768129988\transformed\lifecycle-runtime-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] C:\Users\Administrator\.gradle\caches\8.14.3\transforms\9bfe1002a30c535c99a02d4768129988\transformed\lifecycle-runtime-2.0.0\AndroidManifest.xml:20:5-44
+	android:targetSdkVersion
+		INJECTED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml

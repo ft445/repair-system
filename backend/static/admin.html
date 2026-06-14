@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>黄师傅家庭维修 - 管理后台</title>
+<link rel="stylesheet" href="/lib/element-plus.css?v=1780817883">
+<style>
+/* ═══ 黄师傅品牌色 ═══ */
+:root{--primary:#E67A2E;--primary-dark:#C96A1F;--navy:#1A365D;--navy-light:#2B6CB0;--el-color-primary:#E67A2E;--el-color-primary-dark-2:#C96A1F;--el-color-primary-light-3:#F5A623;--el-color-primary-light-5:#FFC286;--el-color-primary-light-7:#FFE0B2;--el-color-primary-light-8:#FFF0E0;--el-color-primary-light-9:#FFF8F0}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'Helvetica Neue','PingFang SC','Microsoft YaHei',sans-serif;background:#f0f2f5;color:#333;font-size:14px}
+/* Login */
+.login-wrap{display:flex;justify-content:center;align-items:center;min-height:100vh;background:linear-gradient(135deg,#1A365D,#2B6CB0)}
+.login-box{background:#fff;border-radius:16px;padding:40px;width:400px;box-shadow:0 12px 48px rgba(0,0,0,0.2)}
+.login-box h2{text-align:center;font-size:24px;margin-bottom:4px}
+.login-box .sub{text-align:center;color:#999;font-size:14px;margin-bottom:20px}
+.login-hint{background:#f6f8fa;border-radius:8px;padding:12px;margin-top:16px;font-size:12px;color:#666;line-height:1.8}
+/* Layout */
+.layout{display:flex;min-height:100vh;width:100%}
+.sidebar{width:200px;background:#001529;position:fixed;top:0;left:0;bottom:0;z-index:10;overflow-y:auto}
+.sidebar .logo{color:#fff;text-align:center;padding:18px 0;font-size:18px;font-weight:700;letter-spacing:2px;border-bottom:1px solid rgba(255,255,255,0.08)}
+.sidebar .menu-item{padding:12px 20px;color:#ccc;cursor:pointer;font-size:14px;transition:all .2s;border-left:3px solid transparent}
+.sidebar .menu-item:hover{color:#fff;background:rgba(255,255,255,0.05)}
+.sidebar .menu-item.act{color:#fff;background:rgba(230,122,46,0.15);border-left-color:#E67A2E}
+.main{margin-left:200px;padding:20px;width:calc(100% - 200px);min-height:100vh;background:#f0f2f5}
+.topbar{background:#fff;border-radius:10px;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+/* Cards */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:16px}
+.card{background:#fff;border-radius:10px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.card .num{font-size:26px;font-weight:700;margin-top:4px}
+.card .label{font-size:13px;color:#999}
+/* Panel */
+.panel{background:#fff;border-radius:10px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.panel hd{padding:12px 16px;border-bottom:1px solid #f0f0f0;font-weight:600;display:flex;justify-content:space-between;align-items:center}
+.panel bd{padding:0}
+/* Table */
+.tbl{width:100%;border-collapse:collapse}
+.tbl th,.tbl td{padding:8px 10px;text-align:left;border-bottom:1px solid #f0f0f0;font-size:13px}
+.tbl th{background:#fafafa;font-weight:600;color:#666;white-space:nowrap}
+.tbl tr:hover{background:#fafafa}
+/* Badge */
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:12px;line-height:20px}
+.badge-pending{background:#fff7e6;color:#d46b08}
+.badge-dispatched{background:#e6f7ff;color:#0958d9}
+.badge-accepted{background:#f6ffed;color:#389e0d}
+.badge-in_progress{background:#fffbe6;color:#d48806}
+.badge-completed,.badge-done{background:#f6ffed;color:#389e0d}
+.badge-cancelled{background:#fff1f0;color:#cf1322}
+.badge-approved{background:#f6ffed;color:#389e0d}
+.badge-rejected{background:#fff1f0;color:#cf1322}
+.badge-present{background:#f6ffed;color:#389e0d}
+.badge-late{background:#fff7e6;color:#d46b08}
+/* Msg */
+.msg{padding:10px 14px;border-radius:6px;margin-bottom:10px;font-size:13px;display:flex;justify-content:space-between;align-items:center}
+.msg.success{background:#f6ffed;border:1px solid #b7eb8f;color:#389e0d}
+.msg.error{background:#fff2f0;border:1px solid #ffccc7;color:#cf1322}
+.msg .close{cursor:pointer;font-size:16px;opacity:.6}
+/* Misc */
+.pg{display:flex;justify-content:flex-end;gap:4px;padding:12px;font-size:13px}
+.pg span{padding:4px 10px;cursor:pointer;border:1px solid #e8e8e8;border-radius:4px}
+.pg span.act{background:#E67A2E;color:#fff;border-color:#E67A2E}
+h3{font-size:16px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.tag{display:inline-block;background:#e6f7ff;padding:1px 6px;border-radius:4px;font-size:11px;margin:1px;color:#0958d9}
+.tag-sm{background:#f6ffed;padding:1px 6px;border-radius:4px;font-size:11px;margin:1px;color:#389e0d}
+.tag-lg{background:#fff7e6;padding:1px 6px;border-radius:4px;font-size:11px;margin:1px;color:#d46b08}
+/* Pagination */
+.page-wrap{display:flex;justify-content:flex-end;align-items:center;gap:4px;padding:8px 12px;font-size:13px}
+.page-wrap span{padding:4px 10px;cursor:pointer;border:1px solid #e0e0e0;border-radius:4px;background:#fff}
+.page-wrap span.act{background:#E67A2E;color:#fff;border-color:#E67A2E}
+.page-wrap span:hover:not(.act){border-color:#E67A2E;color:#E67A2E}
+.page-wrap .info{color:#999;margin-right:8px}
+.bar-wrap{display:flex;align-items:center;gap:8px}
+.bar-track{flex:1;height:20px;background:#f0f0f0;border-radius:10px;overflow:hidden}
+.bar-fill{height:100%;border-radius:10px;transition:width .6s ease;min-width:4px}
+</style>
+</head>
+<body>
+<div id="app">
+<!-- ═══ Login ═══ -->
+<div v-if="!token" class="login-wrap">
+  <div class="login-box">
+    <h2 style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:2px">
+      <svg width="42" height="42" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+        <defs>
+          <linearGradient id="lgs" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#1A365D"/><stop offset="100%" stop-color="#2B6CB0"/>
+          </linearGradient>
+          <linearGradient id="lgc" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#E67A2E"/><stop offset="100%" stop-color="#C96A1F"/>
+          </linearGradient>
+          <linearGradient id="lgs2" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFD54F"/><stop offset="100%" stop-color="#FFB300"/>
+          </linearGradient>
+        </defs>
+        <path d="M65 8 L118 34 L118 68 C118 98 94 117 65 124 C36 117 12 98 12 68 L12 34 Z" fill="url(#lgs)"/>
+        <path d="M65 18 L108 39 L108 65 C108 90 88 106 65 112 C42 106 22 90 22 65 L22 39 Z" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="2"/>
+        <circle cx="65" cy="58" r="26" fill="url(#lgc)"/>
+        <circle cx="65" cy="58" r="22" fill="none" stroke="#fff" stroke-width="1.5" opacity=".2"/>
+        <g transform="translate(65,58)">
+          <path d="M-6,-8 C-10,-12 -11,-18 -8,-22 C-5,-26 1,-26 5,-21 L1,-16 C-2,-18 -4,-16 -2,-13 Z" fill="#fff"/>
+          <rect x="-2" y="-14" width="14" height="3" rx="1.5" fill="#fff" transform="rotate(-20 4 -12)"/>
+          <rect x="0" y="-12" width="14" height="3" rx="1.5" fill="#fff" transform="rotate(-20 6 -10)"/>
+          <circle cx="5" cy="0" r="4" fill="#fff"/>
+        </g>
+        <polygon points="65,24 68,32 77,32 70,38 73,46 65,41 57,46 60,38 53,32 62,32" fill="url(#lgs2)"/>
+        <text x="65" y="100" text-anchor="middle" fill="#fff" font-size="16" font-weight="800" font-family="'PingFang SC','Microsoft YaHei',sans-serif">黄师傅</text>
+        <text x="65" y="115" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="8" font-weight="500" font-family="'PingFang SC','Microsoft YaHei',sans-serif" letter-spacing="3">家庭维修</text>
+      </svg>
+      <span style="font-size:24px;font-weight:700">黄师傅 <span style="color:#E67A2E;">管理后台</span></span>
+    </h2>
+    <div class="sub">专业版 · 维修管理系统</div>
+    <el-form @submit.prevent="doLogin">
+      <el-form-item><el-input v-model="loginForm.phone" placeholder="手机号" size="large"></el-input></el-form-item>
+      <el-form-item><el-input v-model="loginForm.password" type="password" placeholder="密码" size="large" show-password></el-input></el-form-item>
+      <el-form-item><el-button type="primary" size="large" style="width:100%" :loading="loginLoading" @click="doLogin">登 录</el-button></el-form-item>
+    </el-form>
+    <div class="login-hint">内部管理系统，未经授权请勿登录</div>
+  </div>
+</div>
+
+<!-- ═══ Main ═══ -->
+<div v-else class="layout">
+  <div class="sidebar">
+    <div class="logo" style="display:flex;align-items:center;justify-content:center;gap:6px;padding:14px 0">
+      <svg width="30" height="30" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+        <defs>
+          <linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#E67A2E"/><stop offset="100%" stop-color="#B8551A"/>
+          </linearGradient>
+          <linearGradient id="lg2" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFD54F"/><stop offset="100%" stop-color="#FFB300"/>
+          </linearGradient>
+        </defs>
+        <path d="M65 8 L118 34 L118 68 C118 98 94 117 65 124 C36 117 12 98 12 68 L12 34 Z" fill="url(#lg1)"/>
+        <circle cx="65" cy="58" r="26" fill="#fff" opacity=".9"/>
+        <path d="M-6,-8 C-10,-12 -11,-18 -8,-22 C-5,-26 1,-26 5,-21 L1,-16 C-2,-18 -4,-16 -2,-13 Z" fill="url(#lg1)" transform="translate(65,58)"/>
+        <rect x="-2" y="-14" width="14" height="3" rx="1.5" fill="url(#lg1)" transform="translate(65,58) rotate(-20 4 -12)"/>
+        <rect x="0" y="-12" width="14" height="3" rx="1.5" fill="url(#lg1)" transform="translate(65,58) rotate(-20 6 -10)"/>
+        <circle cx="5" cy="0" r="4" fill="url(#lg1)" transform="translate(65,58)"/>
+        <polygon points="65,24 68,32 77,32 70,38 73,46 65,41 57,46 60,38 53,32 62,32" fill="url(#lg2)"/>
+      </svg>
+      <span><b>黄师傅</b><span style="color:#E67A2E;font-weight:700;">维修</span></span>
+    </div>
+    <div v-for="m in menu" :key="m.k" :class="'menu-item'+(tab===m.k?' act':'')" @click="switchTab(m.k)">{{ m.l }}</div>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <span><b>{{ user?.name||'-' }}</b> · {{ roleTxt(user?.role) }}</span>
+      <el-button text type="primary" @click="logout">退出登录</el-button>
+    </div>
+
+    <!-- ═══ Messages ═══ -->
+    <div v-if="msg.text" :class="'msg '+(msg.err?'error':'success')">
+      <span>{{ msg.text }}</span>
+      <span class="close" @click="msg.text=''">✕</span>
+    </div>
+
+    <!-- ═══ DASHBOARD ═══ -->
+    <div v-if="tab==='a'">
+      <h3>📊 工作台</h3>
+      <div class="card-grid">
+        <div class="card" style="cursor:pointer" @click="goOrders('today')"><div class="label">📥 今天新进订单</div><div class="num" style="color:#E67A2E">{{ stats.created_today||0 }}</div><div style="font-size:12px;color:#1677ff;margin-top:4px">今日新单 →</div></div>
+        <div class="card" style="cursor:pointer" @click="goOrders('undispatch')"><div class="label">📨 未派单</div><div class="num" style="color:#faad14">{{ stats.undispatch||0 }}</div><div style="font-size:12px;color:#faad14;margin-top:4px">待派单 →</div></div>
+        <div class="card" style="cursor:pointer" @click="goOrders('active')"><div class="label">🔄 进行中</div><div class="num" style="color:#E67A2E">{{ stats.in_progress||0 }}</div><div style="font-size:12px;color:#E67A2E;margin-top:4px">点击查看 →</div></div>
+        <div class="card" style="cursor:pointer" @click="goOrders('completed_today')"><div class="label">✅ 今天完成</div><div class="num" style="color:#52c41a">{{ stats.completed_today||0 }}</div><div style="font-size:12px;color:#52c41a;margin-top:4px">已完成 {{ stats.completed||0 }} 单 →</div></div>
+        <div class="card" style="cursor:pointer" @click="goOrders('all')"><div class="label">📈 总工单</div><div class="num">{{ stats.total||0 }}</div><div style="font-size:12px;color:#1677ff;margin-top:4px">本月新增 {{ stats.created_today||0 }} →</div></div>
+      </div>
+      <!-- Auto Dispatch Toggle -->
+      <div class="panel" style="margin-bottom:12px">
+        <hd><span>⚡ 自动派单</span></hd>
+        <bd style="padding:12px 16px">
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+            <el-switch v-model="autoDispatchEnabled" @change="toggleAutoDispatch" :loading="autoDispatchLoading"></el-switch>
+            <span style="font-size:13px;color:#666">开启后，新订单自动接单并智能派给最合适的师傅</span>
+            <span v-if="autoDispatchEnabled" style="font-size:12px;color:#52c41a">🟢 已开启</span>
+            <span v-else style="font-size:12px;color:#999">⚪ 已关闭</span>
+          </div>
+        </bd>
+      </div>
+
+      <div class="panel">
+        <hd><span>📋 最近工单</span></hd>
+        <bd>
+          <table class="tbl"><tr><th>工单号</th><th>客户</th><th>地址</th><th>状态</th><th>操作</th></tr>
+            <tr v-for="r in recent" :key="r.id"><td>{{ r.order_no }}</td><td>{{ r.customer_name||'-' }}</td><td>{{ r.address||'-' }}</td><td><span :class="'badge badge-'+r.status">{{ statusTxt(r.status) }}</span></td><td><el-button text type="primary" size="small" @click="viewOrder(r)">详情</el-button></td></tr>
+          </table>
+          <div v-if="!recent.length" style="padding:30px;text-align:center;color:#999">暂无</div>
+        </bd>
+      </div>
+    </div>
+
+    <!-- ═══ ORDERS ═══ -->
+    <div v-if="tab==='b'">
+      <h3>📋 工单管理</h3>
+      <div class="panel">
+        <hd>
+          <span>工单列表</span>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <input type="date" id="exportStart" style="padding:4px 8px;border:1px solid #d9d9d9;border-radius:6px;font-size:13px;outline:none;width:140px" onfocus="this.showPicker?.()">
+            <span style="color:#999">至</span>
+            <input type="date" id="exportEnd" style="padding:4px 8px;border:1px solid #d9d9d9;border-radius:6px;font-size:13px;outline:none;width:140px" onfocus="this.showPicker?.()">
+            <el-button size="small" text type="primary" @click="exportOrders()" :disabled="!orders.length">📥 导出</el-button>
+            <span style="font-size:12px;color:#999">共 {{ orderTotal }} 条</span>
+            <el-select v-model="orderFilter" placeholder="状态" clearable size="small" style="width:120px" @change="loadOrders">
+              <el-option label="今天新进" value="pending"></el-option>
+              <el-option label="未派单" value="undispatch"></el-option>
+              <el-option label="进行中" value="active"></el-option>
+              <el-option label="已派单" value="dispatched"></el-option>
+              <el-option label="已完成" value="completed"></el-option>
+            </el-select>
+            <el-input v-model="searchKeyword" placeholder="工单号/手机号/后4位" size="small" style="width:170px" clearable @keyup.enter="doSearch" @clear="doSearch"></el-input>
+            <el-button size="small" type="primary" @click="doSearch">搜索</el-button>
+          </div>
+        </hd>
+        <bd>
+          <div style="padding:8px 12px;border-bottom:1px solid #f0f0f0;display:flex;gap:6px;flex-wrap:wrap">
+            <el-button :type="orderFilter===''?'primary':'default'" size="small" @click="orderFilter='';loadOrders()" plain>全部</el-button>
+            <el-button :type="orderFilter==='pending'?'primary':'default'" size="small" @click="orderFilter='pending';loadOrders()" plain>待接单</el-button>
+            <el-button :type="orderFilter==='undispatch'?'primary':'default'" size="small" @click="orderFilter='undispatch';loadOrders()" plain>未派单</el-button>
+            <el-button :type="orderFilter==='dispatched'?'primary':'default'" size="small" @click="orderFilter='dispatched';loadOrders()" plain>已派单</el-button>
+            <el-button :type="orderFilter==='in_progress'?'primary':'default'" size="small" @click="orderFilter='in_progress';loadOrders()" plain>进行中</el-button>
+            <el-button :type="orderFilter==='completed'?'primary':'default'" size="small" @click="orderFilter='completed';loadOrders()" plain>已完成</el-button>
+            <el-button :type="orderFilter==='cancelled'?'primary':'default'" size="small" @click="orderFilter='cancelled';loadOrders()" plain>已取消</el-button>
+          </div>
+          <table class="tbl"><tr><th>工单号</th><th>客户</th><th>地址</th><th>服务</th><th>师傅</th><th>状态</th><th>费用</th><th>时间</th><th>操作</th></tr>
+            <tr v-for="r in orders" :key="r.id">
+              <td>{{ r.order_no }}</td><td>{{ r.customer_name||r.customer_phone ? r.customer_phone.slice(0,3)+'****'+r.customer_phone.slice(-4) : '-' }}</td><td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.address||'-' }}</td>
+              <td>{{ r.service_item_name||'-' }}</td><td>{{ r.technician_name||'-' }}</td>
+              <td><span :class="'badge badge-'+r.status">{{ statusTxt(r.status) }}</span></td>
+              <td>¥{{ r.total_fee||0 }}</td>
+              <td style="font-size:12px;color:#999;white-space:nowrap">{{ ((r.created_at||'').replace('T',' ').slice(0,16))||'-' }}</td>
+              <td style="white-space:nowrap">
+                <el-button text type="primary" size="small" @click="viewOrder(r)">详情</el-button>
+                <el-button v-if="r.status==='pending'||r.status==='accepted'" text type="primary" size="small" @click="openDispatch(r)">派单</el-button>
+                <el-button v-if="r.status==='pending'||r.status==='accepted'" text type="success" size="small" @click="autoDispatch(r)">智能派</el-button>
+                <el-button v-if="r.status!=='completed'&&r.status!=='done'&&r.status!=='cancelled'" text type="danger" size="small" @click="cancelOrder(r)">取消</el-button>
+                <el-button v-if="r.status==='completed'||r.status==='paid'" text type="warning" size="small" @click="refundOrder(r)">退款</el-button>
+              </td>
+            </tr>
+          </table>
+          <div v-if="!orders.length" style="padding:30px;text-align:center;color:#999">暂无工单</div>
+          <div class="page-wrap">
+            <span class="info">共 {{ orderTotal }} 条</span>
+            <span v-for="p in orderPages" :key="p" :class="p===orderPage?'act':''" @click="goOrderPage(p)">{{ p }}</span>
+          </div>
+        </bd>
+      </div>
+    </div>
+
+    <!-- ═══ TECHNICIANS ═══ -->
+    <div v-if="tab==='c'">
+      <h3>👤 师傅管理</h3>
+      <div class="panel">
+        <hd><span>师傅列表</span><el-button type="primary" size="small" @click="showAddTech=true">+ 新人入职</el-button></hd>
+        <bd>
+          <table class="tbl"><tr><th>姓名</th><th>手机</th><th>所属</th><th>技能</th><th>工单</th><th style="color:#E67A2E">保证金</th><th>状态</th><th>操作</th></tr>
+            <tr v-for="r in techs" :key="r.id">
+              <td>{{ r.name }}</td><td>{{ r.phone }}</td><td>{{ orgTxt(r.org_id) }}</td>
+              <td>
+                <span v-for="s in r.skills||[]" :key="s.id" class="tag">{{ s.service_name }}<template v-if="s.level==='senior'">⭐</template><template v-if="s.price">¥{{ s.price }}</template>
+                  <span style="cursor:pointer;margin-left:2px;color:#999" @click="delSkill(r,s)">✕</span>
+                </span>
+                <el-button text type="primary" size="small" @click="addSkill(r)">+</el-button>
+              </td>
+              <td>{{ r.stats?.total_orders||0 }}/{{ r.stats?.month_orders||0 }}</td>
+              <td style="color:#E67A2E;font-weight:600">¥{{ r.wallet?.balance||0 }}</td>
+              <td><el-tag :type="r.status==='active'?'success':r.status==='paused'?'warning':'danger'" size="small" effect="plain">{{ r.status==='active'?'在职':r.status==='paused'?'暂停派单':'离职' }}</el-tag></td>
+              <td style="white-space:nowrap">
+                <el-button text type="primary" size="small" @click="editTech(r)">编辑</el-button>
+                <el-button text type="warning" size="small" @click="resetTechPwd(r)">重置密码</el-button>
+                <el-button v-if="r.status==='active'" text type="warning" size="small" @click="pauseTech(r)">暂停派单</el-button>
+                <el-button v-if="r.status==='active'" text type="danger" size="small" @click="toggleTech(r,'disabled')">离职</el-button>
+                <el-button v-if="r.status==='paused'" text type="success" size="small" @click="toggleTech(r,'active')">恢复派单</el-button>
+                <el-button v-if="r.status==='paused'" text type="danger" size="small" @click="toggleTech(r,'disabled')">离职</el-button>
+                <el-button v-if="r.status==='disabled'" text type="success" size="small" @click="toggleTech(r,'active')">启用</el-button>
+              </td>
+            </tr>
+          </table>
+          <div v-if="!techs.length" style="padding:30px;text-align:center;color:#999">加载中...</div>
+        </bd>
+      </div>
+      <!-- GPS Location Tracking -->
+      <div class="panel">
+        <hd><span>📍 师傅实时位置</span>
+          <el-button size="small" text type="primary" @click="loadTechLocations()">刷新</el-button>
+        </hd>
+        <bd>
+          <div v-if="techLocations.length" style="padding:4px 0">
+            <div v-for="loc in techLocations" :key="loc.user_id" style="display:flex;justify-content:space-between;align-items:center;padding:10px 16px;border-bottom:1px solid #f0f0f0;font-size:13px">
+              <div>
+                <b>{{ loc.name }}</b>
+                <span style="color:#999;margin-left:8px;font-size:12px">{{ loc.phone ? loc.phone.slice(0,3)+'****'+loc.phone.slice(-4) : '' }}</span>
+                <div style="font-size:12px;color:#666;margin-top:2px;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ loc.address || '位置未知' }}</div>
+              </div>
+              <div style="text-align:right;flex-shrink:0">
+                <div style="font-size:11px;color:#999">{{ loc.updated_at ? loc.updated_at.slice(11,19) : '-' }}</div>
+                <a :href="'https://www.openstreetmap.org/?mlat='+loc.latitude+'&mlon='+loc.longitude+'&zoom=15'" target="_blank" style="color:#E67A2E;font-size:12px;text-decoration:none" rel="noopener">📍 查看地图</a>
+              </div>
+            </div>
+          </div>
+          <div v-else style="padding:30px;text-align:center;color:#999;font-size:13px">
+            暂无位置数据<br><span style="font-size:12px;color:#ccc">师傅登录APP后自动上报位置</span>
+          </div>
+        </bd>
+      </div>
+
+      <!-- 🔒 保证金审核 -->
+      <div class="panel">
+        <hd><span>🔒 保证金审核 <span v-if="depositPending>0" style="font-size:12px;color:#E67A2E;font-weight:400">({{ depositPending }}笔待审)</span></span>
+          <el-button size="small" text type="primary" @click="loadDepositRequests();loadDepositPending()">刷新</el-button>
+        </hd>
+        <bd>
+          <div style="padding:12px 16px;border-bottom:1px solid #f0f0f0">
+            <el-radio-group v-model="depositFilter" @change="loadDepositRequests">
+              <el-radio-button value="pending">待审核</el-radio-button>
+              <el-radio-button value="approved">已通过</el-radio-button>
+              <el-radio-button value="rejected">已驳回</el-radio-button>
+            </el-radio-group>
+          </div>
+          <table class="tbl"><tr><th>师傅</th><th>手机</th><th>金额</th><th>状态</th><th>备注</th><th>时间</th><th>操作</th></tr>
+            <tr v-for="r in depositReqs" :key="r.id">
+              <td>{{ r.tech_name }}</td>
+              <td>{{ r.tech_phone }}</td>
+              <td style="color:#E67A2E;font-weight:600">¥{{ r.amount }}</td>
+              <td><span :class="'badge badge-'+r.status">{{ r.status==='pending'?'待审核':r.status==='approved'?'✅ 已通过':'❌ 已驳回' }}</span></td>
+              <td style="color:#999;font-size:12px">{{ r.remark||'-' }}</td>
+              <td style="font-size:12px;color:#999">{{ ((r.reviewed_at||r.created_at||'').replace('T',' ').slice(0,16)) }}</td>
+              <td style="white-space:nowrap">
+                <template v-if="r.status==='pending'">
+                  <el-button text type="success" size="small" @click="approveDeposit(r)">批准</el-button>
+                  <el-button text type="danger" size="small" @click="rejectDeposit(r)">驳回</el-button>
+                </template>
+                <span v-else style="color:#999;font-size:12px">{{ r.reviewer_name ? r.reviewer_name+' 已处理' : '已处理' }}</span>
+              </td>
+            </tr>
+          </table>
+          <div v-if="!depositReqs.length" style="padding:30px;text-align:center;color:#999">暂无记录</div>
+        </bd>
+      </div>
+    </div>
+
+    <!-- ═══ ATTENDANCE ═══ -->
+    <div v-if="tab==='d'">
+      <h3>⏰ 考勤与请假</h3>
+      <div class="card-grid">
+        <div class="card"><div class="label">✅ 今日打卡</div><div class="num" style="color:#52c41a">{{ attToday?.attendances?.length||0 }}</div></div>
+        <div class="card"><div class="label">🛌 请假中</div><div class="num" style="color:#faad14">{{ attToday?.on_leave_count||0 }}</div></div>
+      </div>
+      <div class="panel">
+        <hd><span>📋 请假申请</span></hd>
+        <bd>
+          <table class="tbl"><tr><th>师傅</th><th>类型</th><th>日期</th><th>事由</th><th>状态</th><th>操作</th></tr>
+            <tr v-for="r in leaves" :key="r.id">
+              <td>{{ r.user_name }}</td><td>{{ leaveTxt(r.type) }}</td><td>{{ r.start_date }} ~ {{ r.end_date }} ({{ r.days }}天)</td>
+              <td>{{ r.reason||'-' }}</td>
+              <td><span :class="'badge badge-'+r.status">{{ r.status==='approved'?'已批准':r.status==='rejected'?'已驳回':'待审批' }}</span></td>
+              <td style="white-space:nowrap">
+                <template v-if="r.status==='pending'">
+                  <el-button text type="success" size="small" @click="approveLeave(r)">批准</el-button>
+                  <el-button text type="danger" size="small" @click="rejectLeave(r)">驳回</el-button>
+                </template>
+                <span v-else style="color:#999;font-size:12px">已处理</span>
+              </td>
+            </tr>
+          </table>
+          <div v-if="!leaves.length" style="padding:30px;text-align:center;color:#999">暂无请假记录</div>
+        </bd>
+      </div>
+    </div>
+
+    <!-- ═══ SERVICES ═══ -->
+    <div v-if="tab==='e'">
+      <h3>🔧 服务管理</h3>
+      <div class="panel">
+        <hd><span>📁 服务分类 ({{ cats.length }})</span><el-button type="primary" size="small" @click="showAddCat=true">+ 新增分类</el-button></hd>
+        <bd>
+          <table class="tbl"><tr><th>名称</th><th>说明</th><th>排序</th><th>操作</th></tr>
+            <tr v-for="r in cats" :key="r.id"><td>{{ r.name }}</td><td style="color:#666">{{ r.description||'-' }}</td><td>{{ r.sort_order||0 }}</td><td><el-button text type="primary" size="small" @click="editCat(r)">编辑</el-button><el-button text type="danger" size="small" @click="delCat(r)">删除</el-button></td></tr>
+          </table>
+          <div v-if="!cats.length" style="padding:20px;text-align:center;color:#999">暂无分类</div>
+        </bd>
+      </div>
+      <div class="panel">
+        <hd><span>📋 服务项目 ({{ items.length }})</span><el-button type="primary" size="small" @click="showAddItem=true">+ 新增项目</el-button></hd>
+        <bd>
+          <table class="tbl"><tr><th>分类</th><th>名称</th><th>单位</th><th>参考价</th><th>操作</th></tr>
+            <tr v-for="r in items" :key="r.id"><td style="color:#666">{{ catName(r.category_id) }}</td><td>{{ r.name }}</td><td>/{{ r.unit_type }}</td><td style="color:#ff4d4f">¥{{ r.default_price||'-' }}</td><td><el-button text type="primary" size="small" @click="editItem(r)">编辑</el-button><el-button text type="danger" size="small" @click="delItem(r)">删除</el-button></td></tr>
+          </table>
+          <div v-if="!items.length" style="padding:20px;text-align:center;color:#999">暂无项目</div>
+        </bd>
+      </div>
+    </div>
+
+    <!-- ═══ FINANCE ═══ -->
+    <div v-if="tab==='f'">
+      <h3>💰 财务管理</h3>
+      <div class="card-grid">
+        <div class="card"><div class="label">💰 总收入</div><div class="num" style="color:#52c41a">¥{{ fin.total_revenue||0 }}</div><div style="font-size:12px;color:#999">{{ fin.total_orders||0 }}单</div></div>
+        <div class="card"><div class="label">📅 本月收入</div><div class="num" style="color:#E67A2E">¥{{ fin.month_revenue||0 }}</div><div style="font-size:12px;color:#E67A2E">{{ fin.month_orders||0 }}单</div></div>
+        <div class="card"><div class="label">📈 本月师傅分成</div><div class="num" style="color:#52c41a">¥{{ (fin.month_revenue||0) * (commRate||80) / 100 }}</div><div style="font-size:12px;color:#999">{{ commRate||80 }}%</div></div>
+        <div class="card"><div class="label">🏢 本月平台收入</div><div class="num" style="color:#E67A2E">¥{{ (fin.month_revenue||0) * (100-(commRate||80)) / 100 }}</div><div style="font-size:12px;color:#999">{{ 100-(commRate||80) }}%抽成</div></div>
+        <div class="card"><div class="label">⏳ 待收款</div><div class="num" style="color:#faad14">¥{{ fin.pending_payment||0 }}</div><div style="font-size:12px;color:#faad14">{{ fin.pending_count||0 }}笔未付</div></div>
+        <div class="card"><div class="label">✅ 已收款</div><div class="num" style="color:#52c41a">¥{{ fin.paid_revenue||0 }}</div><div style="font-size:12px;color:#999">今日收入 ¥{{ fin.today_revenue||0 }}</div></div>
+      </div>
+      <!-- Key Metrics -->
+      <div style="display:flex;gap:12px;margin-bottom:12px;flex-wrap:wrap">
+        <div style="background:#fff;border-radius:10px;padding:12px 16px;flex:1;min-width:150px;box-shadow:0 1px 3px rgba(0,0,0,0.04)">
+          <div style="font-size:12px;color:#999">平均客单价</div>
+          <div style="font-size:22px;font-weight:700;color:#E67A2E;margin-top:2px">¥{{ fin.total_orders? (fin.total_revenue/fin.total_orders).toFixed(1) : 0 }}</div>
+        </div>
+        <div style="background:#fff;border-radius:10px;padding:12px 16px;flex:1;min-width:150px;box-shadow:0 1px 3px rgba(0,0,0,0.04)">
+          <div style="font-size:12px;color:#999">师傅人均收入</div>
+          <div style="font-size:22px;font-weight:700;color:#52c41a;margin-top:2px">¥{{ (finTechEarnings||[]).length? (fin.month_revenue/(finTechEarnings||[]).length).toFixed(1) : 0 }}</div>
+          <div style="font-size:11px;color:#999">{{ (finTechEarnings||[]).length }}位师傅</div>
+        </div>
+        <div style="background:#fff;border-radius:10px;padding:12px 16px;flex:1;min-width:150px;box-shadow:0 1px 3px rgba(0,0,0,0.04)">
+          <div style="font-size:12px;color:#999">平台抽成比例</div>
+          <div style="font-size:22px;font-weight:700;color:#E67A2E;margin-top:2px">{{ 100-(commRate||80) }}%</div>
+          <div style="font-size:11px;color:#999">师傅 {{ commRate||80 }}% · 平台 {{ 100-(commRate||80) }}%</div>
+        </div>
+        <div style="background:#fff;border-radius:10px;padding:12px 16px;flex:1;min-width:150px;box-shadow:0 1px 3px rgba(0,0,0,0.04)">
+          <div style="font-size:12px;color:#999">本月已完成</div>
+          <div style="font-size:22px;font-weight:700;color:#52c41a;margin-top:2px">{{ fin.month_orders||0 }}单</div>
+          <div style="font-size:11px;color:#999">累计 {{ fin.total_orders||0 }}单</div>
+        </div>
+      </div>
+      <div class="panel">
+        <hd><span>📋 账单明细</span></hd>
+        <bd>
+          <table class="tbl"><tr><th>工单号</th><th>地址</th><th>总费用</th><th>师傅到手</th><th>平台抽成</th><th>支付</th><th>完成时间</th></tr>
+            <tr v-for="r in bills" :key="r.id">
+              <td>{{ r.order_no }}</td><td>{{ r.address||'-' }}</td>
+              <td style="font-weight:600">¥{{ r.total_fee||0 }}</td>
+              <td style="color:#52c41a;font-weight:600">¥{{ r.tech_share||0 }}</td>
+              <td style="color:#999">¥{{ r.platform_share||0 }}</td>
+              <td><el-tag :type="r.pay_status==='paid'?'success':'warning'" size="small" effect="plain">{{ r.pay_status==='paid'?'已付款':'未付款' }}</el-tag></td>
+              <td>{{ ((r.completed_at||r.created_at||'').replace('T',' ').slice(0,16))||'-' }}</td>
+            </tr>
+          </table>
+          <div v-if="!bills.length" style="padding:20px;text-align:center;color:#999">暂无账单</div>
+        </bd>
+      </div>
+      <!-- Category Revenue -->
+      <div class="panel">
+        <hd><span>📊 服务收入排行</span></hd>
+        <bd>
+          <div style="padding:12px 16px">
+            <div v-for="(r,i) in catRevenueStats" :key="r.cat" style="margin-bottom:10px">
+              <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px">
+                <span><b>{{ r.cat }}</b></span>
+                <span style="color:#E67A2E;font-weight:600">¥{{ r.revenue }} ({{ r.pct }}%)</span>
+              </div>
+              <div class="bar-wrap">
+                <div class="bar-track"><div class="bar-fill" :style="'width:'+r.pct+'%;background:linear-gradient(90deg,#E67A2E,#FFB347)'"></div></div>
+              </div>
+              <div style="font-size:11px;color:#999;margin-top:2px">{{ r.count }}单 · 师傅得¥{{ r.techShare }} · 平台得¥{{ r.platformShare }}</div>
+            </div>
+          </div>
+          <div v-if="!catRevenueStats.length" style="padding:20px;text-align:center;color:#999">暂无数据</div>
+        </bd>
+      </div>
+      <!-- Technician Monthly Earnings -->
+      <div class="panel">
+        <hd>
+          <span>👤 师傅月度收入</span>
+          <el-button size="small" text type="primary" @click="exportTechEarnings()" :disabled="!(finTechEarnings||[]).length">📥 导出师傅收入</el-button>
+        </hd>
+        <bd>
+          <div style="padding:12px 16px">
+            <div v-for="(r,i) in (finTechEarnings||[])" :key="r.id" style="margin-bottom:10px">
+              <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px">
+                <span><b>{{ r.name }}</b> <span style="color:#999;font-weight:400">({{ r.month_orders }}单)</span></span>
+                <span style="color:#E67A2E;font-weight:600">¥{{ r.month_revenue||0 }}</span>
+              </div>
+              <div style="display:flex;gap:8px;align-items:center">
+                <div style="font-size:11px;color:#999;min-width:50px">师傅得</div>
+                <div class="bar-track" style="height:14px"><div class="bar-fill" :style="'width:'+Math.round(Math.min((r.month_commission||0)/Math.max(1,getMaxTechCommission())*80,80))+'%;background:linear-gradient(90deg,#52c41a,#95de64)'"></div></div>
+                <div style="font-size:12px;color:#52c41a;font-weight:600;min-width:70px;text-align:right">+¥{{ r.month_commission||0 }}</div>
+              </div>
+              <div style="display:flex;gap:8px;align-items:center">
+                <div style="font-size:11px;color:#999;min-width:50px">平台得</div>
+                <div class="bar-track" style="height:14px"><div class="bar-fill" :style="'width:'+Math.round(Math.min(((r.month_revenue||0)-(r.month_commission||0))/Math.max(1,getMaxTechCommission())*80,80))+'%;background:linear-gradient(90deg,#E67A2E,#FFB347)'"></div></div>
+                <div style="font-size:12px;color:#E67A2E;font-weight:600;min-width:70px;text-align:right">+¥{{ ((r.month_revenue||0)-(r.month_commission||0)).toFixed(1) }}</div>
+              </div>
+            </div>
+          </div>
+          <table class="tbl" style="margin-top:4px"><tr><th>排名</th><th>姓名</th><th>手机</th><th>状态</th><th>工单</th><th>流水</th><th>提成</th><th>余额</th><th>累计</th></tr>
+            <tr v-for="(r,i) in (finTechEarnings||[])" :key="r.id">
+              <td>{{ i+1 }}</td>
+              <td>{{ r.name }}</td>
+              <td>{{ r.phone }}</td>
+              <td><el-tag :type="r.status==='active'?'success':r.status==='paused'?'warning':'danger'" size="small" effect="plain">{{ r.status==='active'?'在职':r.status==='paused'?'暂停':'离职' }}</el-tag></td>
+              <td>{{ r.month_orders }}</td>
+              <td>¥{{ r.month_revenue||0 }}</td>
+              <td style="color:#52c41a;font-weight:600">¥{{ r.month_commission||0 }}</td>
+              <td style="color:#E67A2E">¥{{ r.balance||0 }}</td>
+              <td>¥{{ r.total_earned||0 }}</td>
+            </tr>
+          </table>
+          <div v-if="!(finTechEarnings||[]).length" style="padding:20px;text-align:center;color:#999">暂无师傅收入数据</div>
+        </bd>
+      </div>
+      <!-- Monthly Report -->
+      <div class="panel">
+        <hd>
+          <span>📊 月度统计</span>
+          <el-button size="small" text type="primary" @click="exportFinance()" :disabled="!(monthStats||[]).length">📥 导出报表</el-button>
+        </hd>
+        <bd>
+          <table class="tbl"><tr><th>月份</th><th>工单数</th><th>总营收</th><th>师傅分成</th><th>平台收入</th><th>已付款</th><th>未付款</th></tr>
+            <tr v-for="r in monthStats" :key="r.month">
+              <td style="font-weight:600">{{ r.month }}</td>
+              <td>{{ r.count }}</td>
+              <td style="font-weight:600">¥{{ r.revenue }}</td>
+              <td style="color:#52c41a;font-weight:600">¥{{ r.techShare }}</td>
+              <td style="color:#E67A2E;font-weight:600">¥{{ r.platformShare }}</td>
+              <td style="color:#52c41a">¥{{ r.paid }}</td>
+              <td style="color:#faad14">¥{{ r.unpaid }}</td>
+            </tr>
+          </table>
+          <div v-if="!(monthStats||[]).length" style="padding:20px;text-align:center;color:#999">暂无数据（需有已完成工单）</div>
+        </bd>
+      </div>
+      <div class="panel">
+        <hd><span>⚙️ 分成设置</span></hd>
+        <bd style="padding:16px">
+          <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+            <span style="font-size:13px;color:#666">师傅分成比例：</span>
+            <el-input-number v-model="commRate" :min="10" :max="100" size="small" style="width:100px"></el-input-number>
+            <span style="font-size:13px;color:#999">%（客人付¥100 → 师傅得¥{{ commRate }}，平台抽¥{{ 100-commRate }}）</span>
+            <el-button type="primary" size="small" :loading="commSaving" @click="saveCommission">保存设置</el-button>
+          </div>
+        </bd>
+      </div>
+    </div>
+
+    <!-- ═══ SALARY ═══ -->
+    <div v-if="tab==='g'">
+      <h3>💵 师傅工资</h3>
+      <div class="card-grid" v-if="earnings.length">
+        <div class="card"><div class="label">👥 师傅</div><div class="num" style="color:#E67A2E">{{ earnings.length }}</div></div>
+        <div class="card"><div class="label">💰 待发总额</div><div class="num" style="color:#faad14">¥{{ earnings.reduce((s,t)=>s+t.balance,0) }}</div></div>
+        <div class="card"><div class="label">📈 已发总额</div><div class="num" style="color:#52c41a">¥{{ earnings.reduce((s,t)=>s+t.total_earned,0) }}</div></div>
+      </div>
+      <div class="panel">
+        <hd><span>🏆 收入排行</span></hd>
+        <bd>
+          <table class="tbl"><tr><th>#</th><th>姓名</th><th>手机</th><th>状态</th><th>本月工单</th><th>本月流水</th><th>师傅提成</th><th>余额</th><th>累计收入</th></tr>
+            <tr v-for="(r,i) in earnings" :key="r.id">
+              <td>{{ i+1 }}</td><td>{{ r.name }}</td><td>{{ r.phone }}</td>
+              <td><el-tag :type="r.status==='active'?'success':r.status==='paused'?'warning':'danger'" size="small" effect="plain">{{ r.status==='active'?'在职':r.status==='paused'?'暂停派单':'离职' }}</el-tag></td>
+              <td>{{ r.month_orders }}</td>
+              <td>¥{{ r.month_revenue||0 }}</td>
+              <td style="color:#52c41a;font-weight:600">¥{{ r.month_commission||0 }}</td>
+              <td style="color:#ff4d4f">¥{{ r.balance||0 }}</td>
+              <td>¥{{ r.total_earned||0 }}</td>
+            </tr>
+          </table>
+          <div v-if="!earnings.length" style="padding:30px;text-align:center;color:#999">加载中...</div>
+        </bd>
+      </div>
+    </div>
+
+    <!-- ═══ CUSTOMERS ═══ -->
+    <div v-if="tab==='h'">
+      <h3>👥 客户管理</h3>
+      <div class="panel">
+        <hd><span>客户列表</span></hd>
+        <bd>
+          <table class="tbl"><tr><th>姓名</th><th>手机号</th><th>地址</th><th>城市</th><th>工单数</th><th>添加时间</th></tr>
+            <tr v-for="r in customers" :key="r.id"><td>{{ r.name }}</td><td>{{ r.phone.slice(0,3)+'****'+r.phone.slice(-4) }}</td><td>{{ r.address||'-' }}</td><td>{{ r.city||'-' }}</td><td>{{ r.total_orders||0 }}</td><td>{{ (r.created_at||'').slice(0,10)||'-' }}</td></tr>
+          </table>
+          <div v-if="!customers.length" style="padding:30px;text-align:center;color:#999">暂无客户</div>
+        </bd>
+      </div>
+    </div>
+
+      <!-- ═══ ORGANIZATIONS ═══ -->
+      <div v-if="tab==='i'">
+        <h3>🏢 组织管理</h3>
+        <div class="panel">
+          <hd><span>分公司/组织列表</span><el-button type="primary" size="small" @click="showAddOrg=true">+ 新增组织</el-button></hd>
+          <bd>
+            <table class="tbl"><tr><th>名称</th><th>城市</th><th>级别</th><th>联系电话</th><th>师傅数</th><th>管理员</th><th>状态</th><th>操作</th></tr>
+              <tr v-for="r in orgs" :key="r.id">
+                <td>{{ r.name }}</td><td>{{ r.city||'-' }}</td>
+                <td><el-tag size="small">{{ r.level==='headquarters'?'总部':r.level==='branch'?'分公司':'片区' }}</el-tag></td>
+                <td>{{ r.contact_phone||'-' }}</td><td>{{ r.tech_count }}</td>
+                <td><span v-for="m in r.managers||[]" :key="m.id" class="tag-sm">{{ m.name }}</span><span v-if="!r.managers?.length" style="color:#ccc">-</span></td>
+                <td><el-tag :type="r.status==='active'?'success':'danger'" size="small" effect="plain">{{ r.status==='active'?'正常':'停用' }}</el-tag></td>
+                <td><el-button text type="danger" size="small" @click="delOrg(r)">删除</el-button></td>
+              </tr>
+            </table>
+            <div v-if="!orgs.length" style="padding:20px;text-align:center;color:#999">暂无</div>
+          </bd>
+        </div>
+      </div>
+
+      <!-- ═══ RECRUIT ═══ -->
+      <div v-if="tab==='r'">
+        <h3>📝 师傅入驻报名</h3>
+        <div class="panel">
+          <hd><span>报名列表 ({{ applications.length }})</span><el-button size="small" text type="primary" @click="loadApplications()">刷新</el-button></hd>
+          <bd>
+            <table class="tbl"><tr><th>姓名</th><th>手机</th><th>年龄</th><th>经验</th><th>技能</th><th>区域</th><th>工具</th><th>状态</th><th>报名时间</th></tr>
+              <tr v-for="r in applications" :key="r.id">
+                <td><b>{{ r.name }}</b></td>
+                <td>{{ r.phone }}</td>
+                <td>{{ r.age||'-' }}</td>
+                <td>{{ r.experience||'-' }}</td>
+                <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.skill||'-' }}</td>
+                <td>{{ r.area||'-' }}</td>
+                <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.tools||'-' }}</td>
+                <td><el-tag :type="r.status==='pending'?'warning':r.status==='contacted'?'primary':r.status==='accepted'?'success':'danger'" size="small" effect="plain">{{ r.status==='pending'?'待联系':r.status==='contacted'?'已联系':r.status==='accepted'?'已通过':'已拒绝' }}</el-tag></td>
+                <td style="font-size:12px;color:#999;white-space:nowrap">{{ ((r.created_at||'').replace('T',' ').slice(0,16))||'-' }}</td>
+              </tr>
+            </table>
+            <div v-if="!applications.length" style="padding:30px;text-align:center;color:#999">暂无报名记录</div>
+          </bd>
+        </div>
+      </div>
+
+      <!-- ═══ SYSTEM ═══ -->
+      <div v-if="tab==='j'">
+        <h3>🔐 系统管理</h3>
+        <div class="panel" style="margin-bottom:12px">
+          <hd><span>修改密码</span></hd>
+          <bd style="padding:16px">
+            <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+              <el-input v-model="pwdForm.old" type="password" placeholder="旧密码" size="small" style="width:150px"></el-input>
+              <el-input v-model="pwdForm.new" type="password" placeholder="新密码" size="small" style="width:150px"></el-input>
+              <el-button type="primary" size="small" :loading="pwdLoading" @click="changePwd">确认修改</el-button>
+            </div>
+          </bd>
+        </div>
+        <div class="panel" v-if="user?.role==='admin'">
+          <hd><span>管理员列表</span><el-button type="primary" size="small" @click="showAddAdmin=true">+ 新增管理员</el-button></hd>
+          <bd>
+            <table class="tbl"><tr><th>姓名</th><th>手机号</th><th>角色</th><th>状态</th><th>操作</th></tr>
+              <tr v-for="r in admins" :key="r.id"><td>{{ r.name }}</td><td>{{ r.phone }}</td>
+                <td><el-tag :type="r.role==='admin'?'danger':'warning'" size="small" effect="plain">{{ r.role==='admin'?'管理员':'调度员' }}</el-tag></td>
+                <td><el-tag :type="r.status==='active'?'success':'danger'" size="small">{{ r.status==='active'?'正常':'禁用' }}</el-tag></td>
+                <td><el-button text type="primary" size="small" @click="resetPwd(r)">重置密码</el-button></td>
+              </tr>
+            </table>
+            <div v-if="!admins.length" style="padding:20px;text-align:center;color:#999">暂无</div>
+          </bd>
+        </div>
+      </div>
+
+  </div>
+</div>
+
+<!-- ═══ Dialogs ═══ -->
+<el-dialog v-model="showDetailDlg" title="工单详情" width="600px" :close-on-click-modal="false">
+  <div v-if="detailOrder">
+    <table class="tbl"><tr><th style="width:100px">工单号</th><td :span="2"><b>{{ detailOrder.order_no }}</b></td></tr>
+      <tr><th>客户</th><td>{{ detailOrder.customer_name||'-' }} {{ detailOrder.customer_phone ? detailOrder.customer_phone.slice(0,3)+'****'+detailOrder.customer_phone.slice(-4) : '-' }}</td></tr>
+      <tr><th>地址</th><td>{{ detailOrder.address }}</td></tr>
+      <tr><th>服务项目</th><td>{{ detailOrder.service_item_name||'-' }}</td></tr>
+      <tr><th>状态</th><td><span :class="'badge badge-'+detailOrder.status">{{ statusTxt(detailOrder.status) }}</span></td></tr>
+      <tr><th>故障描述</th><td>{{ detailOrder.fault_description||'无' }}</td></tr>
+      <tr><th>指派师傅</th><td>{{ detailOrder.technician_name||'未指派' }} {{ detailOrder.technician_phone||'' }}
+        <el-button text type="primary" size="small" @click="showTransferDlg=true;loadTransferTechs()" v-if="detailOrder.status==='dispatched'||detailOrder.status==='accepted'||detailOrder.status==='in_progress'">转单</el-button>
+      </td></tr>
+      <tr><th>总费用</th><td><span style="color:#ff4d4f;font-size:16px;font-weight:700">¥{{ detailOrder.total_fee||0 }}</span></td></tr>
+      <tr><th>创建时间</th><td>{{ ((detailOrder.created_at||'').replace('T',' ').slice(0,19))||'-' }}</td></tr>
+    </table>
+    <div v-if="orderImages.length" style="margin-top:12px">
+      <div style="font-weight:600;margin-bottom:6px">用户上传图片</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <div v-for="(img,i) in orderImages" :key="i" style="width:120px;height:120px;border-radius:8px;overflow:hidden;border:1px solid #eee;cursor:pointer" @click="showImg(JSON.stringify([img]))">
+          <img :src="img" style="width:100%;height:100%;object-fit:cover">
+        </div>
+      </div>
+    </div>
+    <!-- Repair Photos & Video -->
+    <div v-if="showMedia&&detailOrder.before_photos" style="margin-top:12px;padding:12px;background:#f8f9fb;border-radius:8px">
+      <div style="font-weight:600;margin-bottom:8px">📸 维修影像</div>
+      <div v-if="detailOrder.before_photos" style="margin-bottom:6px">
+        <div style="font-size:13px;color:#E67A2E;margin-bottom:4px">▼ 维修前</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <div v-for="(u,i) in getImgList(detailOrder.before_photos)" :key="'b'+i" style="width:80px;height:80px;border-radius:6px;overflow:hidden;border:1px solid #ddd;cursor:pointer" @click="showImg(detailOrder.before_photos,i)">
+            <img :src="u" style="width:100%;height:100%;object-fit:cover">
+          </div>
+        </div>
+      </div>
+      <div v-if="detailOrder.after_photos" style="margin-bottom:6px">
+        <div style="font-size:13px;color:#52c41a;margin-bottom:4px">▼ 维修后</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <div v-for="(u,i) in getImgList(detailOrder.after_photos)" :key="'a'+i" style="width:80px;height:80px;border-radius:6px;overflow:hidden;border:1px solid #ddd;cursor:pointer" @click="showImg(detailOrder.after_photos,i)">
+            <img :src="u" style="width:100%;height:100%;object-fit:cover">
+          </div>
+        </div>
+      </div>
+      <div v-if="detailOrder.audio_url" style="margin-top:6px">
+        <div style="font-size:13px;color:#E67A2E;margin-bottom:2px">🎙️ 录音</div>
+        <audio :src="detailOrder.audio_url" controls style="width:100%;height:36px" preload="none"></audio>
+      </div>
+      <div v-if="detailOrder.video_url" style="margin-top:6px">
+        <video :src="detailOrder.video_url" style="width:100%;max-height:200px;border-radius:6px" controls preload="none"></video>
+      </div>
+    </div>
+    <!-- Parts -->
+    <div style="margin-top:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <span style="font-weight:600">🔧 配件/材料</span>
+        <el-button text type="primary" size="small" @click="openAddPart(detailOrder)">+ 添加配件</el-button>
+      </div>
+      <div v-if="orderParts.length">
+        <div v-for="p in orderParts" :key="p.id" style="padding:8px;border:1px solid #f0f0f0;border-radius:6px;margin-bottom:6px;font-size:13px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div><b>{{ p.name }}</b> <span v-if="p.brand" style="color:#666">({{ p.brand }})</span></div>
+            <div><el-tag size="small" :type="p.part_type==='new'?'success':'warning'" effect="plain">{{ p.part_type==='new'?'新配件':'旧配件' }}</el-tag></div>
+          </div>
+          <div style="margin-top:4px;color:#666;font-size:12px">
+            x{{ p.quantity }} · ¥{{ p.unit_price }}/个 · 合计 <b style="color:#ff4d4f">¥{{ p.total_price }}</b>
+            <span v-if="p.model_no"> · 型号:{{ p.model_no }}</span><span v-if="p.store_name"> · 🏪{{ p.store_name }}</span><span v-if="p.store_phone"> 📞{{ p.store_phone }}</span>
+          </div>
+          <div v-if="p.receipt_image||p.part_photo" style="display:flex;gap:6px;margin-top:4px">
+            <span v-if="p.receipt_image" style="color:#1677ff;cursor:pointer;font-size:12px" @click="showImg(JSON.stringify([p.receipt_image]))">📄 查看票据</span>
+            <span v-if="p.part_photo" style="color:#1677ff;cursor:pointer;font-size:12px" @click="showImg(JSON.stringify([p.part_photo]))">📷 查看照片</span>
+          </div>
+          <div v-if="p.notes" style="color:#999;font-size:11px;margin-top:2px">备注: {{ p.notes }}</div>
+        </div>
+      </div>
+      <div v-else style="font-size:12px;color:#ccc;padding:4px 0">暂无配件记录</div>
+    </div>
+    <div v-if="detailLogs?.length" style="margin-top:12px">
+      <div style="font-weight:600;margin-bottom:6px">操作日志</div>
+      <div v-for="log in detailLogs" :key="log.id" style="font-size:12px;color:#666;padding:4px 0;border-bottom:1px solid #f0f0f0">{{ ((log.created_at||'').replace('T',' ').slice(0,16)) }} - {{ log.action }}: {{ log.content }}</div>
+    </div>
+  </div>
+  <template #footer><el-button @click="showDetailDlg=false">关闭</el-button></template>
+</el-dialog>
+
+<!-- ═══ Transfer Dialog ═══ -->
+<el-dialog v-model="showTransferDlg" title="转单" width="400px" :close-on-click-modal="false">
+  <div v-if="transferTechs.length">
+    <div style="margin-bottom:12px;font-size:13px;color:#666">选择要转给的师傅：</div>
+    <div style="max-height:360px;overflow-y:auto">
+      <div v-for="t in transferTechs" :key="t.id" 
+        :style="{padding:'10px 12px',border:'1px solid '+(transferTargetId===t.id?'#E67A2E':'#eee'),borderRadius:'8px',marginBottom:'8px',cursor:'pointer',background:transferTargetId===t.id?'#fff5eb':'#fff',display:'flex',justifyContent:'space-between',alignItems:'center'}"
+        @click="transferTargetId=t.id">
+        <div><b>{{ t.name }}</b> <span style="color:#999;font-size:12px">{{ t.phone }}</span></div>
+        <div style="font-size:12px;color:#999">{{ t.skills?.length||0 }}项技能 · {{ t.active_orders||0 }}单进行中</div>
+      </div>
+    </div>
+    <div style="margin-top:12px">
+      <el-input v-model="transferReason" placeholder="转单原因（选填）" size="small"></el-input>
+    </div>
+  </div>
+  <div v-else style="padding:20px;text-align:center;color:#999">加载中...</div>
+  <template #footer>
+    <el-button @click="showTransferDlg=false">取消</el-button>
+    <el-button type="primary" @click="doAdminTransfer" :disabled="!transferTargetId">确认转单</el-button>
+  </template>
+</el-dialog>
+
+<el-dialog v-model="showDispatchDlg" title="派单" width="400px" :close-on-click-modal="false">
+  <el-form label-width="80px">
+    <el-form-item label="选择师傅">
+      <el-select v-model="dispatchTechId" placeholder="请选择师傅" style="width:100%" filterable>
+        <el-option v-for="t in techOptions" :key="t.id" :label="t.name+' ('+t.phone+')'" :value="t.id"></el-option>
+      </el-select>
+    </el-form-item>
+  </el-form>
+  <template #footer>
+    <el-button @click="showDispatchDlg=false">取消</el-button>
+    <el-button type="primary" :loading="dispatchLoading" :disabled="!dispatchTechId" @click="doDispatch">确认派单</el-button>
+  </template>
+</el-dialog>
+
+<el-dialog v-model="showEditTechDlg" title="编辑师傅资料" width="480px" :close-on-click-modal="false">
+  <el-form label-width="90px">
+    <el-form-item label="姓名"><el-input v-model="editForm.name"></el-input></el-form-item>
+    <el-form-item label="手机号"><el-input v-model="editForm.phone"></el-input></el-form-item>
+    <el-form-item label="所属组织"><el-select v-model="editForm.org_id" style="width:100%"><el-option v-for="o in orgList" :key="o.id" :label="o.name" :value="o.id"></el-option></el-select></el-form-item>
+    <el-form-item label="身份证"><el-input v-model="editForm.id_card" placeholder="18位身份证号"></el-input></el-form-item>
+    <el-form-item label="住址"><el-input v-model="editForm.address" placeholder="家庭住址"></el-input></el-form-item>
+    <el-form-item label="紧急联系人"><el-input v-model="editForm.emergency_contact" placeholder="姓名"></el-input></el-form-item>
+    <el-form-item label="紧急电话"><el-input v-model="editForm.emergency_phone" placeholder="手机号"></el-input></el-form-item>
+    <el-form-item label="入职日期"><el-input v-model="editForm.hire_date" placeholder="YYYY-MM-DD"></el-input></el-form-item>
+  </el-form>
+  <template #footer><el-button @click="showEditTechDlg=false">取消</el-button><el-button type="primary" :loading="savingTech" @click="saveTechProfile">保存</el-button></template>
+</el-dialog>
+
+<el-dialog v-model="showAddSkillDlg" :title="'为 '+skillTechName+' 添加技能'" width="400px" :close-on-click-modal="false">
+  <el-form label-width="70px">
+    <el-form-item label="项目"><el-select v-model="skillForm.item_id" placeholder="选择服务项目" style="width:100%" filterable><el-option v-for="i in allItems" :key="i.id" :label="i.name" :value="i.id"></el-option></el-select></el-form-item>
+    <el-form-item label="等级"><el-select v-model="skillForm.level" style="width:100%"><el-option label="初级" value="junior"></el-option><el-option label="中级" value="medium"></el-option><el-option label="高级 ⭐" value="senior"></el-option></el-select></el-form-item>
+    <el-form-item label="价格"><el-input v-model.number="skillForm.price" type="number" placeholder="留空用默认价"><template #prefix>¥</template></el-input></el-form-item>
+  </el-form>
+  <template #footer><el-button @click="showAddSkillDlg=false">取消</el-button><el-button type="primary" :loading="skillSaving" @click="saveSkill">确定添加</el-button></template>
+</el-dialog>
+
+<el-dialog v-model="showEditCat" title="编辑分类" width="380px" :close-on-click-modal="false">
+  <el-form label-width="70px">
+    <el-form-item label="名称"><el-input v-model="editCatForm.name" placeholder="如：家电维修"></el-input></el-form-item>
+    <el-form-item label="说明"><el-input v-model="editCatForm.description" placeholder="分类说明"></el-input></el-form-item>
+    <el-form-item label="图标"><el-input v-model="editCatForm.icon" placeholder="图标标识"></el-input></el-form-item>
+    <el-form-item label="排序"><el-input-number v-model="editCatForm.sort_order" :min="0" style="width:100%"></el-input-number></el-form-item>
+  </el-form>
+  <template #footer><el-button @click="showEditCat=false">取消</el-button><el-button type="primary" :loading="editCatLoading" @click="saveEditCat">保存</el-button></template>
+</el-dialog>
+<el-dialog v-model="showAddCat" title="新增分类" width="380px" :close-on-click-modal="false">
+  <el-form label-width="70px">
+    <el-form-item label="名称"><el-input v-model="catForm.name" placeholder="如：家电维修"></el-input></el-form-item>
+    <el-form-item label="说明"><el-input v-model="catForm.description" placeholder="分类说明"></el-input></el-form-item>
+  </el-form>
+  <template #footer><el-button @click="showAddCat=false">取消</el-button><el-button type="primary" :loading="catSaving" @click="addCat">确定</el-button></template>
+</el-dialog>
+
+<el-dialog v-model="showAddAdmin" title="新增管理员" width="380px" :close-on-click-modal="false">
+  <el-form label-width="80px">
+    <el-form-item label="姓名"><el-input v-model="adminForm.name" placeholder="姓名"></el-input></el-form-item>
+    <el-form-item label="手机号"><el-input v-model="adminForm.phone" placeholder="11位手机号" maxlength="11"></el-input></el-form-item>
+    <el-form-item label="密码"><el-input v-model="adminForm.password" type="password" placeholder="默认123456"></el-input></el-form-item>
+    <el-form-item label="角色"><el-select v-model="adminForm.role" style="width:100%"><el-option label="管理员" value="admin"></el-option><el-option label="调度员" value="dispatcher"></el-option></el-select></el-form-item>
+  </el-form>
+  <template #footer><el-button @click="showAddAdmin=false">取消</el-button><el-button type="primary" :loading="adminSaving" @click="addAdmin">确定</el-button></template>
+</el-dialog>
+
+<el-dialog v-model="showAddOrg" title="新增组织" width="400px" :close-on-click-modal="false">
+  <el-form label-width="80px">
+    <el-form-item label="名称"><el-input v-model="orgForm.name" placeholder="如：佛山分公司"></el-input></el-form-item>
+    <el-form-item label="城市"><el-input v-model="orgForm.city" placeholder="如：佛山"></el-input></el-form-item>
+    <el-form-item label="联系电话"><el-input v-model="orgForm.contact_phone" placeholder="手机号"></el-input></el-form-item>
+    <el-form-item label="级别"><el-select v-model="orgForm.level" style="width:100%"><el-option label="总部" value="headquarters"></el-option><el-option label="分公司" value="branch"></el-option><el-option label="片区" value="district"></el-option></el-select></el-form-item>
+  </el-form>
+  <template #footer><el-button @click="showAddOrg=false">取消</el-button><el-button type="primary" :loading="orgSaving" @click="addOrg">确定创建</el-button></template>
+</el-dialog>
+
+<el-dialog v-model="showAddTech" title="新人入职" width="480px" :close-on-click-modal="false">
+  <el-form label-width="90px">
+    <el-form-item label="姓名"><el-input v-model="addTechForm.name" placeholder="师傅姓名"></el-input></el-form-item>
+    <el-form-item label="手机号"><el-input v-model="addTechForm.phone" placeholder="11位手机号" maxlength="11"></el-input></el-form-item>
+    <el-form-item label="密码"><el-input v-model="addTechForm.password" type="password" placeholder="默认123456"></el-input></el-form-item>
+    <el-form-item label="所属组织"><el-select v-model="addTechForm.org_id" style="width:100%"><el-option label="广州分公司" :value="2"></el-option><el-option label="深圳分公司" :value="3"></el-option></el-select></el-form-item>
+    <el-form-item label="身份证"><el-input v-model="addTechForm.id_card" placeholder="18位身份证号"></el-input></el-form-item>
+    <el-form-item label="住址"><el-input v-model="addTechForm.address" placeholder="家庭住址"></el-input></el-form-item>
+    <el-form-item label="紧急联系人"><el-input v-model="addTechForm.emergency_contact" placeholder="姓名"></el-input></el-form-item>
+    <el-form-item label="紧急电话"><el-input v-model="addTechForm.emergency_phone" placeholder="手机号"></el-input></el-form-item>
+    <el-form-item label="入职日期"><el-input v-model="addTechForm.hire_date" placeholder="YYYY-MM-DD"></el-input></el-form-item>
+  </el-form>
+  <template #footer><el-button @click="showAddTech=false">取消</el-button><el-button type="primary" :loading="addTechLoading" @click="addTech">确定入职</el-button></template>
+</el-dialog>
+
+<el-dialog v-model="showPreviewDlg" title="图片预览" width="650px" :close-on-click-modal="false">
+  <div style="text-align:center"><img :src="imgUrls[currentImgIdx]" style="max-width:100%;max-height:70vh;border-radius:8px"></div>
+  <div style="text-align:center;margin-top:8px">
+    <el-button size="small" :disabled="currentImgIdx<=0" @click="currentImgIdx--">‹ 上一张</el-button>
+    <span style="margin:0 12px;font-size:13px;color:#999">{{ currentImgIdx+1 }}/{{ imgUrls.length }}</span>
+    <el-button size="small" :disabled="currentImgIdx>=imgUrls.length-1" @click="currentImgIdx++">下一张 ›</el-button>
+  </div>
+  <template #footer><el-button @click="showPreviewDlg=false">关闭</el-button></template>
+</el-dialog>
+
+<el-dialog v-model="showAddPartDlg" title="添加配件/材料" width="480px" :close-on-click-modal="false">
+  <el-form label-width="80px">
+    <el-form-item label="配件名称"><el-input v-model="partForm.name" placeholder="如：空调电容"></el-input></el-form-item>
+    <el-form-item label="品牌"><el-input v-model="partForm.brand" placeholder="如：华威"></el-input></el-form-item>
+    <el-form-item label="型号"><el-input v-model="partForm.model_no" placeholder="如：CBB65"></el-input></el-form-item>
+    <el-form-item label="类型"><el-select v-model="partForm.part_type" style="width:100%"><el-option label="新配件" value="new"></el-option><el-option label="旧配件" value="old"></el-option></el-select></el-form-item>
+    <div style="display:flex;gap:8px">
+      <el-form-item label="数量" style="flex:1"><el-input-number v-model="partForm.quantity" :min="1" style="width:100%"></el-input-number></el-form-item>
+      <el-form-item label="单价" style="flex:1"><el-input v-model.number="partForm.unit_price" type="number" placeholder="0"><template #prefix>¥</template></el-input></el-form-item>
+    </div>
+    <el-form-item label="票据图片"><el-input v-model="partForm.receipt_image" placeholder="上传后粘贴URL"></el-input></el-form-item>
+    <el-form-item label="配件照片"><el-input v-model="partForm.part_photo" placeholder="上传后粘贴URL"></el-input></el-form-item>
+    <el-form-item label="备注"><el-input v-model="partForm.notes" type="textarea" :rows="2"></el-input></el-form-item>
+  </el-form>
+  <template #footer><el-button @click="showAddPartDlg=false">取消</el-button><el-button type="primary" :loading="partSaving" @click="savePart">确定添加</el-button></template>
+</el-dialog>
+
+<el-dialog v-model="showEditItem" title="编辑项目" width="400px" :close-on-click-modal="false">
+  <el-form label-width="70px">
+    <el-form-item label="分类"><el-select v-model="editItemForm.category_id" placeholder="选择分类" style="width:100%"><el-option v-for="c in cats" :key="c.id" :label="c.name" :value="c.id"></el-option></el-select></el-form-item>
+    <el-form-item label="名称"><el-input v-model="editItemForm.name" placeholder="如：空调维修"></el-input></el-form-item>
+    <el-form-item label="价格"><el-input v-model.number="editItemForm.default_price" type="number" placeholder="参考价格"><template #prefix>¥</template></el-input></el-form-item>
+    <el-form-item label="单位"><el-select v-model="editItemForm.unit_type" style="width:100%"><el-option label="次" value="次"></el-option><el-option label="台" value="台"></el-option><el-option label="个" value="个"></el-option><el-option label="米" value="米"></el-option></el-select></el-form-item>
+    <el-form-item label="描述"><el-input v-model="editItemForm.description" type="textarea" :rows="2" placeholder="服务说明"></el-input></el-form-item>
+  </el-form>
+  <template #footer><el-button @click="showEditItem=false">取消</el-button><el-button type="primary" :loading="editItemLoading" @click="saveEditItem">保存</el-button></template>
+</el-dialog>
+<el-dialog v-model="showAddItem" title="新增项目" width="400px" :close-on-click-modal="false">
+  <el-form label-width="70px">
+    <el-form-item label="分类"><el-select v-model="itemForm.category_id" placeholder="选择分类" style="width:100%"><el-option v-for="c in cats" :key="c.id" :label="c.name" :value="c.id"></el-option></el-select></el-form-item>
+    <el-form-item label="名称"><el-input v-model="itemForm.name" placeholder="如：空调维修"></el-input></el-form-item>
+    <el-form-item label="价格"><el-input v-model.number="itemForm.default_price" type="number" placeholder="参考价格"><template #prefix>¥</template></el-input></el-form-item>
+  </el-form>
+  <template #footer><el-button @click="showAddItem=false">取消</el-button><el-button type="primary" :loading="itemSaving" @click="addItem">确定</el-button></template>
+</el-dialog>
+
+</div>
+
+<script src="/lib/vue.global.prod.js?v=1780817883"></script>
+<script src="/lib/element-plus.umd.js?v=1780817883"></script>
+<script>
+(function(){ console.log("admin.js loaded v=1780817883");
+  if (typeof Vue==='undefined'||typeof ElementPlus==='undefined'){document.getElementById('app').innerHTML='<div style="display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:sans-serif;color:#999"><div style="text-align:center"><h2>Loading...</h2><p style="color:#ccc;margin-top:8px">If this persists, check Console (F12)</p></div></div>';return}
+  const {createApp,ref,reactive,computed,onMounted,watch}=Vue; const API=window.location.origin+'/api';
+
+  const STATUS_MAP={pending:'新进订单',dispatched:'已派单',accepted:'已接单',in_progress:'进行中',completed:'已完成',paid:'已付款',done:'已完成',cancelled:'已取消'};
+  const LEAVE_MAP={sick:'病假',vacation:'年假',personal:'事假',other:'其他'};
+  const ORG_MAP={1:'总部',2:'广州分公司',3:'深圳分公司'};
+
+  createApp({setup(){
+    // ─── Auth ───
+    const token=ref(localStorage.getItem('token')||'');
+    const user=ref(null);
+    const loginForm=reactive({phone:'',password:''});
+    const loginLoading=ref(false);
+    const tab=ref('a');
+    const msg=reactive({text:'',err:false});
+
+    const menu=computed(()=>{
+      const items=[
+        {k:'a',l:'📊 工作台' + (newOrderCount.value>0 ? ' (' + newOrderCount.value + '新)' : '')},{k:'b',l:'📋 工单管理'},{k:'r',l:'📝 师傅报名'},
+        {k:'d',l:'⏰ 考勤请假'},{k:'h',l:'👥 客户管理'}
+      ];
+      if(user.value?.role==='admin'){
+        items.push(
+          {k:'c',l:'👤 师傅管理'},{k:'e',l:'🔧 服务管理'},
+          {k:'f',l:'💰 财务管理'},{k:'g',l:'💵 薪资结算'},
+          {k:'i',l:'🏢 组织管理'},{k:'j',l:'🔐 系统管理'},
+          {k:'qr',l:'📱 二维码'}
+        );
+      }
+      return items;
+    });
+
+    function setMsg(t,e){msg.text=t;msg.err=e;setTimeout(()=>{msg.text=''},5000)}
+    function parsePhotos(str){try{return JSON.parse(str)}catch(e){return str?[str]:[]}}
+    function statusTxt(s){return STATUS_MAP[s]||s}
+    function leaveTxt(s){return LEAVE_MAP[s]||s}
+    function orgTxt(id){return ORG_MAP[id]||'-'}
+    function roleTxt(r){return r==='admin'?'管理员':r==='dispatcher'?'调度员':'师傅'}
+    function catName(id){const c=cats.value.find(c=>c.id===id);return c?c.name:'-'}
+
+    // ─── API ───
+    async function api(path,opts){
+      const headers={'Content-Type':'application/json'};
+      if(token.value)headers['Authorization']='Bearer '+token.value;
+      const ctrl=new AbortController();
+      const timer=setTimeout(()=>ctrl.abort(),8000);
+      try {
+        const res=await fetch(API+path,{...opts,headers,signal:ctrl.signal});
+        clearTimeout(timer);
+        const d=await res.json();
+        if(!res.ok){
+          if(res.status===401){token.value='';localStorage.removeItem('token');user.value=null}
+          throw new Error(d.detail||'请求失败')
+        }
+        return d;
+      } catch(e){
+        clearTimeout(timer);
+        throw e;
+      }
+    }
+
+    // --- Export CSV ---
+    function exportOrders() {
+      let data = orders.value;
+      const startEl = document.getElementById('exportStart');
+      const endEl = document.getElementById('exportEnd');
+      const startDate = startEl ? startEl.value : '';
+      const endDate = endEl ? endEl.value : '';
+      if (startDate && endDate) {
+        data = data.filter(function(o) {
+          const d = (o.created_at || '').slice(0, 10);
+          return d >= startDate && d <= endDate;
+        });
+        if (!data.length) { alert('所选日期范围内没有数据'); return; }
+      }
+      exportCSV(data, 'WorkOrders_' + (startDate ? startDate + '~' + endDate : 'all'));
+    }
+
+    function exportCSV(data, filename) {
+      if (!data || !data.length) { alert('没有数据可导出'); return; }
+      const headers = Object.keys(data[0]);
+      const csvRows = [headers.join(',')];
+      for (const row of data) {
+        const vals = headers.map(h => {
+          let v = row[h] ?? '';
+          if (typeof v === 'string' && (v.includes(',') || v.includes('"') || v.includes(String.fromCharCode(10)))) {
+            v = '"' + v.replace(/"/g, '""') + '"';
+          }
+          return v;
+        });
+        csvRows.push(vals.join(','));
+      }
+      const csv = csvRows.join(String.fromCharCode(10));
+      const bom = String.fromCharCode(0xFEFF);
+      const blob = new Blob([bom + csv], {type: 'text/csv;charset=utf-8;'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename + '_' + new Date().toISOString().slice(0,10) + '.csv';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      alert('Exported: ' + filename);
+    }
+
+    // ─── Login ───
+    async function doLogin(){
+      if(!loginForm.phone||!loginForm.password){setMsg('请输入账号密码',true);return}
+      loginLoading.value=true;
+      try{
+        const r=await fetch(API+'/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(loginForm)});
+        const d=await r.json();if(!r.ok)throw new Error(d.detail||'登录失败');
+        token.value=d.data.access_token;user.value=d.data.user;
+        localStorage.setItem('token',token.value);
+        setMsg('登录成功',false);await loadDashboard();
+      }catch(e){setMsg(e.message,true)}finally{loginLoading.value=false}
+    }
+    function logout(){token.value='';localStorage.removeItem('token');user.value=null}
+
+    // ─── Dashboard ───
+    const stats=reactive({total:0,pending:0,in_progress:0,completed_today:0,completed:0,created_today:0});
+    const autoDispatchEnabled=ref(false);const autoDispatchLoading=ref(false);
+    const recent=ref([]);
+    async function loadDashboard(){
+      try{
+        const[sr,or,ar]=await Promise.all([
+          api('/stats/orders'),api('/orders?page=1&page_size=10'),
+          api('/finance/settings').catch(()=>({data:{}}))
+        ]);
+        Object.assign(stats,sr.data);recent.value=or.data.items;
+        if(ar.data?.auto_dispatch_enabled)autoDispatchEnabled.value=ar.data.auto_dispatch_enabled.value==='1';
+      }catch(e){}
+    }
+    async function toggleAutoDispatch(val){
+      autoDispatchLoading.value=true;
+      try{await api('/finance/settings',{method:'PUT',body:JSON.stringify({auto_dispatch_enabled:val?'1':'0'})});setMsg(val?'自动派单已开启':'自动派单已关闭',false)}
+      catch(e){setMsg(e.message,true);autoDispatchEnabled.value=!val}
+      finally{autoDispatchLoading.value=false}
+    }
+
+    // ─── Orders ───
+    const orders=ref([]);const orderFilter=ref('');const orderPage=ref(1);const newOrderCount=ref(0);const prevTotalOrders=ref(0);const exportDateRange=ref(null);const orderTotal=ref(0);
+    const orderPages=ref([]);const searchKeyword=ref('');
+    const showDetailDlg=ref(false);const showTransferDlg=ref(false);const transferTechs=ref([]);const transferTargetId=ref(null);const transferReason=ref('');const detailOrder=ref(null);const detailLogs=ref([]);
+    const imgUrls=ref([]);const currentImgIdx=ref(0);const showPreviewDlg=ref(false);
+    const orderImages=computed(()=>{if(!detailOrder.value)return[];try{const imgs=detailOrder.value.images;if(!imgs)return[];const parsed=JSON.parse(imgs);return Array.isArray(parsed)?parsed:[]}catch(e){return[]}})
+    const orderParts=ref([]);const showAddPartDlg=ref(false);const partOrderId=ref(null);const partSaving=ref(false);
+    const partForm=reactive({name:'',brand:'',model_no:'',part_type:'new',quantity:1,unit_price:0,receipt_image:'',part_photo:'',notes:''});
+    const showDispatchDlg=ref(false);const dispatchOrderId=ref(null);const dispatchTechId=ref(null);
+    const dispatchLoading=ref(false);const techOptions=ref([]);
+
+    async function loadOrders(){
+      try{
+        let url='/orders?page='+orderPage.value+'&page_size=15';
+        if(orderFilter.value)url+='&status='+orderFilter.value;
+        if(searchKeyword.value)url+='&keyword='+encodeURIComponent(searchKeyword.value);
+        const r=await api(url);orders.value=r.data.items;orderTotal.value=r.data.total;
+        const pages=Math.ceil(r.data.total/15);orderPages.value=Array.from({length:Math.min(pages,10)},(_,i)=>i+1);
+      }catch(e){setMsg(e.message,true)}
+    }
+    function goOrderPage(p){orderPage.value=p;loadOrders()}
+    function doSearch(){orderPage.value=1;loadOrders()}
+
+    function getImgList(str){try{const r=JSON.parse(str);return Array.isArray(r)?r:[]}catch(e){return[]}}
+    function showImg(str,idx=0){
+      try{const urls=JSON.parse(str);if(Array.isArray(urls)){imgUrls.value=urls;currentImgIdx.value=Math.min(idx,urls.length-1)}else{imgUrls.value=[str];currentImgIdx.value=0}}catch(e){imgUrls.value=[str];currentImgIdx.value=0}
+      showPreviewDlg.value=true;
+    }
+    const showMedia=ref(false);
+    async function viewOrder(r){
+      showMedia.value=false;
+      detailOrder.value=r;detailLogs.value=[];orderParts.value=[];imgUrls.value=[];
+      showDetailDlg.value=true;
+      setTimeout(()=>{showMedia.value=true},500);
+      // 后台加载日志和配件
+      try{const d=await api('/orders/'+r.id);if(d.data){detailLogs.value=d.data.logs||[];loadParts()}}catch(e){}
+    }
+    function openDispatch(r){
+      dispatchOrderId.value=r.id;dispatchTechId.value=null;showDispatchDlg.value=true;
+      api('/users?role=technician').then(r=>{techOptions.value=r.data||[]})
+    }
+    async function doDispatch(){
+      if(!dispatchTechId.value)return;dispatchLoading.value=true;
+      try{const r=await api('/orders/'+dispatchOrderId.value+'/dispatch',{method:'POST',body:JSON.stringify({technician_id:dispatchTechId.value})});setMsg(r.message||'派单成功',false);showDispatchDlg.value=false;loadOrders();loadDashboard()}
+      catch(e){setMsg(e.message,true)}finally{dispatchLoading.value=false}
+    }
+    async function autoDispatch(r){
+      try{const d=await api('/orders/'+r.id+'/auto-dispatch',{method:'POST'});setMsg(d.message||'智能派单成功',false);loadOrders();loadDashboard()}
+      catch(e){setMsg(e.message,true)}
+    }
+
+    async function refundOrder(r){
+      try{const{value:reason}=await ElementPlus.ElMessageBox.prompt('请输入退款原因：','退款',{inputValue:'客户申请退款',confirmButtonText:'确认退款',cancelButtonText:'取消'});await api('/orders/'+r.id+'/refund',{method:'POST',body:JSON.stringify({reason:reason||'客户退款'})});setMsg('已退款',false);loadOrders();loadDashboard()}
+      catch(e){if(e!=='cancel'&&e!=='close')setMsg(e.message,true)}
+    }
+    async function cancelOrder(r){
+      try{const{value:reason}=await ElementPlus.ElMessageBox.prompt('请输入取消原因：','取消工单',{inputValue:'无法完成',confirmButtonText:'确定取消',cancelButtonText:'取消'});await api('/orders/'+r.id+'/cancel',{method:'POST',body:JSON.stringify({reason:reason||'管理员取消'})});setMsg('工单已取消',false);loadOrders();loadDashboard()}
+      catch(e){if(e!=='cancel'&&e!=='close')setMsg(e.message,true)}
+    }
+
+    // Parts
+    async function loadParts(){
+      if(!detailOrder.value)return;
+      try{const r=await api('/orders/'+detailOrder.value.id+'/parts');orderParts.value=r.data||[]}
+      catch(e){}
+    }
+    function openAddPart(order){partOrderId.value=order.id;partForm.name='';partForm.brand='';partForm.model_no='';partForm.part_type='new';partForm.quantity=1;partForm.unit_price=0;partForm.receipt_image='';partForm.part_photo='';partForm.notes='';showAddPartDlg.value=true}
+    async function savePart(){
+      if(!partForm.name.trim()){setMsg('请输入配件名称',true);return}
+      partSaving.value=true;
+      try{await api('/orders/'+partOrderId.value+'/parts',{method:'POST',body:JSON.stringify(partForm)});setMsg('配件已添加',false);showAddPartDlg.value=false;loadParts()}
+      catch(e){setMsg(e.message,true)}finally{partSaving.value=false}
+    }
+
+    function goOrders(status){
+      if(status==='all'){orderFilter.value=''}
+      else if(status==='completed'){orderFilter.value='completed'}
+      else if(status==='undispatch'){orderFilter.value='undispatch'}
+      else if(status==='today'){orderFilter.value='today'}
+      else{orderFilter.value=status}
+      switchTab('b')
+    }
+
+    // ─── Technicians ───
+    const techs=ref([]);
+    const showAddTech=ref(false);const addTechLoading=ref(false);
+    const addTechForm=reactive({name:'',phone:'',password:'123456',org_id:2,id_card:'',address:'',emergency_contact:'',emergency_phone:'',hire_date:''});
+    const showEditTechDlg=ref(false);const editTechId=ref(null);const savingTech=ref(false);
+    const editForm=reactive({name:'',phone:'',org_id:null,id_card:'',address:'',emergency_contact:'',emergency_phone:'',hire_date:''});
+    const orgList=ref([]);const orgs=ref([]);
+    const showAddOrg=ref(false);const orgSaving=ref(false);
+    const admins=ref([]);const showAddAdmin=ref(false);const adminSaving=ref(false);
+    const adminForm=reactive({name:'',phone:'',password:'123456',role:'dispatcher'});
+    const pwdForm=reactive({old:'',new:''});const pwdLoading=ref(false);
+    const orgForm=reactive({name:'',city:'',contact_phone:'',level:'branch'});
+    const showAddSkillDlg=ref(false);const skillTechId=ref(null);const skillTechName=ref('');
+    const skillSaving=ref(false);const skillForm=reactive({item_id:null,level:'junior',price:null});const allItems=ref([]);
+
+    const techLocations=ref([]);
+    async function loadTechs(){try{const r=await api('/technician/list');techs.value=r.data||[]}catch(e){}}
+    async function loadTechLocations(){
+      try{const r=await api('/attendance/locations');techLocations.value=r.data||[]}catch(e){}
+    }
+    function editTech(r){
+      editTechId.value=r.id;editForm.name=r.name||'';editForm.phone=r.phone||'';editForm.org_id=r.org_id||null;
+      editForm.id_card=r.id_card||'';editForm.address=r.address||'';
+      editForm.emergency_contact=r.emergency_contact||'';editForm.emergency_phone=r.emergency_phone||'';
+      editForm.hire_date=r.hire_date||'';showEditTechDlg.value=true;
+      api('/organizations').then(r=>{orgList.value=r.data||[]}).catch(()=>{});
+    }
+    async function saveTechProfile(){
+      savingTech.value=true;
+      try{await api('/users/'+editTechId.value+'/profile',{method:'PUT',body:JSON.stringify(editForm)});setMsg('资料已保存',false);showEditTechDlg.value=false;loadTechs()}
+      catch(e){setMsg(e.message,true)}finally{savingTech.value=false}
+    }
+    async function addTech(){
+      if(!addTechForm.name.trim()){setMsg('请输入姓名',true);return}
+      if(!/^1\d{10}$/.test(addTechForm.phone)){setMsg('请输入正确手机号',true);return}
+      addTechLoading.value=true;
+      try{await api('/auth/register',{method:'POST',body:JSON.stringify({...addTechForm,role:'technician'})});setMsg('师傅入职成功',false);showAddTech.value=false;addTechForm.name='';addTechForm.phone='';addTechForm.password='123456';addTechForm.id_card='';addTechForm.address='';addTechForm.emergency_contact='';addTechForm.emergency_phone='';addTechForm.hire_date='';loadTechs()}
+      catch(e){setMsg(e.message,true)}finally{addTechLoading.value=false}
+    }
+    async function toggleTech(r,status){
+      const msgs = {disabled:'确认将该师傅设为离职？',active:'确认重新启用？',paused:'确认暂停向该师傅派单？'};
+      const msg = msgs[status] || '确认操作？';
+      try{await ElementPlus.ElMessageBox.confirm(msg,'确认',{type:'warning',cancelButtonText:'取消',confirmButtonText:'确定'});await api('/users/'+r.id+'/status',{method:'PUT',body:JSON.stringify({status:status})});setMsg('状态已更新',false);loadTechs()}
+      catch(e){if(e!=='cancel')setMsg(e.message,true)}
+    }
+    async function pauseTech(r){
+      try{await ElementPlus.ElMessageBox.confirm('确认暂停向「'+r.name+'」派单？师傅仍可正常登录查看工单。','暂停派单',{type:'warning',cancelButtonText:'取消',confirmButtonText:'确认暂停'});await api('/users/'+r.id+'/status',{method:'PUT',body:JSON.stringify({status:'paused'})});setMsg('已暂停派单',false);loadTechs()}
+      catch(e){if(e!=='cancel')setMsg(e.message,true)}
+    }
+    function addSkill(r){skillTechId.value=r.id;skillTechName.value=r.name;skillForm.item_id=null;skillForm.level='junior';skillForm.price=null;showAddSkillDlg.value=true;api('/services/items').then(r=>{allItems.value=r.data||[]})}
+    async function saveSkill(){
+      if(!skillForm.item_id){setMsg('请选择服务项目',true);return}
+      skillSaving.value=true;
+      try{await api('/technician/'+skillTechId.value+'/skills',{method:'POST',body:JSON.stringify({service_item_id:skillForm.item_id,level:skillForm.level,price:skillForm.price||null})});setMsg('技能已添加',false);showAddSkillDlg.value=false;loadTechs()}
+      catch(e){setMsg(e.message,true)}finally{skillSaving.value=false}
+    }
+    async function delSkill(tech,skill){
+      try{await api('/technician/skills/'+skill.id,{method:'DELETE'});setMsg('技能已移除',false);loadTechs()}
+      catch(e){setMsg(e.message,true)}
+    }
+
+    // ─── Deposit ───
+    const depositPending=ref(0);const depositReqs=ref([]);const depositFilter=ref('pending');
+    async function loadDepositRequests(){try{const r=await api('/technician/deposit-requests?status='+depositFilter.value+'&page_size=50');depositReqs.value=r.data.items||[]}catch(e){}}
+    async function loadDepositPending(){try{const r=await api('/technician/deposit-requests/pending-count');depositPending.value=r.data?.count||0}catch(e){}}
+    async function approveDeposit(r){try{await ElementPlus.ElMessageBox.confirm('确认通过 '+r.tech_name+' 的 ¥'+r.amount+' 保证金申请？','确认批准',{type:'info',cancelButtonText:'取消',confirmButtonText:'确认批准'});await api('/technician/deposit-requests/'+r.id+'/review',{method:'POST',body:JSON.stringify({action:'approve',note:'审核通过'})});setMsg('¥'+r.amount+' 保证金已审核通过',false);loadDepositRequests();loadDepositPending();loadTechs()}catch(e){if(e!=='cancel'&&e!=='close')setMsg(e.message,true)}}
+    async function rejectDeposit(r){try{const{value:note}=await ElementPlus.ElMessageBox.prompt('请输入驳回原因：','驳回保证金申请',{inputValue:'',confirmButtonText:'确认驳回',cancelButtonText:'取消'});await api('/technician/deposit-requests/'+r.id+'/review',{method:'POST',body:JSON.stringify({action:'reject',note:note||'审核未通过'})});setMsg('保证金申请已驳回',false);loadDepositRequests();loadDepositPending()}catch(e){if(e!=='cancel'&&e!=='close')setMsg(e.message,true)}}
+
+    // ─── Attendance ───
+    const leaves=ref([]);const attToday=ref(null);
+    async function loadAttendance(){
+      try{const[lr,ar]=await Promise.all([api('/attendance/leaves'),api('/attendance/today').catch(()=>({data:{attendances:[],on_leave_count:0}}))]);leaves.value=lr.data||[];attToday.value=ar.data}
+      catch(e){}
+    }
+    async function approveLeave(r){try{await api('/attendance/leaves/'+r.id+'/review',{method:'PUT',body:JSON.stringify({action:'approve',reviewer_id:user.value?.id})});setMsg('已批准',false);loadAttendance()}catch(e){setMsg(e.message,true)}}
+    async function rejectLeave(r){try{await api('/attendance/leaves/'+r.id+'/review',{method:'PUT',body:JSON.stringify({action:'reject',reviewer_id:user.value?.id})});setMsg('已驳回',false);loadAttendance()}catch(e){setMsg(e.message,true)}}
+
+    // ─── Services ───
+    const cats=ref([]);const items=ref([]);
+    const showAddCat=ref(false);const catSaving=ref(false);const catForm=reactive({name:'',description:''});const showEditCat=ref(false);const editCatLoading=ref(false);const editCatForm=reactive({id:null,name:'',description:'',icon:'',sort_order:0});
+    const showAddItem=ref(false);const itemSaving=ref(false);const itemForm=reactive({category_id:null,name:'',default_price:null});const showEditItem=ref(false);const editItemLoading=ref(false);const editItemForm=reactive({id:null,category_id:null,name:'',default_price:null,unit_type:'次',description:''});
+
+    async function loadSvcs(){try{const[r1,r2]=await Promise.all([api('/services/categories'),api('/services/items')]);cats.value=r1.data||[];items.value=r2.data||[]}catch(e){}}
+    function editCat(r){
+      editCatForm.id=r.id;editCatForm.name=r.name;editCatForm.description=r.description||'';editCatForm.icon=r.icon||'';editCatForm.sort_order=r.sort_order||0;
+      showEditCat.value=true;
+    }
+    async function saveEditCat(){
+      if(!editCatForm.name.trim()){setMsg('请输入名称',true);return}
+      editCatLoading.value=true;
+      try{await api('/services/categories/'+editCatForm.id,{method:'PUT',body:JSON.stringify({name:editCatForm.name,description:editCatForm.description,icon:editCatForm.icon,sort_order:editCatForm.sort_order})});setMsg('分类已更新',false);showEditCat.value=false;loadSvcs()}
+      catch(e){setMsg(e.message,true)}finally{editCatLoading.value=false}
+    }
+    async function delCat(r){try{await ElementPlus.ElMessageBox.confirm('删除「'+r.name+'」？','确认',{type:'warning',cancelButtonText:'取消',confirmButtonText:'确定'});await api('/services/categories/'+r.id,{method:'DELETE'});setMsg('分类已删除',false);loadSvcs()}catch(e){if(e!=='cancel')setMsg(e.message,true)}}
+    async function addCat(){if(!catForm.name.trim()){setMsg('请输入分类名称',true);return}catSaving.value=true;try{await api('/services/categories',{method:'POST',body:JSON.stringify(catForm)});setMsg('分类已创建',false);showAddCat.value=false;catForm.name='';catForm.description='';loadSvcs()}catch(e){setMsg(e.message,true)}finally{catSaving.value=false}}
+    function editItem(r){
+      editItemForm.id=r.id;editItemForm.category_id=r.category_id;editItemForm.name=r.name;editItemForm.default_price=r.default_price;editItemForm.unit_type=r.unit_type||'次';editItemForm.description=r.description||'';
+      showEditItem.value=true;
+    }
+    async function saveEditItem(){
+      if(!editItemForm.name.trim()){setMsg('请输入名称',true);return}
+      editItemLoading.value=true;
+      try{await api('/services/items/'+editItemForm.id,{method:'PUT',body:JSON.stringify({name:editItemForm.name,category_id:editItemForm.category_id,default_price:editItemForm.default_price||null,unit_type:editItemForm.unit_type,description:editItemForm.description})});setMsg('项目已更新',false);showEditItem.value=false;loadSvcs()}
+      catch(e){setMsg(e.message,true)}finally{editItemLoading.value=false}
+    }
+    async function delItem(r){try{await ElementPlus.ElMessageBox.confirm('删除「'+r.name+'」？','确认',{type:'warning',cancelButtonText:'取消',confirmButtonText:'确定'});await api('/services/items/'+r.id,{method:'DELETE'});setMsg('项目已删除',false);loadSvcs()}catch(e){if(e!=='cancel')setMsg(e.message,true)}}
+    async function addItem(){if(!itemForm.name.trim()){setMsg('请输入项目名称',true);return}if(!itemForm.category_id){setMsg('请选择分类',true);return}itemSaving.value=true;try{await api('/services/items',{method:'POST',body:JSON.stringify({...itemForm,level:1,unit_type:'次'})});setMsg('项目已创建',false);showAddItem.value=false;itemForm.name='';itemForm.default_price=null;loadSvcs()}catch(e){setMsg(e.message,true)}finally{itemSaving.value=false}}
+
+    // ─── Finance ───
+    const fin=reactive({total_revenue:0,month_revenue:0,pending_payment:0,pending_count:0,paid_revenue:0});
+    const bills=ref([]);const commRate=ref(80);const commSaving=ref(false);
+
+    const finTechEarnings=ref([]);
+    async function loadFinance(){
+      try{const[sr,br,sr2,er]=await Promise.all([api('/finance/summary'),api('/finance/orders?page=1&page_size=50'),api('/finance/settings'),api('/finance/technician-earnings').catch(()=>({data:[]}))]);Object.assign(fin,sr.data);bills.value=br.data.items||[];finTechEarnings.value=er.data||[];if(sr2.data?.commission_rate)commRate.value=parseInt(sr2.data.commission_rate.value)}
+      catch(e){}
+    }
+    async function saveCommission(){commSaving.value=true;try{await api('/finance/settings',{method:'PUT',body:JSON.stringify({commission_rate:commRate.value})});setMsg('分成比例已更新为 '+commRate.value+'%',false)}catch(e){setMsg(e.message,true)}finally{commSaving.value=false}}
+
+    // ─── Salary ───
+    const earnings=ref([]);
+    async function loadEarnings(){try{const r=await api('/finance/technician-earnings');earnings.value=r.data||[]}catch(e){}}
+
+    // ─── Customers ───
+    const applications=ref([]);const customers=ref([]);
+    async function loadApplications(){try{const r=await api('/recruit/list');applications.value=r.data||[]}catch(e){}}
+    async function loadCustomers(){try{const r=await api('/customers');customers.value=r.data||[]}catch(e){}}
+    async function loadOrgs(){try{const r=await api('/organizations');orgs.value=r.data||[];orgList.value=r.data||[]}catch(e){}}
+    async function loadAdmins(){try{const r=await api('/auth/admins');admins.value=r.data||[]}catch(e){}}
+    async function changePwd(){if(!pwdForm.old||!pwdForm.new){setMsg('请输入旧密码和新密码',true);return}pwdLoading.value=true;try{await api('/auth/change-password',{method:'POST',body:JSON.stringify({old_password:pwdForm.old,new_password:pwdForm.new})});setMsg('密码已修改',false);pwdForm.old='';pwdForm.new=''}catch(e){setMsg(e.message,true)}finally{pwdLoading.value=false}}
+    async function addAdmin(){if(!adminForm.name.trim()||!adminForm.phone.trim()){setMsg('请填写完整信息',true);return}adminSaving.value=true;try{await api('/auth/register',{method:'POST',body:JSON.stringify(adminForm)});setMsg('管理员已创建',false);showAddAdmin.value=false;adminForm.name='';adminForm.phone='';adminForm.password='123456';adminForm.role='dispatcher';loadAdmins()}catch(e){setMsg(e.message,true)}finally{adminSaving.value=false}}
+    async function resetPwd(r){try{const{value:pwd}=await ElementPlus.ElMessageBox.prompt('输入新密码：','重置密码',{inputValue:'',confirmButtonText:'确定',cancelButtonText:'取消'});if(!pwd||pwd.length<6){setMsg('密码至少6位',true);return}await api('/auth/admins/'+r.id+'/reset-password',{method:'PUT',body:JSON.stringify({new_password:pwd})});setMsg('密码已重置',false)}catch(e){if(e!=='cancel')setMsg(e.message,true)}}
+    async function resetTechPwd(r){try{const{value:pwd}=await ElementPlus.ElMessageBox.prompt('输入新密码：','重置师傅密码',{inputValue:'',confirmButtonText:'确定',cancelButtonText:'取消'});if(!pwd||pwd.length<6){setMsg('密码至少6位',true);return}await api('/users/'+r.id+'/profile',{method:'PUT',body:JSON.stringify({password:pwd})});setMsg('密码已重置',false)}catch(e){if(e!=='cancel')setMsg(e.message,true)}}
+    async function addOrg(){if(!orgForm.name.trim()){setMsg('请输入名称',true);return}orgSaving.value=true;try{await api('/organizations',{method:'POST',body:JSON.stringify(orgForm)});setMsg('组织已创建',false);showAddOrg.value=false;orgForm.name='';orgForm.city='';orgForm.contact_phone='';orgForm.level='branch';loadOrgs()}catch(e){setMsg(e.message,true)}finally{orgSaving.value=false}}
+    async function delOrg(r){try{await ElementPlus.ElMessageBox.confirm('停用「'+r.name+'」？','确认',{type:'warning',cancelButtonText:'取消',confirmButtonText:'确定'});await api('/organizations/'+r.id,{method:'DELETE'});setMsg('已停用',false);loadOrgs()}catch(e){if(e!=='cancel')setMsg(e.message,true)}}
+
+    // ─── Navigation ───
+    async function switchTab(k){
+      tab.value=k;msg.text='';
+      if(k==='a')await loadDashboard();else if(k==='b'){newOrderCount.value=0;orderPage.value=1;await loadOrders()}
+      else if(k==='c'){await loadTechs();await loadTechLocations();await loadDepositRequests();await loadDepositPending()}else if(k==='d')await loadAttendance()
+      else if(k==='e')await loadSvcs();else if(k==='f')await loadFinance()
+      else if(k==='g')await loadEarnings();else if(k==='h')await loadCustomers();else if(k==='i')await loadOrgs();else if(k==='r'){await loadApplications()}else if(k==='j'){await loadAdmins()}else if(k==='qr'){window.open('/qrcodes','_blank')}
+    }
+
+    
+
+
+    let pollTimer = null;
+    function playNotify() {
+      try {
+        if (typeof SpeechSynthesisUtterance !== 'undefined' && window.speechSynthesis) {
+          window.speechSynthesis.cancel(); // 修复Chrome语音合成卡住问题
+          var msg = new SpeechSynthesisUtterance('黄师傅有新订单来了，请及时处理');
+          msg.lang = 'zh-CN'; msg.rate = 0.9; msg.pitch = 1;
+          window.speechSynthesis.speak(msg);
+        }
+      } catch(e) {}
+    }
+    // 第一次点击预热语音合成（Chrome安全策略要求有用户手势才能播语音）
+    (function primeSpeech(){
+      var prime = function(){
+        if (window.speechSynthesis) {
+          window.speechSynthesis.cancel();
+          var m = new SpeechSynthesisUtterance('');
+          window.speechSynthesis.speak(m);
+        }
+        document.removeEventListener('click', prime, true);
+      };
+      document.addEventListener('click', prime, true);
+    })();
+    onMounted(async()=>{
+      if(token.value){
+        try{const r=await api('/auth/me');user.value=r.data}catch(e){token.value='';localStorage.removeItem('token');return}
+        if(!token.value)return;
+        try{await loadDashboard();const sr=await api('/stats/orders');prevTotalOrders.value=sr.data?.created_today||0}catch(e){}
+        pollTimer = setInterval(async()=>{
+          if(!token.value) return;
+          try{
+            const r = await api('/stats/orders');
+            const created = r.data?.created_today||0;
+            if (created > prevTotalOrders.value) {
+              newOrderCount.value = created - prevTotalOrders.value;
+              playNotify();
+              if (typeof ElementPlus !== 'undefined') {
+                ElementPlus.ElNotification({ title:'🔔 新订单来了', message:'黄师傅，收到 '+newOrderCount.value+' 张新工单，请及时接单！', type:'success', duration:8000, position:'top-right' });
+              }
+              if (tab.value === 'a') await loadDashboard();
+              if (tab.value === 'b') await loadOrders();
+            }
+            prevTotalOrders.value = created;
+          } catch(e){}
+        }, 30000);
+      }
+    })
+
+
+    // Month stats computed from bills
+    function getMaxTechCommission() {
+      const items = finTechEarnings.value || [];
+      return Math.max(...items.map(r => r.month_commission || 0), 1);
+    }
+
+    const catRevenueStats = computed(() => {
+      const map = {};
+      const items = bills.value || [];
+      for (const b of items) {
+        const cat = b.category_type || '其他';
+        if (!map[cat]) map[cat] = { cat, count: 0, revenue: 0, techShare: 0, platformShare: 0 };
+        map[cat].count++;
+        map[cat].revenue += b.total_fee || 0;
+        map[cat].techShare += b.tech_share || 0;
+        map[cat].platformShare += b.platform_share || 0;
+      }
+      const arr = Object.values(map);
+      const total = arr.reduce((s, r) => s + r.revenue, 0) || 1;
+      arr.forEach(r => r.pct = ((r.revenue / total) * 100).toFixed(1));
+      return arr.sort((a, b) => b.revenue - a.revenue);
+    });
+
+    const monthStats = computed(() => {
+      const map = {};
+      const items = bills.value || [];
+      for (const b of items) {
+        const m = (b.completed_at || b.created_at || '').slice(0, 7);
+        if (!m) continue;
+        if (!map[m]) map[m] = { month: m, count: 0, revenue: 0, techShare: 0, platformShare: 0, paid: 0, unpaid: 0 };
+        map[m].count++;
+        map[m].revenue += b.total_fee || 0;
+        map[m].techShare += b.tech_share || 0;
+        map[m].platformShare += b.platform_share || 0;
+        if (b.pay_status === 'paid') map[m].paid += b.total_fee || 0;
+        else map[m].unpaid += b.total_fee || 0;
+      }
+      return Object.values(map).sort((a,b) => b.month.localeCompare(a.month));
+    });
+
+    // Export technician earnings
+    function exportTechEarnings() {
+      if (!(finTechEarnings.value||[]).length) { alert('没有数据'); return; }
+      const headers = ['姓名','手机','状态','本月工单','本月流水','师傅提成','平台抽成','余额','累计收入'];
+      const rows = finTechEarnings.value.map(r => [
+        r.name, r.phone, r.status, r.month_orders, r.month_revenue||0, r.month_commission||0,
+        (r.month_revenue||0)-(r.month_commission||0), r.balance||0, r.total_earned||0
+      ]);
+      const csv = [headers.join(','), ...rows.map(r => r.join(','))].join(String.fromCharCode(10));
+      const bom = String.fromCharCode(0xFEFF);
+      const blob = new Blob([bom + csv], {type:'text/csv;charset=utf-8;'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'TechEarnings_' + new Date().toISOString().slice(0,10) + '.csv';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+      alert('导出成功');
+    }
+
+    // Export finance monthly report
+    function exportFinance() {
+      if (!(monthStats.value||[]).length) { alert('没有统计数据可导出'); return; }
+      const headers = ['Month','Orders','Revenue','TechShare','PlatformShare','Paid','Unpaid'];
+      const rows = monthStats.value.map(r => [r.month, r.count, r.revenue, r.techShare, r.platformShare, r.paid, r.unpaid]);
+      const csv = [headers.join(','), ...rows.map(r => r.join(','))].join(String.fromCharCode(10));
+      const bom = String.fromCharCode(0xFEFF);
+      const blob = new Blob([bom + csv], {type:'text/csv;charset=utf-8;'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'MonthlyReport_' + new Date().toISOString().slice(0,10) + '.csv';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+      alert('导出成功');
+    }
+    return{
+      token,loginForm,loginLoading,doLogin,logout,user,roleTxt,tab,menu,msg,switchTab,autoDispatchEnabled,autoDispatchLoading,toggleAutoDispatch,
+      stats,recent,statusTxt,exportCSV,
+      orders,orderFilter,orderPage,orderTotal,orderPages,loadOrders,goOrderPage,newOrderCount,newOrderCount,exportOrders,searchKeyword,doSearch,
+      showDetailDlg,showTransferDlg,transferTechs,transferTargetId,transferReason,loadTransferTechs,doAdminTransfer,detailOrder,detailLogs,viewOrder,orderImages,imgUrls,currentImgIdx,showMedia,showPreviewDlg,showImg,getImgList,orderParts,showAddPartDlg,partForm,partSaving,openAddPart,savePart,
+      showDispatchDlg,dispatchTechId,dispatchLoading,techOptions,openDispatch,doDispatch,autoDispatch,cancelOrder,refundOrder,goOrders,
+      techs,techLocations,loadTechLocations,orgTxt,showEditTechDlg,editForm,savingTech,editTech,saveTechProfile,toggleTech,pauseTech,showAddTech,addTechForm,addTechLoading,addTech,orgList,
+      showAddSkillDlg,skillTechName,skillForm,skillSaving,allItems,addSkill,saveSkill,delSkill,
+      depositPending,depositReqs,depositFilter,loadDepositRequests,loadDepositPending,approveDeposit,rejectDeposit,
+      leaves,attToday,leaveTxt,loadAttendance,approveLeave,rejectLeave,
+      cats,items,catName,showAddCat,catSaving,catForm,addCat,delCat,showEditCat,editCatLoading,editCatForm,editCat,saveEditCat,showAddItem,itemSaving,itemForm,addItem,delItem,showEditItem,editItemLoading,editItemForm,editItem,saveEditItem,
+      fin,bills,commRate,commSaving,monthStats,exportFinance,saveCommission,finTechEarnings,catRevenueStats,getMaxTechCommission,exportTechEarnings,
+      earnings,
+      applications,customers,orgs,showAddOrg,orgForm,orgSaving,addOrg,delOrg,admins,showAddAdmin,adminForm,adminSaving,addAdmin,pwdForm,pwdLoading,changePwd,resetPwd,resetTechPwd,
+    }
+  }}).use(ElementPlus, {
+    locale: {
+      el: {
+        datepicker: {
+          year: '年', month: '月', day: '日',
+          prevYear: '上一年', nextYear: '下一年',
+          prevMonth: '上个月', nextMonth: '下个月',
+          now: '此刻', today: '今天', cancel: '取消',
+          clear: '清空', confirm: '确定',
+          selectDate: '选择日期', selectTime: '选择时间',
+          startDate: '开始日期', endDate: '结束日期',
+          startTime: '开始时间', endTime: '结束时间',
+          week: '周', weeks: { sun: '日', mon: '一', tue: '二', wed: '三', thu: '四', fri: '五', sat: '六' },
+          months: { jan: '一月', feb: '二月', mar: '三月', apr: '四月', may: '五月', jun: '六月', jul: '七月', aug: '八月', sep: '九月', oct: '十月', nov: '十一月', dec: '十二月' }
+        }
+      }
+    }
+  }).mount('#app');
+})();
+</script>
+</body>
+</html>

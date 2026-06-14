@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>黄师傅家庭维修 - 专业上门维修服务</title>
+<style>
+/* ============================================================
+   1. Design System
+   ============================================================ */
+:root {
+  --primary: #E67A2E;
+  --primary-dark: #D4651F;
+  --primary-deeper: #B8551A;
+  --primary-light: #FFF0E0;
+  --primary-glow: rgba(230,122,46,0.15);
+  --accent: #FFB347;
+  --navy: #1A365D;
+  --navy-light: #2B6CB0;
+  --success: #52c41a;
+  --warning: #faad14;
+  --danger: #ff4d4f;
+  --bg: #FFF8F0;
+  --card-bg: #fff;
+  --text: #2D2D2D;
+  --text-secondary: #666;
+  --text-light: #999;
+  --border: #f0e8e0;
+  --border-light: #f5f0eb;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
+  --shadow: 0 2px 12px rgba(0,0,0,0.06);
+  --shadow-lg: 0 8px 30px rgba(0,0,0,0.1);
+  --shadow-btn: 0 4px 14px rgba(230,122,46,0.3);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-lg: 16px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:-apple-system,'PingFang SC','Helvetica Neue','Microsoft YaHei',sans-serif;
+  background:var(--bg);color:var(--text);
+  min-height:100vh;-webkit-font-smoothing:antialiased;
+  font-size:14px;line-height:1.5;
+}
+
+/* ============================================================
+   2. Header / Brand
+   ============================================================ */
+.header{
+  background:linear-gradient(135deg,var(--primary),var(--primary-dark) 55%,var(--primary-deeper));
+  color:#fff;padding:28px 20px 24px;text-align:center;
+  position:relative;overflow:hidden;
+}
+.header::before{
+  content:'';position:absolute;top:-80px;right:-50px;
+  width:260px;height:260px;
+  background:rgba(255,255,255,0.05);border-radius:50%;
+}
+.header::after{
+  content:'';position:absolute;bottom:-60px;left:-40px;
+  width:180px;height:180px;
+  background:rgba(255,255,255,0.04);border-radius:50%;
+}
+.brand{display:flex;align-items:center;justify-content:center;gap:10px;position:relative}
+.brand-icon{
+  width:56px;height:56px;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.brand-icon svg{width:40px;height:40px}
+.brand-text{text-align:left}
+.brand-text h1{font-size:22px;font-weight:800;letter-spacing:1px;line-height:1.2}
+.brand-text .sub{font-size:12px;opacity:0.8;font-weight:400;letter-spacing:2px}
+.header .slogan{font-size:13px;opacity:0.85;margin-top:6px;position:relative}
+
+/* Emergency Bar */
+.emergency-bar{
+  background:linear-gradient(90deg,#fff2f0,#fff7e6);
+  padding:10px 16px;margin:0 16px -12px;border-radius:10px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:relative;z-index:2;transform:translateY(-12px);
+  box-shadow:0 2px 8px rgba(255,77,79,0.1);
+}
+.emergency-bar .left{display:flex;align-items:center;gap:8px;font-size:13px;color:#cf1322;font-weight:500}
+.emergency-bar .btn-emergency{
+  background:linear-gradient(135deg,#ff4d4f,#cf1322);color:#fff;
+  border:none;padding:6px 16px;border-radius:8px;
+  font-size:13px;font-weight:600;cursor:pointer;
+  transition:all .2s;white-space:nowrap;
+}
+.emergency-bar .btn-emergency:active{transform:scale(.95)}
+
+/* ============================================================
+   3. Container & Cards
+   ============================================================ */
+.container{padding:20px 16px;max-width:480px;margin:0 auto;padding-bottom:100px}
+
+/* Skeleton */
+.skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e8e8e8 50%,#f0f0f0 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:8px}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.skel-card{background:#fff;border-radius:var(--radius);padding:16px;margin-bottom:12px;box-shadow:var(--shadow-sm)}
+.skel-line{height:14px;margin-bottom:10px;border-radius:6px}
+.skel-line:last-child{margin-bottom:0;width:60%}
+.skel-grid{display:flex;gap:10px}
+.skel-grid .skel-line{flex:1;height:60px;margin-bottom:0;border-radius:10px}
+
+.card{
+  background:var(--card-bg);border-radius:var(--radius);
+  padding:16px;margin-bottom:12px;
+  box-shadow:var(--shadow-sm);transition:box-shadow .3s;
+}
+.card-title{
+  font-size:15px;font-weight:600;margin-bottom:12px;
+  display:flex;align-items:center;gap:6px;
+}
+
+/* ============================================================
+   4. Steps Bar
+   ============================================================ */
+.steps{
+  display:flex;justify-content:center;gap:0;
+  margin-bottom:16px;padding:0;
+  background:var(--card-bg);border-radius:var(--radius);
+  padding:12px 16px;box-shadow:var(--shadow-sm);
+}
+.step-item{flex:1;text-align:center;position:relative;font-size:12px;color:#ccc}
+.step-item .dot{
+  width:26px;height:26px;border-radius:50%;background:#eee;
+  margin:0 auto 4px;line-height:26px;font-size:12px;color:#fff;
+  font-weight:600;transition:all .3s;
+}
+.step-item.active .dot{
+  background:var(--primary);
+  box-shadow:0 2px 8px var(--primary-glow);
+  transform:scale(1.05);
+}
+.step-item.done .dot{background:var(--success)}
+.step-item.active,.step-item.done{color:var(--text);font-weight:500}
+
+/* ============================================================
+   5. Category & Item Grids
+   ============================================================ */
+.cat-grid{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch}
+.cat-grid::-webkit-scrollbar{height:3px}
+.cat-grid::-webkit-scrollbar-thumb{background:#ddd;border-radius:10px}
+.cat-btn{
+  flex:1;min-width:80px;padding:14px 6px;
+  border:2px solid var(--border);border-radius:var(--radius);
+  background:var(--card-bg);text-align:center;cursor:pointer;
+  transition:all .2s;font-size:12px;font-weight:500;
+  user-select:none;white-space:nowrap;
+}
+.cat-btn:active{transform:scale(.95)}
+.cat-btn .icon{font-size:26px;display:block;margin-bottom:2px}
+.cat-btn.active{
+  border-color:var(--primary);background:var(--primary-light);
+  color:var(--primary-dark);box-shadow:0 2px 8px var(--primary-glow);
+}
+
+.item-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.item-card{
+  padding:12px;border:1.5px solid var(--border);
+  border-radius:10px;cursor:pointer;transition:all .2s;user-select:none;
+}
+.item-card:active{transform:scale(.96)}
+.item-card.active{border-color:var(--primary);background:var(--primary-light)}
+.item-card .name{font-weight:500;font-size:14px}
+.item-card .name.active{color:var(--primary-dark)}
+.item-card .price{color:var(--danger);font-size:14px;margin-top:2px;font-weight:600}
+
+/* ============================================================
+   6. Forms
+   ============================================================ */
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:13px;margin-bottom:5px;color:var(--text-secondary);font-weight:500}
+.form-group label .req{color:var(--danger)}
+.form-group input,.form-group textarea{
+  border:1.5px solid var(--border);border-radius:10px;
+  font-size:15px;outline:none;transition:border .2s,box-shadow .2s,background .2s;
+  background:#fafafa;font-family:inherit;width:100%;
+}
+.form-group input{padding:11px 12px}
+.form-group textarea{padding:11px 12px;resize:vertical;min-height:80px}
+.form-group input:focus,.form-group textarea:focus{
+  border-color:var(--primary);
+  box-shadow:0 0 0 3px var(--primary-glow);
+  background:var(--card-bg);
+}
+.form-group .field-error{border-color:var(--danger)!important}
+.form-group .error-text{color:var(--danger);font-size:12px;margin-top:4px;display:none}
+.form-group.has-error .error-text{display:block}
+.form-group.has-error input,.form-group.has-error textarea{border-color:var(--danger);background:#fff2f0}
+
+/* Price Estimate */
+.price-estimate{
+  background:linear-gradient(135deg,#f6ffed,#e6f7ff);
+  border:1px solid #b7eb8f;border-radius:10px;padding:14px;margin-bottom:14px;display:none;
+}
+.price-estimate .row{display:flex;justify-content:space-between;align-items:center}
+.price-estimate .label{font-size:14px;color:var(--text-secondary)}
+.price-estimate .amount{font-size:22px;font-weight:700;color:var(--danger)}
+.price-estimate .hint{font-size:11px;color:var(--text-light);margin-top:4px}
+
+/* Upload */
+.upload-area{display:flex;gap:8px;flex-wrap:wrap}
+.upload-btn{
+  width:76px;height:76px;border:1.5px dashed #d9d9d9;border-radius:10px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--text-light);font-size:11px;background:#fafafa;transition:border .2s;
+}
+.upload-btn:hover{border-color:var(--primary);color:var(--primary)}
+.upload-btn .icon{font-size:22px;line-height:1}
+.upload-preview{width:76px;height:76px;border-radius:10px;overflow:hidden;position:relative;border:1px solid var(--border)}
+.upload-preview img{width:100%;height:100%;object-fit:cover}
+.upload-preview .del{
+  position:absolute;top:-4px;right:-4px;width:20px;height:20px;
+  border-radius:50%;background:rgba(0,0,0,0.5);color:#fff;
+  border:none;font-size:12px;cursor:pointer;line-height:20px;text-align:center;
+}
+
+/* ============================================================
+   7. Guarantee Badges
+   ============================================================ */
+.guarantees{display:flex;gap:8px;margin-bottom:12px}
+.guarantee-item{
+  flex:1;background:var(--card-bg);border-radius:10px;
+  padding:10px 8px;text-align:center;
+  border:1px solid var(--border-light);
+}
+.guarantee-item .g-icon{font-size:18px;display:block;margin-bottom:2px}
+.guarantee-item .g-text{font-size:11px;color:var(--text-secondary);font-weight:500}
+
+/* ============================================================
+   8. Buttons
+   ============================================================ */
+.btn{
+  display:block;width:100%;padding:14px;border:none;
+  border-radius:var(--radius);font-size:16px;font-weight:600;
+  cursor:pointer;transition:all .2s;text-align:center;letter-spacing:1px;
+}
+.btn-primary{
+  background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+  color:#fff;box-shadow:var(--shadow-btn);
+}
+.btn-primary:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+.btn-primary:not(:disabled):active{opacity:.88;transform:scale(.98)}
+.btn-secondary{background:#f0f0f0;color:var(--text)}
+.btn-secondary:active{background:#e0e0e0;transform:scale(.98)}
+.btn-success{background:linear-gradient(135deg,var(--success),#389e0d);color:#fff}
+.btn-outline{
+  background:transparent;color:var(--primary);
+  border:1.5px solid var(--primary);box-shadow:none;
+}
+.btn-row{display:flex;gap:8px}
+.btn-row .btn{flex:1}
+
+/* ============================================================
+   9. Steps / Animations
+   ============================================================ */
+.step{display:none}
+.step.active{display:block;animation:fadeUp .35s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* ============================================================
+   10. Success Page
+   ============================================================ */
+.success-page{text-align:center;padding:20px 0;position:relative;overflow:hidden}
+.confetti-container{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:hidden}
+.confetti-particle{
+  position:absolute;width:8px;height:8px;border-radius:2px;opacity:0;
+  animation:confettiFall 2.5s ease-in-out forwards;
+}
+.confetti-particle:nth-child(1){left:10%;background:#FFB347;animation-delay:.0s;width:6px;height:6px}
+.confetti-particle:nth-child(2){left:25%;background:#E67A2E;animation-delay:.15s;width:8px;height:8px}
+.confetti-particle:nth-child(3){left:40%;background:#52c41a;animation-delay:.3s;width:5px;height:5px}
+.confetti-particle:nth-child(4){left:55%;background:#FFB347;animation-delay:.1s;width:7px;height:7px}
+.confetti-particle:nth-child(5){left:70%;background:#E67A2E;animation-delay:.35s;width:9px;height:9px}
+.confetti-particle:nth-child(6){left:85%;background:#52c41a;animation-delay:.2s;width:6px;height:6px}
+.confetti-particle:nth-child(7){left:15%;background:#ff4d4f;animation-delay:.45s;width:5px;height:5px}
+.confetti-particle:nth-child(8){left:65%;background:#FFB347;animation-delay:.25s;width:7px;height:7px}
+.confetti-particle:nth-child(9){left:90%;background:#E67A2E;animation-delay:.5s;width:8px;height:8px}
+.confetti-particle:nth-child(10){left:48%;background:#52c41a;animation-delay:.4s;width:6px;height:6px}
+@keyframes confettiFall{
+  0%{opacity:1;transform:translateY(-30px) rotate(0deg) scale(0)}
+  50%{opacity:1;transform:translateY(60px) rotate(180deg) scale(1)}
+  100%{opacity:0;transform:translateY(160px) rotate(360deg) scale(0.5)}
+}
+.success-icon{
+  width:72px;height:72px;line-height:72px;border-radius:50%;
+  background:linear-gradient(135deg,var(--success),#389e0d);
+  color:#fff;font-size:32px;margin:0 auto 12px;
+  box-shadow:0 4px 20px rgba(82,196,26,0.3);
+  animation:successPop .5s cubic-bezier(.68,-.55,.27,1.55) both;
+}
+@keyframes successPop{0%{transform:scale(0)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.success-page h2{font-size:20px;margin-bottom:2px}
+.success-page .tip{color:var(--text-light);font-size:13px}
+.order-no{font-size:20px;font-weight:700;color:var(--primary);letter-spacing:2px;margin:6px 0}
+.timeline-box{background:#f8f9fb;border-radius:10px;padding:16px;text-align:left;margin-top:16px}
+.timeline-box h4{font-size:13px;font-weight:600;margin-bottom:10px}
+.timeline{position:relative;padding-left:24px}
+.timeline::before{content:'';position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:#e0e0e0}
+.tl-item{position:relative;padding-bottom:14px;font-size:13px;color:var(--text-light)}
+.tl-item:last-child{padding-bottom:0}
+.tl-item .dot{
+  position:absolute;left:-20px;top:4px;
+  width:14px;height:14px;border-radius:50%;background:#e0e0e0;border:2px solid #f8f9fb;
+}
+.tl-item.active .dot{background:var(--primary);box-shadow:0 0 0 3px var(--primary-glow)}
+.tl-item.done .dot{background:var(--success)}
+.tl-item.active,.tl-item.done{color:var(--text)}
+.tl-item .time{font-size:11px;color:#bbb;margin-top:2px}
+
+/* ============================================================
+   11. Toast
+   ============================================================ */
+.toast{
+  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+  background:rgba(0,0,0,0.8);color:#fff;
+  padding:12px 28px;border-radius:12px;font-size:14px;
+  z-index:999;display:none;max-width:85%;
+  text-align:center;backdrop-filter:blur(8px);
+  animation:fadeUp .2s ease;
+}
+
+/* ============================================================
+   12. Order Tracking
+   ============================================================ */
+.track-box{text-align:center;padding:20px 0}
+.track-box h3{font-size:18px;margin-bottom:4px}
+.track-box .sub{color:var(--text-light);font-size:13px;margin-bottom:16px}
+.track-input{
+  width:100%;padding:11px 12px;
+  border:1.5px solid var(--border);border-radius:10px;
+  font-size:15px;outline:none;margin-bottom:12px;
+}
+.track-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-glow)}
+
+/* ============================================================
+   13. Price List Modal
+   ============================================================ */
+.modal-overlay{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  background:rgba(0,0,0,0.5);z-index:100;
+  display:none;align-items:flex-end;justify-content:center;
+  animation:fadeIn .2s ease;
+}
+.modal-overlay.show{display:flex}
+.modal-overlay .modal{
+  background:var(--card-bg);border-radius:var(--radius-lg) var(--radius-lg) 0 0;
+  width:100%;max-width:480px;max-height:80vh;overflow-y:auto;
+  padding:20px;animation:slideUp .3s ease;
+}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes chatGlow{0%{box-shadow:0 6px 24px rgba(230,122,46,0.4)}50%{box-shadow:0 6px 32px rgba(230,122,46,0.6)}100%{box-shadow:0 6px 24px rgba(230,122,46,0.4)}}
+.modal-handle{width:40px;height:4px;background:#ddd;border-radius:4px;margin:0 auto 16px}
+.modal h3{font-size:18px;font-weight:700;margin-bottom:16px;text-align:center}
+.price-cat{margin-bottom:16px}
+.price-cat h4{font-size:14px;font-weight:600;color:var(--primary-dark);margin-bottom:8px;padding-left:4px}
+.price-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:8px 10px;border-radius:8px;margin-bottom:2px;
+  cursor:pointer;transition:background .15s;
+}
+.price-row:hover{background:var(--primary-light)}
+.price-row .p-name{font-size:14px;color:var(--text)}
+.price-row .p-price{font-size:14px;font-weight:600;color:var(--danger)}
+.price-row .p-unit{font-size:11px;color:var(--text-light);font-weight:400}
+.price-close{
+  display:block;width:100%;padding:12px;
+  border:none;border-radius:10px;background:#f0f0f0;
+  font-size:15px;font-weight:500;cursor:pointer;margin-top:8px;
+}
+
+/* Floating Price Button */
+.float-price-btn{
+  position:fixed;right:16px;bottom:20px;z-index:50;
+  background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+  color:#fff;border:none;padding:12px 18px;border-radius:24px;
+  font-size:14px;font-weight:600;cursor:pointer;
+  box-shadow:var(--shadow-lg);transition:all .2s;
+  display:flex;align-items:center;gap:6px;
+}
+.float-price-btn:active{transform:scale(.95)}
+/* AI Chat */
+.chat-toggle{position:fixed;right:20px;bottom:90px;z-index:50;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;border:none;font-size:24px;cursor:pointer;box-shadow:0 6px 24px rgba(230,122,46,0.4);transition:all .2s;display:flex;align-items:center;justify-content:center;animation:chatGlow 2s ease-in-out infinite}
+.chat-toggle:active{transform:scale(.9)}
+.chat-panel{position:fixed;right:20px;bottom:156px;width:340px;height:460px;background:#fff;border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,0.15);z-index:100;display:none;flex-direction:column;overflow:hidden;animation:slideUp .3s ease}
+.chat-head{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;padding:14px 16px;display:flex;justify-content:space-between;align-items:center}
+.chat-head .title{font-weight:600;font-size:15px}
+.chat-head .close{cursor:pointer;font-size:18px;opacity:.8;background:none;border:none;color:#fff}
+.chat-body{flex:1;overflow-y:auto;padding:12px;background:#f8f9fb}
+.chat-foot{display:flex;padding:8px;border-top:1px solid #eee;background:#fff}
+.chat-foot input{flex:1;padding:8px 12px;border:1.5px solid #e8e8e8;border-radius:20px;font-size:14px;outline:none}
+.chat-foot input:focus{border-color:var(--primary)}
+.chat-foot button{margin-left:6px;padding:8px 18px;border:none;border-radius:20px;background:var(--primary);color:#fff;font-size:14px;cursor:pointer}
+
+/* ============================================================
+   14. FAQ
+   ============================================================ */
+.faq-item{border-bottom:1px solid var(--border-light);padding:12px 0}
+.faq-item:last-child{border-bottom:none}
+.faq-q{
+  display:flex;justify-content:space-between;align-items:center;
+  cursor:pointer;font-size:14px;font-weight:500;user-select:none;
+}
+.faq-q .arrow{font-size:12px;color:var(--text-light);transition:transform .3s}
+.faq-item.open .faq-q .arrow{transform:rotate(180deg)}
+.faq-a{
+  max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease;
+  font-size:13px;color:var(--text-secondary);line-height:1.7;padding:0 4px;
+}
+.faq-item.open .faq-a{max-height:200px;padding-top:8px}
+
+/* ============================================================
+   15. Misc
+   ============================================================ */
+.empty-state{color:var(--text-light);text-align:center;padding:30px;font-size:14px}
+.text-center{text-align:center}
+.text-sm{font-size:12px;color:var(--text-light);margin-top:8px}
+.mt-8{margin-top:8px}
+.mb-8{margin-bottom:8px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="brand">
+    <div class="brand-icon">
+      <svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="logo-shield" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#1A365D"/>
+            <stop offset="100%" stop-color="#2B6CB0"/>
+          </linearGradient>
+          <linearGradient id="logo-circle" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#E67A2E"/>
+            <stop offset="100%" stop-color="#C96A1F"/>
+          </linearGradient>
+          <linearGradient id="logo-star" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFD54F"/>
+            <stop offset="100%" stop-color="#FFB300"/>
+          </linearGradient>
+        </defs>
+        <path d="M65 8 L118 34 L118 68 C118 98 94 117 65 124 C36 117 12 98 12 68 L12 34 Z" fill="url(#logo-shield)"/>
+        <path d="M65 18 L108 39 L108 65 C108 90 88 106 65 112 C42 106 22 90 22 65 L22 39 Z" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="2"/>
+        <circle cx="65" cy="58" r="26" fill="url(#logo-circle)"/>
+        <circle cx="65" cy="58" r="22" fill="none" stroke="#fff" stroke-width="1.5" opacity=".2"/>
+        <g transform="translate(65,58)">
+          <circle cx="0" cy="0" r="16" fill="none" stroke="#fff" stroke-width="2.5" opacity=".15"/>
+          <path d="M-6,-8 C-10,-12 -11,-18 -8,-22 C-5,-26 1,-26 5,-21 L1,-16 C-2,-18 -4,-16 -2,-13 Z" fill="#fff"/>
+          <rect x="-2" y="-14" width="14" height="3" rx="1.5" fill="#fff" transform="rotate(-20 4 -12)"/>
+          <rect x="0" y="-12" width="14" height="3" rx="1.5" fill="#fff" transform="rotate(-20 6 -10)"/>
+          <circle cx="5" cy="0" r="4" fill="#fff"/>
+        </g>
+        <polygon points="65,24 68,32 77,32 70,38 73,46 65,41 57,46 60,38 53,32 62,32" fill="url(#logo-star)"/>
+        <text x="65" y="100" text-anchor="middle" fill="#fff" font-size="16" font-weight="800" font-family="'PingFang SC','Microsoft YaHei',sans-serif">黄师傅</text>
+        <text x="65" y="115" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="8" font-weight="500" font-family="'PingFang SC','Microsoft YaHei',sans-serif" letter-spacing="3">家庭维修</text>
+      </svg>
+    </div>
+    <div class="brand-text">
+      <h1>黄师傅</h1>
+      <div class="sub">家庭维修 · 值得信赖</div>
+    </div>
+  </div>
+  <div class="slogan">专业上门 · 明码标价 · 品质保障</div>
+</div>
+
+<div class="emergency-bar">
+  <div class="left"><span>⚡</span> 急需维修？</div>
+  <button class="btn-emergency" onclick="startEmergency()">紧急报修</button>
+</div>
+
+<div class="container" id="app">
+
+  <div class="steps" id="stepBar">
+    <div class="step-item active" data-s="1"><div class="dot">1</div><div>选服务</div></div>
+    <div class="step-item" data-s="2"><div class="dot">2</div><div>填信息</div></div>
+    <div class="step-item" data-s="3"><div class="dot">3</div><div>完成</div></div>
+  </div>
+
+  <div id="skeletonLoader">
+    <div class="skel-card">
+      <div class="skel-line" style="width:40%"></div>
+      <div class="skel-grid"><div class="skel-line"></div><div class="skel-line"></div><div class="skel-line"></div></div>
+    </div>
+    <div class="skel-card">
+      <div class="skel-line" style="width:50%"></div>
+      <div class="skel-line"></div><div class="skel-line" style="width:70%"></div>
+    </div>
+  </div>
+
+  <div class="step" id="step1">
+    <div class="card">
+      <div class="card-title">📋 选择服务类型</div>
+      <div class="cat-grid" id="catGrid"></div>
+    </div>
+    <div class="card">
+      <div class="card-title" id="itemTitle">🔨 选择服务项目 <span id="priceHint" style="font-size:12px;color:var(--text-light);font-weight:400"></span></div>
+      <div id="itemList"><div class="empty-state">请先选择服务类型</div></div>
+    </div>
+    <button class="btn btn-primary" id="nextBtn" disabled>下一步</button>
+  </div>
+
+  <div class="step" id="step2">
+    <div class="guarantees">
+      <div class="guarantee-item"><span class="g-icon">💰</span><span class="g-text">明码标价</span></div>
+      <div class="guarantee-item"><span class="g-icon">🛡️</span><span class="g-text">持证上岗</span></div>
+      <div class="guarantee-item"><span class="g-icon">🔄</span><span class="g-text">售后无忧</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📝 填写信息</div>
+      <div class="form-group" id="fgName">
+        <label>姓名 <span class="req">*</span></label>
+        <input type="text" id="inputName" placeholder="请输入您的姓名" onblur="validateField('name')" oninput="clearError('fgName')">
+        <div class="error-text">请输入姓名</div>
+      </div>
+      <div class="form-group" id="fgPhone">
+        <label>手机号 <span class="req">*</span></label>
+        <input type="tel" id="inputPhone" placeholder="请输入手机号" maxlength="11" onblur="validateField('phone')" oninput="clearError('fgPhone')">
+        <div class="error-text">请输入正确手机号</div>
+      </div>
+      <div class="form-group" id="fgAddr">
+        <label>服务地址 <span class="req">*</span></label>
+        <div style="display:flex;gap:6px">
+          <input type="text" id="inputAddr" placeholder="如：天河区中山大道100号XX房" style="flex:1" onblur="validateField('addr')" oninput="clearError('fgAddr')">
+          <button id="locBtn" onclick="getLocation()" style="white-space:nowrap;padding:0 14px;border:1.5px solid var(--primary);border-radius:10px;background:var(--primary-light);color:var(--primary-dark);font-size:13px;cursor:pointer;font-weight:500;transition:all .2s">📍 定位</button>
+        </div>
+        <div class="error-text">请输入地址</div>
+      </div>
+      <div class="form-group">
+        <label>问题描述</label>
+        <textarea id="inputDesc" placeholder="请描述故障情况，越详细师傅准备越充分..."></textarea>
+        <div style="margin-top:6px">
+          <button id="aiDiagBtn" onclick="aiDiagnose()" style="padding:6px 14px;border:1.5px solid var(--primary);border-radius:8px;background:var(--primary-light);color:var(--primary-dark);font-size:13px;cursor:pointer;font-weight:500;display:flex;align-items:center;gap:4px">🤖 AI 智能诊断</button>
+          <div id="aiDiagResult" style="display:none;margin-top:8px;padding:12px;background:#f0f7ff;border:1px solid #bae0ff;border-radius:10px;font-size:13px;line-height:1.7"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>上传图片（选填，最多3张）</label>
+        <div class="upload-area" id="uploadArea">
+          <div class="upload-btn" onclick="document.getElementById('fileInput').click()">
+            <div class="icon">+</div>
+            <div>上传</div>
+          </div>
+          <input type="file" id="fileInput" accept="image/*" multiple style="display:none" onchange="handleUpload(this)">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>预约时间（选填）</label>
+        <input type="datetime-local" id="inputTime">
+      </div>
+      <div class="price-estimate" id="priceEstimate">
+        <div class="row">
+          <span class="label">预估价格</span>
+          <span class="amount">¥<span id="estPrice">0</span></span>
+        </div>
+        <div class="hint">实际价格以上门检测为准，维修前会与您确认</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goStep(1)">← 上一步</button>
+      <button class="btn btn-primary" id="submitBtn" onclick="submitOrder()">提交订单</button>
+    </div>
+  </div>
+
+  <div class="step" id="step3">
+    <div class="card">
+      <div class="success-page">
+        <div class="confetti-container">
+          <div class="confetti-particle"></div><div class="confetti-particle"></div>
+          <div class="confetti-particle"></div><div class="confetti-particle"></div>
+          <div class="confetti-particle"></div><div class="confetti-particle"></div>
+          <div class="confetti-particle"></div><div class="confetti-particle"></div>
+          <div class="confetti-particle"></div><div class="confetti-particle"></div>
+        </div>
+        <div class="success-icon">✓</div>
+        <h2>报修成功！</h2>
+        <div class="tip">工单号</div>
+        <div class="order-no" id="orderNo"></div>
+        <div style="color:var(--text-light);font-size:13px;margin-top:6px;">我们将尽快安排师傅与您联系，请保持电话畅通</div>
+        <div class="timeline-box">
+          <h4>服务进度</h4>
+          <div class="timeline">
+            <div class="tl-item active"><div class="dot"></div><div>已提交报修<div class="time" id="submitTime"></div></div></div>
+            <div class="tl-item"><div class="dot"></div><div>等待派单</div></div>
+            <div class="tl-item"><div class="dot"></div><div>师傅出发</div></div>
+            <div class="tl-item"><div class="dot"></div><div>服务完成</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-success" onclick="resetForm()" style="margin-bottom:8px;">🎉 继续报修</button>
+    <button class="btn btn-secondary" onclick="showTrack()">📋 查询工单</button>
+  </div>
+
+  <div class="step" id="step4">
+    <div class="card">
+      <div class="track-box">
+        <h3>📋 工单查询</h3>
+        <div class="sub">输入报修手机号查看工单状态</div>
+        <input class="track-input" id="queryPhone" placeholder="请输入报修手机号" maxlength="11">
+        <button class="btn btn-primary" onclick="queryOrder()" style="margin-bottom:12px;">🔍 查询</button>
+        <div id="queryResult"></div>
+        <button class="btn btn-secondary" onclick="resetForm()">← 返回报修</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="background:linear-gradient(135deg,var(--primary-light),#fff);border:1px solid var(--primary);margin-top:12px">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div style="font-weight:600;font-size:15px;color:var(--primary-dark)">💬 需要帮助？</div>
+        <div style="font-size:13px;color:var(--text-secondary);margin-top:4px">AI 客服小黄 随时为您解答</div>
+      </div>
+      <button onclick="toggleChat()" style="padding:10px 20px;border:none;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 4px 12px rgba(230,122,46,0.3)">在线咨询 →</button>
+    </div>
+  </div>
+  <div class="card" style="margin-top:4px">
+    <div class="card-title">❓ 常见问题</div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)"><span>维修流程是怎样的？</span><span class="arrow">▾</span></div>
+      <div class="faq-a">提交报修 → 系统派单 → 师傅接单 → 上门维修 → 完工付费。整个过程通常在24小时内完成。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)"><span>价格是固定的吗？</span><span class="arrow">▾</span></div>
+      <div class="faq-a">页面上显示的价格为参考价，实际费用上门检测后确认，维修前会与您沟通好价格，绝无隐形消费。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)"><span>保修期多久？</span><span class="arrow">▾</span></div>
+      <div class="faq-a">所有维修服务享有一年免费保修（人为损坏除外），保修期内同一问题免上门费、免维修费。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)"><span>师傅有正规资质吗？</span><span class="arrow">▾</span></div>
+      <div class="faq-a">所有合作师傅均持证上岗，经过背景审核和技能考核，定期接受培训，服务质量有保障。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)"><span>可以取消订单吗？</span><span class="arrow">▾</span></div>
+      <div class="faq-a">师傅出发前可免费取消；师傅已出发后取消可能产生少量上门费用，详情请联系客服。</div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="priceModal">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <h3>💰 服务价格表</h3>
+    <div id="priceListContent"><div class="empty-state">加载中...</div></div>
+    <button class="price-close" onclick="closePriceModal()">关闭</button>
+  </div>
+</div>
+
+<button class="chat-toggle" onclick="toggleChat()" id="chatToggle" title="AI客服">💬</button>
+<button class="float-price-btn" onclick="openPriceModal()">💰 价格表</button>
+
+<!-- AI Chat Panel -->
+<div class="chat-panel" id="aiChatPanel">
+  <div class="chat-head">
+    <span class="title">🤖 黄师傅 AI 客服</span>
+    <button class="close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-body" id="chatMessages"></div>
+  <div class="chat-foot">
+    <input id="chatInput" placeholder="输入您的问题..." onkeydown="if(event.key==='Enter')sendChat()">
+    <button onclick="sendChat()">发送</button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const API_BASE = '/api';
+let categories = [], items = [], selectedCat = null, selectedItem = null, uploadedImages = [];
+const CAT_ICONS = {'家电维修':'🔧','家政保洁':'🧹','清洗服务':'🚿','上门检测':'📋','电脑维修':'💻','test':'🧪'};
+const STATUS_MAP = {pending:'待接单',dispatched:'已派单',accepted:'已接单',in_progress:'维修中',completed:'已完成',done:'已完成',cancelled:'已取消'};
+
+async function init() {
+  const skeleton = document.getElementById('skeletonLoader');
+  try {
+    const [catRes, itemRes] = await Promise.all([
+      fetch(API_BASE+'/services/categories').then(r=>{if(!r.ok)throw Error('网络异常');return r.json()}),
+      fetch(API_BASE+'/services/items').then(r=>{if(!r.ok)throw Error('网络异常');return r.json()})
+    ]);
+    categories = catRes.data||[]; items = itemRes.data||[];
+    skeleton.style.display = 'none';
+    document.getElementById('step1').classList.add('active');
+    renderCats();
+    renderPriceList();
+  } catch(e) {
+    skeleton.innerHTML = '<div class="card" style="text-align:center;padding:40px">' +
+      '<div style="font-size:40px;margin-bottom:12px">😅</div>' +
+      '<div style="color:var(--text-secondary);margin-bottom:12px">加载失败，请检查网络</div>' +
+      '<button class="btn btn-primary" onclick="init()" style="width:auto;display:inline-block;padding:10px 32px">重试</button>' +
+      '</div>';
+  }
+}
+
+function renderCats() {
+  const activeCats = categories.filter(c => c.status !== 'inactive');
+  document.getElementById('catGrid').innerHTML = activeCats.map(c =>
+    `<div class="cat-btn${selectedCat===c.id?' active':''}" onclick="selectCat(${c.id})">
+      <span class="icon">${CAT_ICONS[c.name]||'📋'}</span>${c.name}
+    </div>`
+  ).join('');
+  if (!selectedCat && activeCats.length) selectCat(activeCats[0].id);
+}
+
+function selectCat(id) {
+  selectedCat=id; selectedItem=null; renderCats();
+  document.getElementById('priceHint').textContent = '';
+  const filtered = items.filter(i=>i.category_id===id && i.status!=='inactive');
+  const el = document.getElementById('itemList');
+  if (!filtered.length) {
+    el.innerHTML = '<div class="empty-state">暂无可选项目</div>';
+  } else {
+    el.innerHTML = '<div class="item-grid">' + filtered.map(i =>
+      `<div class="item-card${selectedItem===i.id?' active':''}" data-id="${i.id}" onclick="selectItem(${i.id})">
+        <div class="name">${i.name}</div>
+        <div class="price">${i.default_price?'¥'+i.default_price:'议价'}</div>
+      </div>`
+    ).join('') + '</div>';
+  }
+  checkNext();
+}
+
+function selectItem(id) {
+  selectedItem=id;
+  document.querySelectorAll('.item-card').forEach(el=>el.classList.toggle('active',parseInt(el.dataset.id)===id));
+  const item = items.find(i=>i.id===id);
+  document.getElementById('priceHint').textContent = item?.default_price ? '参考价 ¥'+item.default_price+'/'+(item.unit_type||'次') : '';
+  checkNext();
+}
+
+function checkNext() { document.getElementById('nextBtn').disabled = !(selectedCat && selectedItem); }
+
+document.getElementById('nextBtn').onclick = () => {
+  const item = items.find(i=>i.id===selectedItem);
+  if (item?.default_price) {
+    document.getElementById('estPrice').textContent = item.default_price;
+    document.getElementById('priceEstimate').style.display = 'block';
+  } else {
+    document.getElementById('priceEstimate').style.display = 'none';
+  }
+  goStep(2);
+};
+
+function goStep(n) {
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('step'+n).classList.add('active');
+  document.querySelectorAll('.step-item').forEach(d=>{
+    const s=parseInt(d.dataset.s); d.classList.toggle('active',s===n); d.classList.toggle('done',s<n);
+  });
+  window.scrollTo(0,0);
+}
+
+async function handleUpload(input) {
+  for (let file of input.files||[]) {
+    if (uploadedImages.length>=3) { showToast('最多上传3张图片'); break; }
+    if (!file.type.startsWith('image/')) continue;
+    const fd = new FormData(); fd.append('file', file);
+    try {
+      const res = await fetch(API_BASE+'/upload', {method:'POST',body:fd});
+      const d = await res.json();
+      if (d.code===0 && d.data?.url) uploadedImages.push(d.data.url);
+    } catch(e) { showToast('图片上传失败'); }
+  }
+  renderUploads(); input.value='';
+}
+
+function renderUploads() {
+  let html = uploadedImages.map((u,i)=>
+    '<div class="upload-preview"><img src="'+u+'"><div class="del" onclick="removeUpload('+i+')">x</div></div>'
+  ).join('');
+  if (uploadedImages.length<3) html += '<div class="upload-btn" onclick="document.getElementById(\'fileInput\').click()"><div class="icon">+</div><div>上传</div></div>';
+  document.getElementById('uploadArea').innerHTML = html + '<input type="file" id="fileInput" accept="image/*" multiple style="display:none" onchange="handleUpload(this)">';
+}
+
+function removeUpload(i) { uploadedImages.splice(i,1); renderUploads(); }
+
+function clearError(id) { document.getElementById(id)?.classList.remove('has-error'); }
+
+function validateField(field) {
+  if (field==='name') {
+    const v = document.getElementById('inputName').value.trim();
+    document.getElementById('fgName').classList.toggle('has-error', !v);
+    return !!v;
+  }
+  if (field==='phone') {
+    const v = document.getElementById('inputPhone').value.trim();
+    document.getElementById('fgPhone').classList.toggle('has-error', !/^1\d{10}$/.test(v));
+    return /^1\d{10}$/.test(v);
+  }
+  if (field==='addr') {
+    const v = document.getElementById('inputAddr').value.trim();
+    document.getElementById('fgAddr').classList.toggle('has-error', !v);
+    return !!v;
+  }
+  return true;
+}
+
+function validateAll() { return validateField('name') & validateField('phone') & validateField('addr'); }
+
+async function submitOrder() {
+  if (!validateAll()) return showToast('请完善必填信息');
+  const name = document.getElementById('inputName').value.trim();
+  const phone = document.getElementById('inputPhone').value.trim();
+  const address = document.getElementById('inputAddr').value.trim();
+  const desc = document.getElementById('inputDesc').value.trim();
+  const apt = document.getElementById('inputTime').value;
+  const btn = document.getElementById('submitBtn'); btn.disabled=true; btn.textContent='提交中...';
+  try {
+    const cr = await fetch(API_BASE+'/customers/find', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone,name,address})});
+    if (!cr.ok) throw new Error('网络异常，请重试');
+    const cd = await cr.json();
+    if (!cd.data?.id) throw new Error(cd.message||'提交失败');
+    const cat = categories.find(c=>c.id===selectedCat);
+    const or = await fetch(API_BASE+'/orders', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+      customer_id: cd.data.id, service_item_id: selectedItem,
+      category_type: cat?.name||'', fault_description: desc, address,
+      appointment_time: apt||null, images: uploadedImages.length?JSON.stringify(uploadedImages):null, source:'qrcode'
+    })});
+    if (!or.ok) throw new Error('提交失败，请重试');
+    const od = await or.json();
+    document.getElementById('orderNo').textContent = od.data.order_no;
+    document.getElementById('submitTime').textContent = new Date().toLocaleString('zh-CN');
+    localStorage.setItem('lastPhone', phone);
+    goStep(3);
+  } catch(e) { showToast(e.message||'提交失败，请稍后重试'); }
+  finally { btn.disabled=false; btn.textContent='提交订单'; }
+}
+
+function startEmergency() {
+  const activeCats = categories.filter(c => c.status!=='inactive');
+  if (!activeCats.length) return showToast('暂无可用服务');
+  selectedCat = activeCats[0].id;
+  const catItems = items.filter(i=>i.category_id===selectedCat && i.status!=='inactive');
+  selectedItem = catItems.length ? catItems[0].id : null;
+  renderCats();
+  if (catItems.length) {
+    const item = items.find(i=>i.id===selectedItem);
+    if (item?.default_price) {
+      document.getElementById('estPrice').textContent = item.default_price;
+      document.getElementById('priceEstimate').style.display = 'block';
+    }
+  }
+  goStep(2);
+}
+
+function resetForm() {
+  selectedCat=null; selectedItem=null; uploadedImages=[];
+  ['inputName','inputPhone','inputAddr','inputDesc','inputTime'].forEach(id=>{
+    const el = document.getElementById(id); if (el) el.value='';
+  });
+  ['fgName','fgPhone','fgAddr'].forEach(id=>document.getElementById(id)?.classList.remove('has-error'));
+  goStep(1); renderCats(); renderUploads();
+  document.getElementById('itemList').innerHTML = '<div class="empty-state">请先选择服务类型</div>';
+  document.getElementById('priceHint').textContent=''; document.getElementById('priceEstimate').style.display='none';
+}
+
+function showTrack() {
+  document.getElementById('queryPhone').value = localStorage.getItem('lastPhone')||'';
+  goStep(4);
+}
+
+
+function acceptQuote(id) {
+  fetch(API_BASE+'/orders/'+id+'/quote/respond',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'accept'})}).then(function(r){return r.json()}).then(function(d){if(d.code===0){showToast('已接受报价，师傅将开始维修');queryOrder()}else{showToast(d.message||'操作失败')}}).catch(function(){showToast('网络错误')})
+}
+function rejectQuote(id) {
+  fetch(API_BASE+'/orders/'+id+'/quote/respond',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'reject'})}).then(function(r){return r.json()}).then(function(d){if(d.code===0){showToast('已拒绝报价');queryOrder()}else{showToast(d.message||'操作失败')}}).catch(function(){showToast('网络错误')})
+}
+async function queryOrder() {
+  const phone = document.getElementById('queryPhone').value.trim();
+  if (!/^1\d{10}$/.test(phone)) return showToast('请输入正确手机号');
+  const el = document.getElementById('queryResult');
+  el.innerHTML = '<div style="padding:20px;color:var(--text-light)">查询中...</div>';
+  try {
+    const res = await fetch(API_BASE+'/orders?keyword='+encodeURIComponent(phone));
+    if (!res.ok) throw Error();
+    const d = await res.json();
+    const orders = d.data?.items||[];
+    if (!orders.length) {
+      el.innerHTML = '<div style="padding:20px;color:var(--text-light)">未找到相关工单，请检查手机号</div>';
+      return;
+    }
+    el.innerHTML = orders.map(o=>{ var qh = ''; if(o.quote_status){ qh = '<div style="background:#fff7e6;border:1px solid #ffd591;border-radius:8px;padding:10px;margin-top:6px;font-size:13px">' + (o.quote_status==='pending'?'<b>💰 师傅报价：¥'+o.quote_amount+'</b><div style="margin-top:6px"><button onclick="acceptQuote('+o.id+')" style="padding:4px 16px;border:none;border-radius:6px;background:var(--success);color:#fff;font-size:13px;margin-right:6px">接受</button><button onclick="rejectQuote('+o.id+')" style="padding:4px 16px;border:1px solid var(--danger);border-radius:6px;background:#fff;color:var(--danger);font-size:13px">拒绝</button></div>':o.quote_status==='accepted'?'✅ 已接受报价 ¥'+o.quote_amount:'❌ 已拒绝报价')+'</div>'; }
+      const s=STATUS_MAP[o.status]||o.status;
+      return '<div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:8px;text-align:left">'+
+        '<div style="display:flex;justify-content:space-between;align-items:center">'+
+        '<span style="font-weight:600;font-size:13px;">'+o.order_no+'</span>'+
+        '<span style="font-size:12px;padding:2px 10px;border-radius:12px;background:var(--primary-light);color:var(--primary-dark);font-weight:500;">'+s+'</span></div>'+
+        '<div style="font-size:12px;color:var(--text-light);margin-top:4px;">'+(o.service_item_name||'')+' · '+(o.address||'')+'</div>'+
+        '<div style="font-size:12px;color:var(--text-light);">'+(o.created_at?.slice(0,16)||'')+'</div>'+qh+(o.pay_status==='paid'?'<div style="margin-top:6px;font-size:12px;color:var(--success)">💰 已付款 ('+(o.payment_method==='cash'?'现金':o.payment_method==='wechat'?'微信':o.payment_method==='alipay'?'支付宝':'转账')+')</div>':'')+(o.trip_fee>0?'<div style="margin-top:4px;font-size:12px;color:#E67A2E">🚗 上门费 ¥'+o.trip_fee+'</div>':'')+'</div>';
+    }).join('');
+  } catch(e) { el.innerHTML = '<div style="padding:20px;color:var(--text-light)">查询失败，请检查网络后重试</div>'; }
+}
+
+function renderPriceList() {
+  const el = document.getElementById('priceListContent');
+  const activeCats = categories.filter(c => c.status!=='inactive');
+  let html = '';
+  for (const cat of activeCats) {
+    const catItems = items.filter(i=>i.category_id===cat.id && i.status!=='inactive');
+    if (!catItems.length) continue;
+    html += '<div class="price-cat"><h4>'+cat.name+'</h4>';
+    html += catItems.map(i =>
+      '<div class="price-row" onclick="selectFromPrice('+cat.id+','+i.id+')">' +
+        '<span class="p-name">'+i.name+'</span>' +
+        '<span class="p-price">'+(i.default_price?'¥'+i.default_price+' <span class="p-unit">/'+(i.unit_type||'次')+'</span>':'议价')+'</span>' +
+      '</div>'
+    ).join('');
+    html += '</div>';
+  }
+  el.innerHTML = html || '<div class="empty-state">暂无服务项目</div>';
+}
+
+function openPriceModal() { document.getElementById('priceModal').classList.add('show'); }
+function closePriceModal() { document.getElementById('priceModal').classList.remove('show'); }
+document.getElementById('priceModal').onclick = closePriceModal;
+
+function selectFromPrice(catId, itemId) {
+  closePriceModal();
+  selectedCat = catId; selectedItem = itemId;
+  renderCats();
+  const item = items.find(i=>i.id===itemId);
+  document.getElementById('priceHint').textContent = item?.default_price ? '参考价 ¥'+item.default_price : '';
+  document.getElementById('priceEstimate').style.display = item?.default_price ? 'block' : 'none';
+  if (item?.default_price) document.getElementById('estPrice').textContent = item.default_price;
+  document.querySelectorAll('.item-card').forEach(el=>el.classList.toggle('active',parseInt(el.dataset.id)===itemId));
+  checkNext();
+  goStep(2);
+}
+
+function toggleFaq(el) {
+  const parent = el.parentElement;
+  const wasOpen = parent.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));
+  if (!wasOpen) parent.classList.add('open');
+}
+
+let toastTimer = null;
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent=msg; el.style.display='block';
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>el.style.display='none', 2200);
+}
+
+function getLocation() {
+  const btn = document.getElementById('locBtn');
+  if (!navigator.geolocation) { showToast('当前浏览器不支持定位'); return; }
+  btn.textContent = '定位中...'; btn.disabled = true;
+  navigator.geolocation.getCurrentPosition(
+    async (pos) => {
+      const lat = pos.coords.latitude; const lng = pos.coords.longitude;
+      try {
+        const res = await fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat='+lat+'&lon='+lng+'&zoom=18&accept-language=zh');
+        const data = await res.json();
+        document.getElementById('inputAddr').value = data.display_name || lat.toFixed(4)+','+lng.toFixed(4);
+        clearError('fgAddr'); showToast('已获取当前位置');
+      } catch(e) {
+        document.getElementById('inputAddr').value = lat.toFixed(4)+','+lng.toFixed(4);
+        showToast('已定位，请补充详细地址');
+      }
+      btn.textContent = '📍 定位'; btn.disabled = false;
+    },
+    (err) => {
+      showToast('定位失败：' + (err.code === 1 ? '请允许定位权限' : '无法获取位置'));
+      btn.textContent = '📍 定位'; btn.disabled = false;
+    },
+    { enableHighAccuracy: true, timeout: 8000 }
+  );
+}
+
+
+// AI Diagnosis
+const API_BASE_AI = window.location.origin + '/api';
+async function aiDiagnose() {
+  var desc = document.getElementById('inputDesc').value.trim();
+  if (!desc) { showToast('请先描述故障情况'); return; }
+  var btn = document.getElementById('aiDiagBtn');
+  var result = document.getElementById('aiDiagResult');
+  btn.disabled = true; btn.textContent = 'AI 分析中...';
+  result.style.display = 'block';
+  result.innerHTML = '<div style="text-align:center;color:#999">AI 正在分析故障...</div>';
+  try {
+    var catEl = document.querySelector('.cat-btn.active');
+    var itemEl = document.querySelector('.item-card.active .name');
+    var res = await fetch(API_BASE_AI + '/ai/diagnose', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        fault_description: desc,
+        category_name: catEl ? catEl.textContent.trim() : '',
+        service_name: itemEl ? itemEl.textContent.trim() : ''
+      })
+    });
+    var d = await res.json();
+    if (d.code !== 0) throw new Error(d.message || '诊断失败');
+    var data = d.data;
+    var html = '<div style="font-weight:600;margin-bottom:8px;color:var(--primary)">AI 诊断结果</div>';
+    if (data.summary) html += '<div style="background:#fff;padding:10px;border-radius:8px;margin-bottom:8px;font-size:13px">' + data.summary + '</div>';
+    if (data.possible_causes && data.possible_causes.length) {
+      html += '<div style="font-weight:500;margin-bottom:4px">可能原因：</div>';
+      data.possible_causes.forEach(function(c) {
+        var dot = c.probability === '高' ? '🔴' : c.probability === '中' ? '🟡' : '🟢';
+        html += '<div style="padding:4px 8px;margin-bottom:4px;background:#fff;border-radius:6px;font-size:12px">' + dot + ' ' + c.cause + ' <span style="color:#999">(' + c.probability + ')</span></div>';
+      });
+    }
+    if (data.suggestions && data.suggestions.length) {
+      html += '<div style="font-weight:500;margin:8px 0 4px">维修建议：</div>';
+      data.suggestions.forEach(function(s) { html += '<div style="padding:4px 8px;margin-bottom:4px;background:#fff;border-radius:6px;font-size:12px">' + s + '</div>'; });
+    }
+    if (data.price_estimate) {
+      html += '<div style="font-weight:500;margin:8px 0 4px">预估价格：<span style="color:var(--danger);font-size:18px;font-weight:700">' + data.price_estimate.min + '~' + data.price_estimate.max + '元</span></div>';
+      if (data.price_estimate.note) html += '<div style="font-size:12px;color:#999">' + data.price_estimate.note + '</div>';
+    }
+    html += '<div style="margin-top:8px;text-align:right"><span style="font-size:11px;color:#ccc;cursor:pointer" onclick="document.getElementById(\'aiDiagResult\').style.display=\'none\'">关闭</span></div>';
+    result.innerHTML = html;
+  } catch(e) {
+    result.innerHTML = '<div style="color:var(--danger)">诊断失败: ' + e.message + '</div>';
+  }
+  btn.disabled = false; btn.textContent = 'AI 智能诊断';
+}
+
+// AI Chat
+function toggleChat() {
+  var el = document.getElementById('aiChatPanel');
+  var isShow = el.style.display === 'flex';
+  el.style.display = isShow ? 'none' : 'flex';
+  if (!isShow && !document.getElementById('chatMessages').children.length) {
+    addChatMsg('assistant', '你好！我是黄师傅AI客服小黄，有什么可以帮你的吗？');
+  }
+}
+
+function addChatMsg(role, text) {
+  var box = document.getElementById('chatMessages');
+  var div = document.createElement('div');
+  div.style.marginBottom = '10px';
+  div.style.display = 'flex';
+  if (role === 'user') {
+    div.style.justifyContent = 'flex-end';
+    div.innerHTML = '<div style="background:var(--primary);color:#fff;padding:8px 14px;border-radius:16px 16px 4px 16px;max-width:85%;font-size:14px;line-height:1.5">' + text + '</div>';
+  } else {
+    div.innerHTML = '<div style="display:flex;gap:8px;max-width:90%"><div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">黄</div><div style="background:#f0f0f0;padding:8px 14px;border-radius:16px 16px 16px 4px;font-size:14px;line-height:1.5;color:#333">' + text + '</div></div>';
+  }
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
+}
+
+async function sendChat() {
+  var input = document.getElementById('chatInput');
+  var msg = input.value.trim();
+  if (!msg) return;
+  input.value = '';
+  addChatMsg('user', msg);
+  var loadingDiv = document.createElement('div');
+  loadingDiv.id = 'chatLoading';
+  loadingDiv.style.marginBottom = '10px';
+  loadingDiv.style.display = 'flex';
+  loadingDiv.innerHTML = '<div style="display:flex;gap:8px"><div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">黄</div><div style="background:#f0f0f0;padding:8px 14px;border-radius:16px 16px 16px 4px;font-size:14px;color:#999">typing...</div></div>';
+  document.getElementById('chatMessages').appendChild(loadingDiv);
+  document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
+  try {
+    var res = await fetch(API_BASE_AI + '/ai/chat', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({message: msg, history: []})
+    });
+    var d = await res.json();
+    var ld = document.getElementById('chatLoading');
+    if (ld) ld.remove();
+    if (d.code === 0 && d.data && d.data.reply) addChatMsg('assistant', d.data.reply);
+    else addChatMsg('assistant', '抱歉，我现在无法回复，请稍后再试。');
+  } catch(e) {
+    var ld2 = document.getElementById('chatLoading');
+    if (ld2) ld2.remove();
+    addChatMsg('assistant', '网络连接失败，请稍后再试。');
+  }
+}
+
+init();
+</script>
+</body>
+</html>

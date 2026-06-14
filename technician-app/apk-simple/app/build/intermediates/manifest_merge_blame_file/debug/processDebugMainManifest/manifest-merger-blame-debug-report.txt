@@ -1,0 +1,68 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.weixiutong.technician"
+4    android:versionCode="100"
+5    android:versionName="1.0.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="21"
+9        android:targetSdkVersion="34" />
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:6:5-66
+11-->C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:6:22-64
+12    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+12-->C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:7:5-78
+12-->C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:7:22-76
+13    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+13-->C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:8:5-78
+13-->C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:8:22-76
+14    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+14-->C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:9:5-80
+14-->C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:9:22-78
+15    <uses-permission android:name="android.permission.CAMERA" />
+15-->C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:10:5-64
+15-->C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:10:22-62
+16    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+16-->C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:11:5-70
+16-->C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:11:22-68
+17    <uses-permission android:name="android.permission.CALL_PHONE" />
+17-->C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:12:5-68
+17-->C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:12:22-66
+18
+19    <application
+19-->C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:13:5-28:19
+20        android:allowBackup="true"
+20-->C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:15:9-35
+21        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+21-->[androidx.core:core:1.1.0] C:\Users\Administrator\.gradle\caches\8.14.3\transforms\b2f108e6759036c05dce8ebda18d5d3f\transformed\core-1.1.0\AndroidManifest.xml:24:18-86
+22        android:debuggable="true"
+23        android:extractNativeLibs="true"
+24        android:label="黄师傅维修"
+24-->C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:14:9-30
+25        android:theme="@style/AppTheme"
+25-->C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:18:9-40
+26        android:usesCleartextTraffic="true" >
+26-->C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:16:9-44
+27        <activity
+27-->C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:19:9-27:20
+28            android:name="com.weixiutong.technician.MainActivity"
+28-->C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:20:13-41
+29            android:configChanges="orientation|keyboardHidden|screenSize"
+29-->C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:21:13-74
+30            android:exported="true" >
+30-->C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:22:13-36
+31            <intent-filter>
+31-->C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:23:13-26:29
+32                <action android:name="android.intent.action.MAIN" />
+32-->C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:24:17-68
+32-->C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:24:25-66
+33
+34                <category android:name="android.intent.category.LAUNCHER" />
+34-->C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:25:17-76
+34-->C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\AndroidManifest.xml:25:27-74
+35            </intent-filter>
+36        </activity>
+37    </application>
+38
+39</manifest>

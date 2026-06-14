@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>黄师傅家庭维修 - 师傅入驻</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:linear-gradient(135deg,#1A365D,#2B6CB0);min-height:100vh;display:flex;justify-content:center;align-items:center;padding:20px}
+.box{background:#fff;border-radius:16px;padding:32px 24px;width:100%;max-width:400px;box-shadow:0 12px 48px rgba(0,0,0,0.2)}
+.logo{text-align:center;margin-bottom:20px}
+.logo svg{width:56px;height:56px}
+.logo h1{font-size:22px;margin-top:8px}
+.logo h1 span{color:#E67A2E}
+.logo p{color:#999;font-size:13px;margin-top:4px}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:13px;color:#666;margin-bottom:4px;font-weight:500}
+.form-group input{width:100%;padding:10px 12px;border:1px solid #d9d9d9;border-radius:8px;font-size:14px;outline:none;transition:border-color .2s}
+.form-group input:focus{border-color:#E67A2E;box-shadow:0 0 0 2px rgba(230,122,46,0.1)}
+.btn{width:100%;padding:12px;background:#E67A2E;color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;transition:background .2s}
+.btn:hover{background:#C96A1F}
+.btn:disabled{opacity:.6;cursor:not-allowed}
+.msg{padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:14px;display:none}
+.msg.success{display:block;background:#f6ffed;border:1px solid #b7eb8f;color:#389e0d}
+.msg.error{display:block;background:#fff2f0;border:1px solid #ffccc7;color:#cf1322}
+.tip{text-align:center;font-size:12px;color:#bbb;margin-top:16px;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="box">
+  <div class="logo">
+    <svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#1A365D"/><stop offset="100%" stop-color="#2B6CB0"/>
+        </linearGradient>
+        <linearGradient id="lg2" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#E67A2E"/><stop offset="100%" stop-color="#C96A1F"/>
+        </linearGradient>
+      </defs>
+      <path d="M65 8 L118 34 L118 68 C118 98 94 117 65 124 C36 117 12 98 12 68 L12 34 Z" fill="url(#lg)"/>
+      <circle cx="65" cy="58" r="26" fill="url(#lg2)"/>
+      <text x="65" y="100" text-anchor="middle" fill="#fff" font-size="16" font-weight="800">黄师傅</text>
+    </svg>
+    <h1>黄师傅 <span>诚聘维修师傅</span></h1>
+    <p>加入我们，月入过万不是梦！</p>
+  </div>
+
+  <div id="msg" class="msg"></div>
+
+  <form id="applyForm" onsubmit="return submitForm()">
+    <div class="form-group">
+      <label>姓名 *</label>
+      <input id="name" placeholder="请输入您的姓名" required>
+    </div>
+    <div class="form-group">
+      <label>手机号 *</label>
+      <input id="phone" type="tel" placeholder="请输入手机号" pattern="^1\d{10}$" required>
+    </div>
+    <div class="form-group">
+      <label>年龄</label>
+      <input id="age" type="number" placeholder="例如：35">
+    </div>
+    <div class="form-group">
+      <label>擅长技能</label>
+      <input id="skill" placeholder="如：水电维修、家电维修等">
+    </div>
+    <div class="form-group">
+      <label>工作经验</label>
+      <input id="experience" placeholder="如：5年维修经验">
+    </div>
+    <div class="form-group">
+      <label>服务区域</label>
+      <input id="area" placeholder="如：广州市天河区">
+    </div>
+    <div class="form-group">
+      <label>是否自带工具</label>
+      <input id="tools" placeholder="如：全套维修工具">
+    </div>
+    <button type="submit" class="btn" id="submitBtn">提交报名</button>
+  </form>
+  <div class="tip">提交后我们会尽快与您联系<br>黄师傅家庭维修 · 专业平台</div>
+</div>
+
+<script>
+const API = window.location.origin + '/api';
+function showMsg(text, err) {
+  const el = document.getElementById('msg');
+  el.textContent = text;
+  el.className = 'msg ' + (err ? 'error' : 'success');
+}
+async function submitForm() {
+  const data = {
+    name: document.getElementById('name').value.trim(),
+    phone: document.getElementById('phone').value.trim(),
+    age: parseInt(document.getElementById('age').value) || null,
+    skill: document.getElementById('skill').value.trim(),
+    experience: document.getElementById('experience').value.trim(),
+    area: document.getElementById('area').value.trim(),
+    tools: document.getElementById('tools').value.trim(),
+  };
+  if (!data.name || !data.phone) { showMsg('请填写姓名和手机号', true); return false; }
+  if (!/^1\d{10}$/.test(data.phone)) { showMsg('手机号格式不正确', true); return false; }
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true; btn.textContent = '提交中...';
+  try {
+    const r = await fetch(API + '/recruit/apply', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data) });
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.detail || '提交失败');
+    showMsg('✅ 报名成功！我们会尽快联系您', false);
+    document.getElementById('applyForm').reset();
+  } catch(e) {
+    showMsg('❌ ' + e.message, true);
+  } finally {
+    btn.disabled = false; btn.textContent = '提交报名';
+  }
+  return false;
+}
+</script>
+</body>
+</html>

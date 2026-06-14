@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>黄师傅家庭维修 - 专业上门服务</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans SC',-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:#e8ecf1;min-height:100vh;display:flex;justify-content:center;padding:24px}
+.poster{max-width:420px;width:100%;background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,0.15);position:relative}
+
+/* ── Top Banner ── */
+.top-banner{background:linear-gradient(135deg,#132035 0%,#1A2A4A 40%,#25467A 100%);padding:36px 28px 0;position:relative;overflow:hidden}
+.top-banner::before{content:'';position:absolute;top:-80px;right:-60px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(245,166,35,0.08) 0%,transparent 70%)}
+.top-banner::after{content:'';position:absolute;bottom:-30px;left:-30px;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,rgba(43,108,176,0.15) 0%,transparent 70%)}
+.brand-row{display:flex;align-items:center;justify-content:center;gap:10px;position:relative;z-index:1}
+.brand-icon{width:48px;height:48px;flex-shrink:0}
+.brand-text{text-align:left}
+.brand-text h1{color:#fff;font-size:26px;font-weight:900;letter-spacing:1px;line-height:1.1}
+.brand-text h1 span{color:#F5A623}
+.brand-text .tagline{color:rgba(255,255,255,0.5);font-size:10px;letter-spacing:6px;margin-top:2px}
+.phone-banner{background:rgba(255,255,255,0.08);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:14px 18px;margin:16px 0 0;display:flex;align-items:center;justify-content:center;gap:12px;position:relative;z-index:1}
+.phone-banner .phone-icon{font-size:22px}
+.phone-banner .phone-num{font-size:20px;font-weight:900;color:#fff;letter-spacing:2px}
+.phone-banner .phone-label{font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:1px}
+.trust-row{display:flex;justify-content:center;gap:4px;padding:14px 0 0;position:relative;z-index:1;flex-wrap:wrap}
+.trust-badge{background:rgba(255,255,255,0.06);padding:5px 12px;border-radius:6px;font-size:10px;color:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.04);white-space:nowrap}
+
+/* ── QR + CTA ── */
+.cta-strip{background:linear-gradient(135deg,#E67A2E,#D4651F);padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;position:relative;z-index:2}
+.cta-strip .cta-text{flex:1}
+.cta-strip .cta-text .big{color:#fff;font-size:18px;font-weight:900;letter-spacing:1px}
+.cta-strip .cta-text .small{color:rgba(255,255,255,0.7);font-size:11px;margin-top:2px}
+.cta-strip .qr-mini{background:#fff;border-radius:10px;padding:6px;flex-shrink:0;box-shadow:0 4px 12px rgba(0,0,0,0.15)}
+.cta-strip .qr-mini img{width:64px;height:64px;display:block;border-radius:4px}
+
+/* ── Services ── */
+.services{padding:22px 20px 16px}
+.services .section-title{text-align:center;font-size:16px;font-weight:700;color:#1A2A4A;margin-bottom:14px}
+.services .section-title::after{content:'';display:block;width:36px;height:3px;background:linear-gradient(90deg,#E67A2E,#F5A623);border-radius:2px;margin:6px auto 0}
+.service-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.service-item{background:#f6f8fc;border-radius:10px;padding:12px;display:flex;align-items:center;gap:10px;transition:all .2s}
+.service-item:hover{transform:translateY(-1px);box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.service-item .s-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.service-item .s-info{flex:1;min-width:0}
+.service-item .s-info .s-name{font-size:13px;font-weight:600;color:#1A2A4A}
+.service-item .s-info .s-price{font-size:11px;color:#E67A2E;font-weight:500}
+
+/* ── Highlights ── */
+.highlights{padding:0 20px 18px}
+.highlights .section-title{text-align:center;font-size:16px;font-weight:700;color:#1A2A4A;margin-bottom:12px}
+.highlights .section-title::after{content:'';display:block;width:36px;height:3px;background:linear-gradient(90deg,#E67A2E,#F5A623);border-radius:2px;margin:6px auto 0}
+.highlight-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.highlight-item{background:linear-gradient(135deg,#FFF8F0,#FFEEDB);border-radius:10px;padding:14px 12px;text-align:center}
+.highlight-item .h-value{font-size:22px;font-weight:900;color:#E67A2E;line-height:1}
+.highlight-item .h-label{font-size:11px;color:#7a6a5a;margin-top:4px;font-weight:500}
+
+/* ── Footer ── */
+.footer{background:linear-gradient(135deg,#132035,#1A2A4A);padding:20px 24px;text-align:center}
+.footer .f-phone{font-size:24px;font-weight:900;color:#F5A623;letter-spacing:2px}
+.footer .f-sub{font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px;letter-spacing:3px}
+.footer .f-copy{font-size:9px;color:rgba(255,255,255,0.2);margin-top:8px}
+
+/* ── Print ── */
+@media print{body{background:#fff;padding:0}.poster{box-shadow:none;border-radius:0}}
+</style>
+</head>
+<body>
+<div class="poster">
+  <!-- ═══ Top Banner ═══ -->
+  <div class="top-banner">
+    <div class="brand-row">
+      <svg class="brand-icon" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#1A365D"/><stop offset="100%" stop-color="#2B6CB0"/>
+          </linearGradient>
+          <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#E67A2E"/><stop offset="100%" stop-color="#C96A1F"/>
+          </linearGradient>
+        </defs>
+        <path d="M65 8 L118 34 L118 68 C118 98 94 117 65 124 C36 117 12 98 12 68 L12 34 Z" fill="url(#bg)"/>
+        <circle cx="65" cy="58" r="26" fill="url(#bg2)"/>
+        <polygon points="65,24 68,32 77,32 70,38 73,46 65,41 57,46 60,38 53,32 62,32" fill="#FFD54F"/>
+        <text x="65" y="100" text-anchor="middle" fill="#fff" font-size="16" font-weight="800">黄师傅</text>
+      </svg>
+      <div class="brand-text">
+        <h1>黄师傅 <span>家庭维修</span></h1>
+        <div class="tagline">专 业 上 门 · 家 庭 服 务</div>
+      </div>
+    </div>
+
+    <div class="phone-banner">
+      <span class="phone-icon">📞</span>
+      <div>
+        <div class="phone-num">134-2763-2071</div>
+        <div class="phone-label">一键拨打 · 快速上门</div>
+      </div>
+    </div>
+
+    <div class="trust-row">
+      <span class="trust-badge">👨‍🔧 专业师傅</span>
+      <span class="trust-badge">💰 明码标价</span>
+      <span class="trust-badge">⚡ 30分钟响应</span>
+      <span class="trust-badge">🛡️ 售后无忧</span>
+    </div>
+  </div>
+
+  <!-- ═══ QR CTA Strip ═══ -->
+  <div class="cta-strip">
+    <div class="cta-text">
+      <div class="big">📱 扫码立即预约</div>
+      <div class="small">在线下单 · 师傅极速上门 · 先报价后维修</div>
+    </div>
+    <div class="qr-mini">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=https://www.zpqy.cn/repair" alt="扫码预约">
+    </div>
+  </div>
+
+  <!-- ═══ Services ═══ -->
+  <div class="services">
+    <div class="section-title">服务项目</div>
+    <div class="service-grid">
+      <div class="service-item"><div class="s-icon" style="background:#E8F5E9;color:#43A047">🧹</div><div class="s-info"><div class="s-name">日常保洁</div><div class="s-price">¥40起</div></div></div>
+      <div class="service-item"><div class="s-icon" style="background:#F1F8E9;color:#689F38">🧼</div><div class="s-info"><div class="s-name">深度保洁</div><div class="s-price">¥50起</div></div></div>
+      <div class="service-item"><div class="s-icon" style="background:#FFF8E1;color:#F9A825">✨</div><div class="s-info"><div class="s-name">开荒保洁</div><div class="s-price">¥10/㎡</div></div></div>
+      <div class="service-item"><div class="s-icon" style="background:#E3F2FD;color:#1E88E5">🪟</div><div class="s-info"><div class="s-name">擦玻璃</div><div class="s-price">¥150起</div></div></div>
+      <div class="service-item"><div class="s-icon" style="background:#F3E5F5;color:#8E24AA">📦</div><div class="s-info"><div class="s-name">收纳整理</div><div class="s-price">¥50起</div></div></div>
+      <div class="service-item"><div class="s-icon" style="background:#E0F2F1;color:#00897B">💻</div><div class="s-info"><div class="s-name">电脑维修</div><div class="s-price">¥80起</div></div></div>
+      <div class="service-item"><div class="s-icon" style="background:#FBE9E7;color:#D84315">🖥️</div><div class="s-info"><div class="s-name">笔记本维修</div><div class="s-price">¥80起</div></div></div>
+      <div class="service-item"><div class="s-icon" style="background:#E8EAF6;color:#3949AB">🔄</div><div class="s-info"><div class="s-name">系统重装</div><div class="s-price">¥50起</div></div></div>
+      <div class="service-item"><div class="s-icon" style="background:#FFF3E0;color:#E65100">💾</div><div class="s-info"><div class="s-name">数据恢复</div><div class="s-price">¥100起</div></div></div>
+      <div class="service-item"><div class="s-icon" style="background:#F1F8E9;color:#558B2F">🌐</div><div class="s-info"><div class="s-name">网络维护</div><div class="s-price">¥60起</div></div></div>
+      <div class="service-item"><div class="s-icon" style="background:#ECEFF1;color:#546E7A">🧊</div><div class="s-info"><div class="s-name">空调维修</div><div class="s-price">¥80起</div></div></div>
+      <div class="service-item"><div class="s-icon" style="background:#E3F2FD;color:#1565C0">❄️</div><div class="s-info"><div class="s-name">冰箱维修</div><div class="s-price">¥80起</div></div></div>
+      <div class="service-item"><div class="s-icon" style="background:#FCE4EC;color:#C62828">👕</div><div class="s-info"><div class="s-name">洗衣机维修</div><div class="s-price">¥60起</div></div></div>
+      <div class="service-item"><div class="s-icon" style="background:#FFF8E1;color:#F57F17">🔥</div><div class="s-info"><div class="s-name">热水器维修</div><div class="s-price">¥60起</div></div></div>
+      <div class="service-item"><div class="s-icon" style="background:#EDE7F6;color:#4527A0">📺</div><div class="s-info"><div class="s-name">电视维修</div><div class="s-price">¥80起</div></div></div>
+      <div class="service-item"><div class="s-icon" style="background:#E0F7FA;color:#006064">🍳</div><div class="s-info"><div class="s-name">油烟机维修</div><div class="s-price">¥60起</div></div></div>
+      <div class="service-item"><div class="s-icon" style="background:#F9FBE7;color:#827717">💨</div><div class="s-info"><div class="s-name">油烟机清洗</div><div class="s-price">¥120起</div></div></div>
+      <div class="service-item"><div class="s-icon" style="background:#E1F5FE;color:#0277BD">🌡️</div><div class="s-info"><div class="s-name">空调清洗</div><div class="s-price">¥100起</div></div></div>
+      <div class="service-item"><div class="s-icon" style="background:#F1F8E9;color:#33691E">🧺</div><div class="s-info"><div class="s-name">洗衣机清洗</div><div class="s-price">¥80起</div></div></div>
+      <div class="service-item"><div class="s-icon" style="background:#E8EAF6;color:#283593">🧰</div><div class="s-info"><div class="s-name">更多服务</div><div class="s-price">来电咨询</div></div></div>
+    </div>
+  </div>
+
+  <!-- ═══ Highlights ═══ -->
+  <div class="highlights">
+    <div class="section-title">我们的优势</div>
+    <div class="highlight-grid">
+      <div class="highlight-item"><div class="h-value">30min</div><div class="h-label">极速响应上门</div></div>
+      <div class="highlight-item"><div class="h-value">100%</div><div class="h-label">专业认证师傅</div></div>
+      <div class="highlight-item"><div class="h-value">¥0</div><div class="h-label">上门检测费</div></div>
+      <div class="highlight-item"><div class="h-value">90天</div><div class="h-label">维修质保期</div></div>
+    </div>
+  </div>
+
+  <!-- ═══ Footer ═══ -->
+  <div class="footer">
+    <div class="f-phone">134-2763-2071</div>
+    <div class="f-sub">黄师傅家庭维修 · 您身边的家庭服务专家</div>
+    <div class="f-copy">扫二维码在线预约 · 先报价后维修 · 修不好不收费</div>
+  </div>
+</div>
+</body>
+</html>

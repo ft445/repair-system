@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>黄师傅 - 二维码</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:#f0f2f5;min-height:100vh;padding:20px;display:flex;flex-direction:column;align-items:center}
+h2{font-size:20px;color:#1A365D;margin:16px 0 4px}
+.sub{color:#999;font-size:13px;margin-bottom:20px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:700px;width:100%}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+.card{background:#fff;border-radius:12px;padding:24px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,0.08)}
+.card h3{font-size:16px;color:#333;margin-bottom:12px}
+.card img{width:240px;height:240px;border-radius:8px;margin-bottom:12px}
+.card .url{font-size:11px;color:#bbb;word-break:break-all;margin-bottom:8px}
+.card .btn{display:inline-block;padding:8px 24px;background:#E67A2E;color:#fff;border:none;border-radius:6px;font-size:14px;text-decoration:none;cursor:pointer;margin:4px}
+.card .btn:hover{background:#C96A1F}
+.footer{text-align:center;margin-top:20px;font-size:12px;color:#ccc}
+</style>
+</head>
+<body>
+<div style="background:#fff;border-radius:16px;padding:32px 24px;max-width:750px;width:100%;box-shadow:0 2px 12px rgba(0,0,0,0.06)">
+  <div style="text-align:center">
+    <h2>📱 黄师傅家庭维修</h2>
+    <p class="sub">扫码即可下单 / 报名加入</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3>🔧 客户报修</h3>
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=https://www.zpqy.cn/repair" alt="报修二维码" id="qrRepair">
+      <div class="url">https://www.zpqy.cn/repair</div>
+      <a class="btn" href="https://www.zpqy.cn/repair" target="_blank">打开页面</a>
+      <a class="btn" href="javascript:void(0)" onclick="printQR('qrRepair')">打印</a>
+    </div>
+    <div class="card">
+      <h3>👨‍🔧 师傅入驻</h3>
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=https://www.zpqy.cn/join" alt="入驻二维码" id="qrJoin">
+      <div class="url">https://www.zpqy.cn/join</div>
+      <a class="btn" href="https://www.zpqy.cn/join" target="_blank">打开页面</a>
+      <a class="btn" href="javascript:void(0)" onclick="printQR('qrJoin')">打印</a>
+    </div>
+    <div class="card">
+      <h3>🖼️ 宣传海报</h3>
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=https://www.zpqy.cn/poster" alt="海报二维码" id="qrPoster">
+      <div class="url">https://www.zpqy.cn/poster</div>
+      <a class="btn" href="https://www.zpqy.cn/poster" target="_blank">查看海报</a>
+      <a class="btn" href="javascript:void(0)" onclick="printQR('qrPoster')">打印</a>
+    </div>
+  </div>
+  <div class="footer">黄师傅家庭维修管理系统</div>
+</div>
+<script>
+function printQR(id) {
+  const img = document.getElementById(id);
+  const w = window.open('', '_blank', 'width=400,height=400');
+  w.document.write('<html><head><title>打印二维码</title><style>body{text-align:center;padding:40px}img{width:320px;height:320px}</style></head><body>');
+  w.document.write('<img src="'+img.src+'" onload="window.print();window.close()">');
+  w.document.write('</body></html>');
+  w.document.close();
+}
+</script>
+</body>
+</html>

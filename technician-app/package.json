@@ -1,0 +1,24 @@
+{
+  "name": "technician-app",
+  "version": "1.0.0",
+  "description": "维修通师傅接单APP",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "dev:h5": "uni -p h5",
+    "build:app": "uni build -p app-plus && node scripts/patch-view-html.js"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.4.0",
+    "@capacitor/cli": "^8.4.0",
+    "@capacitor/core": "^8.4.0",
+    "@dcloudio/uni-app": "3.0.0-alpha-5000120260205002",
+    "@dcloudio/uni-app-plus": "3.0.0-alpha-5000120260205002",
+    "@dcloudio/uni-stat": "3.0.0-alpha-5000120260205002",
+    "@dcloudio/vite-plugin-uni": "3.0.0-alpha-5000120260205002",
+    "@vue/runtime-core": "^3.4.21",
+    "@vue/shared": "^3.4.21",
+    "vite": "^5.4.21",
+    "vue": "^3.4.21"
+  }
+}

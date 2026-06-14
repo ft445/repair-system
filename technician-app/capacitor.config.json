@@ -1,0 +1,22 @@
+{
+  "appId": "com.weixiutong.technician",
+  "appName": "黄师傅维修",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "version": "1.0.0",
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": true,
+    "captureInput": true,
+    "webContentsDebuggingEnabled": false
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 2000,
+      "backgroundColor": "#E67A2E"
+    }
+  }
+}

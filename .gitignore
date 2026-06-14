@@ -1,0 +1,53 @@
+# Node
+node_modules/
+*.log
+.env
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# IDE
+.idea/
+.vscode/
+*.suo
+*.swp
+
+# Build output
+technician-app/dist/
+technician-app/android/.gradle/
+technician-app/android/build/
+technician-app/android/local.properties
+*.apk
+*.aab
+*.keystore
+
+# Capacitor
+technician-app/android/capacitor-cordova-android-plugins/
+
+# Android SDK (太大了，CI 上会重新下载)
+technician-app/android-sdk/
+technician-app/apk-simple/app/build/
+technician-app/apk-simple/build/
+technician-app/apk-simple/.gradle/
+technician-app/apk-simple/local.properties
+
+# Android SDK
+technician-app/android-sdk/
+
+# Build artifacts
+technician-app/dist/
+technician-app/android/.gradle/
+technician-app/android/build/
+technician-app/android/local.properties
+technician-app/apk-simple/
+
+# Node
+technician-app/node_modules/
+
+# Database
+backend/repair_system.db

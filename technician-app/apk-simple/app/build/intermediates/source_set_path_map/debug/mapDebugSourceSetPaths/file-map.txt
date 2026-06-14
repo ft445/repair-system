@@ -1,0 +1,9 @@
+com.weixiutong.technician.app-webkit-1.11.0-0 C:\Users\Administrator\.gradle\caches\8.14.3\transforms\770207f88775d1f541f1a2aef0296956\transformed\webkit-1.11.0\res
+com.weixiutong.technician.app-core-1.1.0-1 C:\Users\Administrator\.gradle\caches\8.14.3\transforms\b2f108e6759036c05dce8ebda18d5d3f\transformed\core-1.1.0\res
+com.weixiutong.technician.app-pngs-2 C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\build\generated\res\pngs\debug
+com.weixiutong.technician.app-resValues-3 C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\build\generated\res\resValues\debug
+com.weixiutong.technician.app-packageDebugResources-4 C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
+com.weixiutong.technician.app-packageDebugResources-5 C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
+com.weixiutong.technician.app-debug-6 C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\build\intermediates\merged_res\debug\mergeDebugResources
+com.weixiutong.technician.app-debug-7 C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\debug\res
+com.weixiutong.technician.app-main-8 C:\Users\Administrator\Desktop\repair-system\technician-app\apk-simple\app\src\main\res

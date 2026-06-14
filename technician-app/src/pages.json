@@ -1,0 +1,37 @@
+{
+  "pages": [
+    {"path": "pages/login/index", "style": {"navigationBarTitleText": "登录","navigationBarHidden":true,"app-plus":{"softinputMode":"adjustPan","bounce":"none"}}},
+    {"path": "pages/workbench/index", "style": {"navigationBarTitleText": "工作台", "enablePullDownRefresh": true}},
+    {"path": "pages/orders/index", "style": {"navigationBarTitleText": "工单管理", "enablePullDownRefresh": true}},
+    {"path": "pages/orders/detail", "style": {"navigationBarTitleText": "工单详情"}},
+    {"path": "pages/orders/quote", "style": {"navigationBarTitleText": "现场报价"}},
+    {"path": "pages/income/index", "style": {"navigationBarTitleText": "我的收入"}},
+    {"path": "pages/income/withdrawals", "style": {"navigationBarTitleText": "提现记录", "enablePullDownRefresh": true}},
+    {"path": "pages/profile/index", "style": {"navigationBarTitleText": "个人中心"}},
+    {"path": "pages/profile/edit", "style": {"navigationBarTitleText": "编辑资料"}},
+    {"path": "pages/profile/settings", "style": {"navigationBarTitleText": "设置"}},
+    {"path": "pages/profile/about", "style": {"navigationBarTitleText": "关于"}},
+    {"path": "pages/profile/ratings", "style": {"navigationBarTitleText": "我的评价", "enablePullDownRefresh": true}},
+    {"path": "pages/tasks/index", "style": {"navigationBarTitleText": "任务列表", "enablePullDownRefresh": true}},
+    {"path": "pages/notifications/index", "style": {"navigationBarTitleText": "消息中心", "enablePullDownRefresh": true}},
+    {"path": "pages/schedule/index", "style": {"navigationBarTitleText": "工作日程", "enablePullDownRefresh": true}}
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "黄师傅维修",
+    "navigationBarBackgroundColor": "#E67A2E",
+    "backgroundColor": "#FFF8F0"
+  },
+  "tabBar": {
+    "color": "#999",
+    "selectedColor": "#E67A2E",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      {"pagePath": "pages/workbench/index", "text": "工作台", "iconPath": "static/tab/work.png", "selectedIconPath": "static/tab/work-active.png"},
+      {"pagePath": "pages/orders/index", "text": "工单", "iconPath": "static/tab/order.png", "selectedIconPath": "static/tab/order-active.png"},
+      {"pagePath": "pages/income/index", "text": "收入", "iconPath": "static/tab/income.png", "selectedIconPath": "static/tab/income-active.png"},
+      {"pagePath": "pages/profile/index", "text": "我的", "iconPath": "static/tab/mine.png", "selectedIconPath": "static/tab/mine-active.png"}
+    ]
+  }
+}
