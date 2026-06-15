@@ -453,11 +453,17 @@ def reject_order(order_id: int, data: dict, db: Session = Depends(get_db)):
     order = db.query(WorkOrder).filter(WorkOrder.id == order_id).first()
     if not order:
         raise HTTPException(404, "工单不存在")
-    if order.status not in (OrderStatus.PENDING.value, OrderStatus.DISPATCHED.value, OrderStatus.ACCEPTED.value):
+    if order.status not in (OrderStatus.PENDING.value, OrderStatus.DISPATCHED.value, OrderStatus.ACCEPTED.value, OrderStatus.IN_PROGRESS.value):
         raise HTTPException(400, "当前状态不可取消")
 
     reason = data.get("reason", "师傅拒单")
     db.add(WorkOrderLog(order_id=order_id, action="reject", content=f"师傅申请取消: {reason}"))
+
+    # 进行中的工单直接进入待审核（不能自动派单）
+    if order.status == OrderStatus.IN_PROGRESS.value:
+        order.status = OrderStatus.CANCEL_PENDING.value
+        db.commit()
+        return ApiResponse(message="已提交取消申请，待管理员审核")
 
     # 检查自动派单开关
     from sqlalchemy import text as sa_text
