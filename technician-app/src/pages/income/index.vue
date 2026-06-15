@@ -1,77 +1,77 @@
 <template>
-  <view class="page">
-    <view class="header-card">
-      <view class="header-top">
-        <text class="header-label">累计收入</text>
-        <text class="header-amount">¥{{ totalEarned }}</text>
-      </view>
-      <view class="header-stats">
-        <view class="hs-item"><text class="hs-num">¥{{ thisMonthEarn }}</text><text class="hs-lbl">本月收入</text></view>
-        <view class="hs-item"><text class="hs-num">{{ thisMonthCount }}</text><text class="hs-lbl">本月完成</text></view>
-        <view class="hs-item"><text class="hs-num">¥{{ balance }}</text><text class="hs-lbl">可提现</text></view>
-      </view>
+  <div class="page">
+    <div class="header-card">
+      <div class="header-top">
+        <span class="header-label">累计收入</span>
+        <span class="header-amount">¥{{ totalEarned }}</span>
+      </div>
+      <div class="header-stats">
+        <div class="hs-item"><span class="hs-num">¥{{ thisMonthEarn }}</span><span class="hs-lbl">本月收入</span></div>
+        <div class="hs-item"><span class="hs-num">{{ thisMonthCount }}</span><span class="hs-lbl">本月完成</span></div>
+        <div class="hs-item"><span class="hs-num">¥{{ balance }}</span><span class="hs-lbl">可提现</span></div>
+      </div>
       <!-- 排名 -->
-      <view class="rank-badge" v-if="rank && totalTechs">
-        <text class="rank-text">🏆 本月排名 {{ rank }}/{{ totalTechs }}</text>
-      </view>
-    </view>
+      <div class="rank-badge" v-if="rank && totalTechs">
+        <span class="rank-text">🏆 本月排名 {{ rank }}/{{ totalTechs }}</span>
+      </div>
+    </div>
 
-    <view class="action-row">
-      <view class="action-btn" @click="showWithdraw = true">
-        <text class="action-icon">💳</text>
-        <text class="action-text">申请提现</text>
-      </view>
-      <view class="action-btn" @click="loadData()">
-        <text class="action-icon">🔄</text>
-        <text class="action-text">刷新</text>
-      </view>
-    </view>
+    <div class="action-row">
+      <div class="action-btn" @click="showWithdraw = true">
+        <span class="action-icon">💳</span>
+        <span class="action-text">申请提现</span>
+      </div>
+      <div class="action-btn" @click="loadData()">
+        <span class="action-icon">🔄</span>
+        <span class="action-text">刷新</span>
+      </div>
+    </div>
 
-    <view class="section-title">本月收入明细</view>
-    <view v-if="dailyEarns.length === 0" class="empty-state">
-      <view class="empty-circle">💰</view>
-      <text class="empty-text">暂无收入记录</text>
-      <text class="empty-desc">完成工单后将显示在这里</text>
-    </view>
-    <view v-for="(day, i) in dailyEarns" :key="i" class="day-card">
-      <view class="day-header">
-        <text class="day-date">{{ day.date }}</text>
-        <text class="day-total">+¥{{ day.total }}</text>
-      </view>
-      <view v-for="item in day.items" :key="item.id" class="income-item">
-        <view class="ii-left">
-          <text class="ii-service">{{ item.service_item_name || '维修' }}</text>
-          <text class="ii-addr">{{ item.address?.slice(0,20) || '' }}</text>
-        </view>
-        <view class="ii-right">
-          <text :class="'ii-status '+(item.pay_status==='paid'?'paid':'unpaid')">{{ item.pay_status==='paid'?'已付':'未付' }}</text>
-          <text class="ii-amount">+¥{{ item.total_fee || 0 }}</text>
-        </view>
-      </view>
-    </view>
+    <div class="section-title">本月收入明细</div>
+    <div v-if="dailyEarns.length === 0" class="empty-state">
+      <div class="empty-circle">💰</div>
+      <span class="empty-text">暂无收入记录</span>
+      <span class="empty-desc">完成工单后将显示在这里</span>
+    </div>
+    <div v-for="(day, i) in dailyEarns" :key="i" class="day-card">
+      <div class="day-header">
+        <span class="day-date">{{ day.date }}</span>
+        <span class="day-total">+¥{{ day.total }}</span>
+      </div>
+      <div v-for="item in day.items" :key="item.id" class="income-item">
+        <div class="ii-left">
+          <span class="ii-service">{{ item.service_item_name || '维修' }}</span>
+          <span class="ii-addr">{{ item.address?.slice(0,20) || '' }}</span>
+        </div>
+        <div class="ii-right">
+          <span :class="'ii-status '+(item.pay_status==='paid'?'paid':'unpaid')">{{ item.pay_status==='paid'?'已付':'未付' }}</span>
+          <span class="ii-amount">+¥{{ item.total_fee || 0 }}</span>
+        </div>
+      </div>
+    </div>
 
     <!-- 提现弹窗 -->
-    <view class="modal-overlay" v-if="showWithdraw" @click="showWithdraw=false">
-      <view class="modal-box" @click.stop>
-        <view class="modal-title">申请提现</view>
-        <view class="modal-balance">可提现余额：¥{{ balance }}</view>
-        <view class="form-row">
-          <text class="form-label">金额</text>
+    <div class="modal-overlay" v-if="showWithdraw" @click="showWithdraw=false">
+      <div class="modal-box" @click.stop>
+        <div class="modal-title">申请提现</div>
+        <div class="modal-balance">可提现余额：¥{{ balance }}</div>
+        <div class="form-row">
+          <span class="form-label">金额</span>
           <input class="form-input" type="digit" v-model="withdrawAmount" placeholder="输入提现金额" />
-        </view>
-        <view class="form-row">
-          <text class="form-label">方式</text>
+        </div>
+        <div class="form-row">
+          <span class="form-label">方式</span>
           <select :value="withdrawMethod" @change="e=>withdrawMethod=e.target.value" style="flex:1;padding:10px 12px;border:1.5px solid var(--border,#e8e8e8);border-radius:10px;font-size:15px;background:var(--bg-fill,#f8f9fb);color:var(--text-primary)">
             <option v-for="m in withdrawMethods" :key="m" :value="m">{{ m }}</option>
           </select>
-        </view>
-        <view class="modal-actions">
+        </div>
+        <div class="modal-actions">
           <button class="mbtn cancel" @click="showWithdraw=false">取消</button>
           <button class="mbtn confirm" @click="doWithdraw">确认提现</button>
-        </view>
-      </view>
-    </view>
-  </view>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
