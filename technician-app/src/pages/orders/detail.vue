@@ -246,11 +246,15 @@
           <view class="schedule-header">📅 预约上门时间</view>
           <view class="schedule-row">
             <text class="schedule-label">日期</text>
-            <input type="date" :value="pickerDate" @change="e=>pickerDate=e.target.value" style="flex:1;padding:8px 12px;border:1px solid var(--border,#e8e8e8);border-radius:8px;font-size:15px" />
+            <picker mode="date" :value="pickerDate" @change="e=>pickerDate=e.detail.value" class="schedule-picker">
+              <text class="schedule-val">{{ pickerDate || '选择日期' }}</text>
+            </picker>
           </view>
           <view class="schedule-row">
             <text class="schedule-label">时间</text>
-            <input type="time" :value="pickerTime" @change="e=>pickerTime=e.target.value" style="flex:1;padding:8px 12px;border:1px solid var(--border,#e8e8e8);border-radius:8px;font-size:15px" />
+            <picker mode="time" :value="pickerTime" @change="e=>pickerTime=e.detail.value" class="schedule-picker">
+              <text class="schedule-val">{{ pickerTime || '选择时间' }}</text>
+            </picker>
           </view>
           <view class="schedule-actions">
             <button class="schedule-btn schedule-cancel" @click="showDatePicker=false">取消</button>
@@ -296,10 +300,9 @@
         <view class="rmodal" @click.stop>
           <view class="rate-title">申请取消工单</view>
           <text class="reject-hint">说明取消原因，管理员审核后将重新派单</text>
-          <select :value="rejectReasonIndex" @change="e=>{const i=parseInt(e.target.value);rejectReasonIndex=i;rejectReason=rejectReasons[i]}" style="width:100%;margin-bottom:12px;padding:10px 12px;border:1.5px solid var(--border,#e8e8e8);border-radius:10px;font-size:15px;background:var(--bg-fill,#f8f9fb)">
-            <option value="-1" disabled>请选择原因</option>
-            <option v-for="(r,i) in rejectReasons" :key="i" :value="i">{{ r }}</option>
-          </select>
+          <picker :value="rejectReasonIndex" :range="rejectReasons" @change="e=>{rejectReasonIndex=e.detail.value;rejectReason=rejectReasons[e.detail.value]}" style="width:100%;margin-bottom:12px">
+            <view class="reject-picker">{{ rejectReason || '请选择原因' }}</view>
+          </picker>
           <input class="rate-input" type="text" v-model="rejectReason" placeholder="或手动输入原因..." />
           <view class="rate-actions">
             <button class="rate-btn rate-skip" @click="showReject=false">再想想</button>

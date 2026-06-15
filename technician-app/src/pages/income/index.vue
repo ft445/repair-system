@@ -61,9 +61,9 @@
         </view>
         <view class="form-row">
           <text class="form-label">方式</text>
-          <select :value="withdrawMethod" @change="e=>withdrawMethod=e.target.value" style="flex:1;padding:10px 12px;border:1.5px solid var(--border,#e8e8e8);border-radius:10px;font-size:15px;background:var(--bg-fill,#f8f9fb);color:var(--text-primary)">
-            <option v-for="m in withdrawMethods" :key="m" :value="m">{{ m }}</option>
-          </select>
+          <picker :value="withdrawMethod" :range="withdrawMethods" @change="e=>withdrawMethod=withdrawMethods[e.detail.value]" style="flex:1">
+            <view class="form-input form-picker">{{ withdrawMethod }}</view>
+          </picker>
         </view>
         <view class="modal-actions">
           <button class="mbtn cancel" @click="showWithdraw=false">取消</button>
