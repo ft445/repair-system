@@ -218,9 +218,10 @@
             <button class="action-btn action-blue" @click="callCustomer" v-if="!contacted">联系客户</button>
             <template v-if="contacted && !verified">
               <button class="action-btn action-primary" @click="showDatePicker=true" v-if="!order.appointment_time">📅 预约上门时间</button>
-              <view class="action-schedule" v-if="order.appointment_time">
-                <text>📅 {{ order.appointment_time.slice(5,10) }} {{ order.appointment_time.slice(11,16) }} 上门</text>
-                <text class="action-reschedule" @click="showDatePicker=true">改期</text>
+              <view class="action-schedule" v-if="order.appointment_time" @click="goToDoor">
+                <text v-if="isToday(order.appointment_time)">🚪 上门服务</text>
+                <text v-else>📅 {{ order.appointment_time.slice(5,10) }} {{ order.appointment_time.slice(11,16) }} 上门</text>
+                <text class="action-reschedule" @click.stop="showDatePicker=true">改期</text>
               </view>
               <button class="action-btn action-primary" @click="goToDoor">📍 我已到达</button>
             </template>
@@ -445,6 +446,12 @@ export default {
       uni.showModal({ title:'发送短信', content:`向 ${phone.slice(0,3)}****${phone.slice(-4)} 发送短信？`, success: (r) => { if (r.confirm && typeof plus !== 'undefined') { plus.runtime.openURL('sms:' + phone) } } })
     },
     goToDoor() { this.showVerify = true },
+    isToday(t) {
+      if (!t) return false
+      const today = new Date()
+      const d = new Date(t)
+      return d.getFullYear() === today.getFullYear() && d.getMonth() === today.getMonth() && d.getDate() === today.getDate()
+    },
     confirmSchedule() {
       if (!this.pickerDate) { uni.showToast({ title:'请选择日期', icon:'none' }); return }
       const t = this.pickerTime || '09:00'
