@@ -60,12 +60,12 @@ import api from '../../api'
 export default {
   data() {
     return {
-      tabs: [{key:'',label:'全部'},{key:'pending',label:'待接单'},{key:'in_progress',label:'进行中'},{key:'completed',label:'已完成'}],
+      tabs: [{key:'',label:'全部'},{key:'pending',label:'待接单'},{key:'in_progress',label:'进行中'},{key:'review',label:'待审核'},{key:'completed',label:'已完成'}],
       activeTab: '', orders: [], loading: false, loadingMore: false, user: null, _reqId: 0,
       page: 1, pageSize: 20, hasMore: true, totalCount: 0,
-      emptyIcons: {'':'📋',pending:'📭',in_progress:'🔧',completed:'✅'},
-      emptyTitles: {'':'暂无工单',pending:'暂无待接单',in_progress:'暂无进行中',completed:'暂无已完成'},
-      emptyDescs: {'':'有新工单时会在这里显示',pending:'请关注新订单通知',in_progress:'接单后开始维修会显示在这里',completed:'完成的工单会显示在这里'}
+      emptyIcons: {'':'📋',pending:'📭',in_progress:'🔧',review:'⏳',completed:'✅'},
+      emptyTitles: {'':'暂无工单',pending:'暂无待接单',in_progress:'暂无进行中',review:'暂无待审核',completed:'暂无已完成'},
+      emptyDescs: {'':'有新工单时会在这里显示',pending:'请关注新订单通知',in_progress:'接单后开始维修会显示在这里',review:'取消申请会显示在这里',completed:'完成的工单会显示在这里'}
     }
   },
   onLoad(query) {
@@ -83,14 +83,14 @@ export default {
   onPullDownRefresh() { this.loadOrders(true).then(() => uni.stopPullDownRefresh()) },
   methods: {
     serviceIcon(t) { return t==='维修'?'🔧':t==='安装'?'🔩':t==='清洗'?'🧹':'🔨' },
-    statusLabel(s) { const m={pending:'待接单',dispatched:'已派单',accepted:'已接单',in_progress:'进行中',completed:'已完成',paid:'已付款',done:'已完成',cancelled:'已取消'}; return m[s]||s },
+    statusLabel(s) { const m={pending:'待接单',dispatched:'已派单',accepted:'已接单',in_progress:'进行中',completed:'已完成',paid:'已付款',done:'已完成',cancelled:'已取消',CANCEL_PENDING:'待审核'}; return m[s]||s },
     switchTab(k) { this.activeTab = k; this.loadOrders(true) },
     async loadOrders(reset) {
       const reqId = ++this._reqId
       if (reset) { this.page = 1; this.hasMore = true; this.loading = true; this.orders = [] }
       else { this.loadingMore = true }
       try {
-        const statusMap = { 'pending': 'dispatched', 'in_progress': 'in_progress', 'completed': 'completed' }
+        const statusMap = { 'pending': 'dispatched', 'in_progress': 'in_progress', 'review': 'CANCEL_PENDING', 'completed': 'completed' }
         const filterStatus = statusMap[this.activeTab] || undefined
         const res = await api.getMyOrdersPaginated(this.user.id, {
           page: this.page, pageSize: this.pageSize, status: filterStatus,
