@@ -1,34 +1,34 @@
 <template>
-  <div class="page">
-    <div class="form-section">
-      <div class="form-row">
-        <span class="form-label">姓名</span>
+  <view class="page">
+    <view class="form-section">
+      <view class="form-row">
+        <text class="form-label">姓名</text>
         <input class="form-input" v-model="form.name" placeholder="请输入姓名" />
-      </div>
-      <div class="form-row">
-        <span class="form-label">手机号</span>
+      </view>
+      <view class="form-row">
+        <text class="form-label">手机号</text>
         <input class="form-input" v-model="form.phone" placeholder="请输入手机号" type="number" maxlength="11" />
-      </div>
-      <div class="form-row">
-        <span class="form-label">住址</span>
+      </view>
+      <view class="form-row">
+        <text class="form-label">住址</text>
         <input class="form-input" v-model="form.address" placeholder="请输入住址" />
-      </div>
-      <div class="form-row">
-        <span class="form-label">身份证</span>
+      </view>
+      <view class="form-row">
+        <text class="form-label">身份证</text>
         <input class="form-input" v-model="form.id_card" placeholder="请输入身份证号" disabled style="color:#999" />
-      </div>
-      <div class="form-row">
-        <span class="form-label">紧急联系人</span>
+      </view>
+      <view class="form-row">
+        <text class="form-label">紧急联系人</text>
         <input class="form-input" v-model="form.emergency_contact" placeholder="请输入紧急联系人姓名" />
-      </div>
-      <div class="form-row">
-        <span class="form-label">紧急电话</span>
+      </view>
+      <view class="form-row">
+        <text class="form-label">紧急电话</text>
         <input class="form-input" v-model="form.emergency_phone" placeholder="请输入紧急联系电话" type="number" />
-      </div>
-    </div>
+      </view>
+    </view>
 
     <button class="save-btn" @click="saveProfile">保存修改</button>
-  </div>
+  </view>
 </template>
 
 <script>

@@ -1,188 +1,188 @@
 <template>
-  <div class="page">
+  <view class="page">
     <!-- ===== 骨架屏 ===== -->
-    <div v-if="loading" class="main-content">
-      <div class="skeleton-card" style="border-radius:var(--radius-xl);padding:24px 20px;min-height:120px">
-        <div class="skeleton-line w40"></div>
-        <div class="skeleton-line w60 h48" style="margin:8px 0"></div>
-        <div style="display:flex;gap:10px;margin-top:12px">
-          <div class="skeleton-block" style="flex:1;height:50px"></div>
-          <div class="skeleton-block" style="flex:1;height:50px"></div>
-          <div class="skeleton-block" style="flex:1;height:50px"></div>
-        </div>
-      </div>
-      <div class="skeleton-card" style="height:80px;display:flex;gap:8px;padding:12px">
-        <div class="skeleton-block" style="flex:1;height:56px"></div>
-        <div class="skeleton-block" style="flex:1;height:56px"></div>
-        <div class="skeleton-block" style="flex:1;height:56px"></div>
-        <div class="skeleton-block" style="flex:1;height:56px"></div>
-      </div>
-    </div>
+    <view v-if="loading" class="main-content">
+      <view class="skeleton-card" style="border-radius:var(--radius-xl);padding:24px 20px;min-height:120px">
+        <view class="skeleton-line w40"></view>
+        <view class="skeleton-line w60 h48" style="margin:8px 0"></view>
+        <view style="display:flex;gap:10px;margin-top:12px">
+          <view class="skeleton-block" style="flex:1;height:50px"></view>
+          <view class="skeleton-block" style="flex:1;height:50px"></view>
+          <view class="skeleton-block" style="flex:1;height:50px"></view>
+        </view>
+      </view>
+      <view class="skeleton-card" style="height:80px;display:flex;gap:8px;padding:12px">
+        <view class="skeleton-block" style="flex:1;height:56px"></view>
+        <view class="skeleton-block" style="flex:1;height:56px"></view>
+        <view class="skeleton-block" style="flex:1;height:56px"></view>
+        <view class="skeleton-block" style="flex:1;height:56px"></view>
+      </view>
+    </view>
 
-    <div v-else class="main-content">
+    <view v-else class="main-content">
       <!-- ===== 头部：问候 + 打卡 ===== -->
-      <div class="header">
-        <div>
-          <div class="header-top">
-            <span class="h-greeting">{{ greeting }}</span>
-            <div class="bell-wrap" @click="goNotifications">
-              <span class="bell-icon">🔔</span>
-              <div class="bell-badge" v-if="unreadCount > 0">{{ unreadCount > 99 ? '99+' : unreadCount }}</div>
-            </div>
-          </div>
-          <span class="h-date">{{ todayStr }}</span>
-        </div>
-        <div :class="'clock-btn '+(clockedIn?'clocked-in':'')" @click="toggleClock">
-          <div class="clock-inner">
-            <div :class="'clock-dot '+(clockedIn?'dot-on':'')"></div>
-            <span class="clock-text">{{ clockedIn?'已打卡':'上班打卡' }}</span>
-          </div>
-        </div>
-      </div>
+      <view class="header">
+        <view>
+          <view class="header-top">
+            <text class="h-greeting">{{ greeting }}</text>
+            <view class="bell-wrap" @click="goNotifications">
+              <text class="bell-icon">🔔</text>
+              <view class="bell-badge" v-if="unreadCount > 0">{{ unreadCount > 99 ? '99+' : unreadCount }}</view>
+            </view>
+          </view>
+          <text class="h-date">{{ todayStr }}</text>
+        </view>
+        <view :class="'clock-btn '+(clockedIn?'clocked-in':'')" @click="toggleClock">
+          <view class="clock-inner">
+            <view :class="'clock-dot '+(clockedIn?'dot-on':'')"></view>
+            <text class="clock-text">{{ clockedIn?'已打卡':'上班打卡' }}</text>
+          </view>
+        </view>
+      </view>
 
       <!-- ===== 收入卡 ===== -->
-      <div class="income-card" @click="goTab('/pages/income/index')">
-        <div class="ic-deco"></div>
-        <div class="ic-top">
-          <div>
-            <span class="ic-label">今日收入</span>
-            <span class="ic-amount">¥{{ todayEarn }}</span>
-          </div>
-          <div class="ic-badge">{{ clockedIn?'已接单':'未打卡' }}</div>
-        </div>
-        <div class="ic-bar">
-          <div class="ic-item">
-            <span class="ic-num">¥{{ monthEarn.toLocaleString() }}</span>
-            <span class="ic-lbl">本月收入</span>
-          </div>
-          <div class="ic-vline"></div>
-          <div class="ic-item">
-            <span class="ic-num">{{ monthOrders }}</span>
-            <span class="ic-lbl">本月工单</span>
-          </div>
-          <div class="ic-vline"></div>
-          <div class="ic-item">
-            <span class="ic-num">{{ stats.completed }}</span>
-            <span class="ic-lbl">已完成</span>
-          </div>
-        </div>
-      </div>
+      <view class="income-card" @click="goTab('/pages/income/index')">
+        <view class="ic-deco"></view>
+        <view class="ic-top">
+          <view>
+            <text class="ic-label">今日收入</text>
+            <text class="ic-amount">¥{{ todayEarn }}</text>
+          </view>
+          <view class="ic-badge">{{ clockedIn?'已接单':'未打卡' }}</view>
+        </view>
+        <view class="ic-bar">
+          <view class="ic-item">
+            <text class="ic-num">¥{{ monthEarn.toLocaleString() }}</text>
+            <text class="ic-lbl">本月收入</text>
+          </view>
+          <view class="ic-vline"></view>
+          <view class="ic-item">
+            <text class="ic-num">{{ monthOrders }}</text>
+            <text class="ic-lbl">本月工单</text>
+          </view>
+          <view class="ic-vline"></view>
+          <view class="ic-item">
+            <text class="ic-num">{{ stats.completed }}</text>
+            <text class="ic-lbl">已完成</text>
+          </view>
+        </view>
+      </view>
 
       <!-- ===== 工单状态 ===== -->
-      <div class="section-hd">
-        <span class="sh-title">📋 工单状态</span>
-        <span class="sh-action" @click="goOrders()">全部 ›</span>
-      </div>
-      <div class="stat-grid">
-        <div class="stat-card" @click="openTasks('dispatched')">
-          <span class="sc-num">{{ stats.pending }}</span>
-          <span class="sc-label">待接单</span>
-        </div>
-        <div class="stat-card" @click="openTasks('accepted')">
-          <span class="sc-num">{{ stats.accepted }}</span>
-          <span class="sc-label">已接单</span>
-        </div>
-        <div class="stat-card" @click="openTasks('in_progress')">
-          <span class="sc-num">{{ stats.inProgress }}</span>
-          <span class="sc-label">进行中</span>
-        </div>
-        <div class="stat-card" @click="openTasks('grab')">
-          <span class="sc-num" style="color:#ff4d4f">{{ nearbyCount }}</span>
-          <span class="sc-label" style="color:#ff4d4f">抢单大厅</span>
-        </div>
-      </div>
+      <view class="section-hd">
+        <text class="sh-title">📋 工单状态</text>
+        <text class="sh-action" @click="goOrders()">全部 ›</text>
+      </view>
+      <view class="stat-grid">
+        <view class="stat-card" @click="openTasks('dispatched')">
+          <text class="sc-num">{{ stats.pending }}</text>
+          <text class="sc-label">待接单</text>
+        </view>
+        <view class="stat-card" @click="openTasks('accepted')">
+          <text class="sc-num">{{ stats.accepted }}</text>
+          <text class="sc-label">已接单</text>
+        </view>
+        <view class="stat-card" @click="openTasks('in_progress')">
+          <text class="sc-num">{{ stats.inProgress }}</text>
+          <text class="sc-label">进行中</text>
+        </view>
+        <view class="stat-card" @click="openTasks('grab')">
+          <text class="sc-num" style="color:#ff4d4f">{{ nearbyCount }}</text>
+          <text class="sc-label" style="color:#ff4d4f">抢单大厅</text>
+        </view>
+      </view>
 
       <!-- ===== 快捷概览 ===== -->
-      <div class="section-hd">
-        <span class="sh-title">📊 快捷概览</span>
-        <span class="sh-action" @click="goOrders()">全部工单 ›</span>
-      </div>
-      <div class="stat-grid">
-        <div class="stat-card" @click="openTasks('today')">
-          <span class="sc-num">{{ todayCount }}</span>
-          <span class="sc-label">今日上门</span>
-        </div>
-        <div class="stat-card" @click="openTasks('tomorrow')">
-          <span class="sc-num">{{ tomorrowCount }}</span>
-          <span class="sc-label">明日上门</span>
-        </div>
-        <div class="stat-card" @click="openTasks('pending')">
-          <span class="sc-num">{{ pendingCancelOrders.length }}</span>
-          <span class="sc-label">待审核</span>
-        </div>
-        <div class="stat-card" @click="openTasks('month')">
-          <span class="sc-num">{{ monthOrders }}</span>
-          <span class="sc-label">本月工单</span>
-        </div>
-      </div>
+      <view class="section-hd">
+        <text class="sh-title">📊 快捷概览</text>
+        <text class="sh-action" @click="goOrders()">全部工单 ›</text>
+      </view>
+      <view class="stat-grid">
+        <view class="stat-card" @click="openTasks('today')">
+          <text class="sc-num">{{ todayCount }}</text>
+          <text class="sc-label">今日上门</text>
+        </view>
+        <view class="stat-card" @click="openTasks('tomorrow')">
+          <text class="sc-num">{{ tomorrowCount }}</text>
+          <text class="sc-label">明日上门</text>
+        </view>
+        <view class="stat-card" @click="openTasks('pending')">
+          <text class="sc-num">{{ pendingCancelOrders.length }}</text>
+          <text class="sc-label">待审核</text>
+        </view>
+        <view class="stat-card" @click="openTasks('month')">
+          <text class="sc-num">{{ monthOrders }}</text>
+          <text class="sc-label">本月工单</text>
+        </view>
+      </view>
 
       <!-- ===== 快捷操作 ===== -->
-      <div class="section-hd"><span class="sh-title">⚡ 快捷操作</span></div>
-      <div class="stat-grid">
-        <div class="stat-card" @click="scanCode">
-          <div class="sc-icon">📷</div>
-          <span class="sc-label">扫单接单</span>
-        </div>
-        <div class="stat-card" @click="callService">
-          <div class="sc-icon">📞</div>
-          <span class="sc-label">联系客服</span>
-        </div>
-        <div class="stat-card" @click="openTasks('today')">
-          <div class="sc-icon">📋</div>
-          <span class="sc-label">今日行程</span>
-        </div>
-        <div class="stat-card" @click="jump('/pages/schedule/index')">
-          <div class="sc-icon">📅</div>
-          <span class="sc-label">工作日程</span>
-        </div>
-      </div>
+      <view class="section-hd"><text class="sh-title">⚡ 快捷操作</text></view>
+      <view class="stat-grid">
+        <view class="stat-card" @click="scanCode">
+          <view class="sc-icon">📷</view>
+          <text class="sc-label">扫单接单</text>
+        </view>
+        <view class="stat-card" @click="callService">
+          <view class="sc-icon">📞</view>
+          <text class="sc-label">联系客服</text>
+        </view>
+        <view class="stat-card" @click="openTasks('today')">
+          <view class="sc-icon">📋</view>
+          <text class="sc-label">今日行程</text>
+        </view>
+        <view class="stat-card" @click="jump('/pages/schedule/index')">
+          <view class="sc-icon">📅</view>
+          <text class="sc-label">工作日程</text>
+        </view>
+      </view>
 
       <!-- ===== 待审核提醒 ===== -->
-      <div class="warn-bar" v-if="pendingCancelOrders.length" @click="goOrders()">
-        <div class="warn-icon">!</div>
-        <span class="warn-text">{{ pendingCancelOrders.length }} 个订单等待平台审核</span>
-        <span class="warn-action">查看 ›</span>
-      </div>
+      <view class="warn-bar" v-if="pendingCancelOrders.length" @click="goOrders()">
+        <view class="warn-icon">!</view>
+        <text class="warn-text">{{ pendingCancelOrders.length }} 个订单等待平台审核</text>
+        <text class="warn-action">查看 ›</text>
+      </view>
 
       <!-- ===== 按日期分组的工单列表（横向滚动） ===== -->
       <template v-if="dateGroups.length">
-        <div v-for="(group, gi) in dateGroups" :key="gi" class="date-group">
+        <view v-for="(group, gi) in dateGroups" :key="gi" class="date-group">
           <!-- 日期头 -->
-          <div class="section-hd">
-            <span class="sh-title">{{ group.label }}</span>
-            <span class="sh-action">{{ group.orders.length }}个 ›</span>
-          </div>
+          <view class="section-hd">
+            <text class="sh-title">{{ group.label }}</text>
+            <text class="sh-action">{{ group.orders.length }}个 ›</text>
+          </view>
           <!-- 横向滚动卡片容器 — 【修复1：flex + overflow-x:auto + nowrap】 -->
-          <div class="order-scroll">
-            <div v-for="item in group.orders" :key="item.id" class="h-order-card" @click="goDetail(item.id)">
-              <div class="hoc-top">
-                <div class="hoc-time">
-                  <span class="hoc-time-num">{{ timeNum(item.appointment_time) }}</span>
-                  <span class="hoc-time-unit">{{ timeUnit(item.appointment_time) }}</span>
-                </div>
-                <span :class="'hoc-badge ' + item.status">{{ statusTxt(item.status) }}</span>
-              </div>
-              <div class="hoc-title">{{ item.service_item_name || '维修' }}</div>
-              <div class="hoc-addr">📍 {{ item.address?.slice(0, 20) || '地址待确认' }}</div>
-              <div class="hoc-footer">
-                <span class="hoc-customer">{{ item.customer_name || '客户' }}</span>
-                <span v-if="item.total_fee" class="hoc-fee">¥{{ item.total_fee }}</span>
-              </div>
-            </div>
-          </div>
-        </div>
+          <view class="order-scroll">
+            <view v-for="item in group.orders" :key="item.id" class="h-order-card" @click="goDetail(item.id)">
+              <view class="hoc-top">
+                <view class="hoc-time">
+                  <text class="hoc-time-num">{{ timeNum(item.appointment_time) }}</text>
+                  <text class="hoc-time-unit">{{ timeUnit(item.appointment_time) }}</text>
+                </view>
+                <text :class="'hoc-badge ' + item.status">{{ statusTxt(item.status) }}</text>
+              </view>
+              <view class="hoc-title">{{ item.service_item_name || '维修' }}</view>
+              <view class="hoc-addr">📍 {{ item.address?.slice(0, 20) || '地址待确认' }}</view>
+              <view class="hoc-footer">
+                <text class="hoc-customer">{{ item.customer_name || '客户' }}</text>
+                <text v-if="item.total_fee" class="hoc-fee">¥{{ item.total_fee }}</text>
+              </view>
+            </view>
+          </view>
+        </view>
       </template>
 
       <!-- ===== 空状态 ===== -->
-      <div v-if="!dateGroups.length && !loading" class="empty-section">
-        <div class="empty-icon">🛠️</div>
-        <span class="empty-title">暂无待办工单</span>
-        <span class="empty-desc">当有新工单时会通知您</span>
-      </div>
+      <view v-if="!dateGroups.length && !loading" class="empty-section">
+        <view class="empty-icon">🛠️</view>
+        <text class="empty-title">暂无待办工单</text>
+        <text class="empty-desc">当有新工单时会通知您</text>
+      </view>
 
-      <div class="bottom-spacer"></div>
-    </div>
-  </div>
+      <view class="bottom-spacer"></view>
+    </view>
+  </view>
 </template>
 
 <script>

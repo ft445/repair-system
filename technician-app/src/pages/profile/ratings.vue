@@ -1,46 +1,46 @@
 <template>
-  <div class="page">
-    <div class="summary-bar">
-      <div class="summary-item">
-        <span class="summary-num">{{ ratings.length }}</span>
-        <span class="summary-lbl">评价数</span>
-      </div>
-      <div class="summary-item">
-        <span class="summary-num">{{ avgRating }}</span>
-        <span class="summary-lbl">平均评分</span>
-      </div>
-      <div class="summary-item">
-        <span class="summary-num">{{ starDistribution }}</span>
-        <span class="summary-lbl">好评率</span>
-      </div>
-    </div>
+  <view class="page">
+    <view class="summary-bar">
+      <view class="summary-item">
+        <text class="summary-num">{{ ratings.length }}</text>
+        <text class="summary-lbl">评价数</text>
+      </view>
+      <view class="summary-item">
+        <text class="summary-num">{{ avgRating }}</text>
+        <text class="summary-lbl">平均评分</text>
+      </view>
+      <view class="summary-item">
+        <text class="summary-num">{{ starDistribution }}</text>
+        <text class="summary-lbl">好评率</text>
+      </view>
+    </view>
 
-    <div v-if="loading" class="loading-wrap">
-      <div class="loading-icon">⏳</div>
-      <span class="loading-text">加载中...</span>
-    </div>
+    <view v-if="loading" class="loading-wrap">
+      <view class="loading-icon">⏳</view>
+      <text class="loading-text">加载中...</text>
+    </view>
 
-    <div v-else-if="ratings.length === 0" class="empty-state">
-      <div class="empty-icon">⭐</div>
-      <span class="empty-title">暂无评价</span>
-      <span class="empty-desc">完成工单后会显示客户评价</span>
-    </div>
+    <view v-else-if="ratings.length === 0" class="empty-state">
+      <view class="empty-icon">⭐</view>
+      <text class="empty-title">暂无评价</text>
+      <text class="empty-desc">完成工单后会显示客户评价</text>
+    </view>
 
-    <div v-else class="list-wrap">
-      <div v-for="item in ratings" :key="item.id" class="rating-card">
-        <div class="rc-header">
-          <span class="rc-customer">{{ item.customer_name || '客户' }}</span>
-          <span class="rc-stars">{{ '⭐'.repeat(item.rating || 0) }}</span>
-        </div>
-        <span class="rc-comment" v-if="item.comment">{{ item.comment }}</span>
-        <span class="rc-comment rc-no-comment" v-else>该客户未留下文字评价</span>
-        <div class="rc-footer">
-          <span class="rc-service">{{ item.service_item_name || '维修' }}</span>
-          <span class="rc-date">{{ formatTime(item.completed_at || item.created_at) }}</span>
-        </div>
-      </div>
-    </div>
-  </div>
+    <view v-else class="list-wrap">
+      <view v-for="item in ratings" :key="item.id" class="rating-card">
+        <view class="rc-header">
+          <text class="rc-customer">{{ item.customer_name || '客户' }}</text>
+          <text class="rc-stars">{{ '⭐'.repeat(item.rating || 0) }}</text>
+        </view>
+        <text class="rc-comment" v-if="item.comment">{{ item.comment }}</text>
+        <text class="rc-comment rc-no-comment" v-else>该客户未留下文字评价</text>
+        <view class="rc-footer">
+          <text class="rc-service">{{ item.service_item_name || '维修' }}</text>
+          <text class="rc-date">{{ formatTime(item.completed_at || item.created_at) }}</text>
+        </view>
+      </view>
+    </view>
+  </view>
 </template>
 
 <script>

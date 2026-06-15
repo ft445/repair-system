@@ -1,227 +1,227 @@
 <template>
-  <div class="page">
+  <view class="page">
     <!-- Skeleton -->
-    <div v-if="loading" class="skeleton-wrap">
-      <div class="skeleton-card" style="height:70px;display:flex;gap:12px;padding:16px;align-items:center">
-        <div class="skeleton-block" style="width:40px;height:40px;border-radius:50%;flex-shrink:0"></div>
-        <div style="flex:1"><div class="skeleton-line w60"></div><div class="skeleton-line w40"></div></div>
-      </div>
-      <div class="skeleton-card" style="height:120px"><div class="skeleton-line w40"></div><div class="skeleton-line w80"></div><div class="skeleton-line w60"></div></div>
-      <div class="skeleton-card" style="height:80px"><div class="skeleton-line w40"></div><div class="skeleton-line w80 h32"></div></div>
-    </div>
+    <view v-if="loading" class="skeleton-wrap">
+      <view class="skeleton-card" style="height:70px;display:flex;gap:12px;padding:16px;align-items:center">
+        <view class="skeleton-block" style="width:40px;height:40px;border-radius:50%;flex-shrink:0"></view>
+        <view style="flex:1"><view class="skeleton-line w60"></view><view class="skeleton-line w40"></view></view>
+      </view>
+      <view class="skeleton-card" style="height:120px"><view class="skeleton-line w40"></view><view class="skeleton-line w80"></view><view class="skeleton-line w60"></view></view>
+      <view class="skeleton-card" style="height:80px"><view class="skeleton-line w40"></view><view class="skeleton-line w80 h32"></view></view>
+    </view>
 
-    <div v-else-if="order" class="detail-wrap">
+    <view v-else-if="order" class="detail-wrap">
       <!-- Status Header -->
-      <div class="status-header" :class="order.status">
-        <div class="status-left">
-          <div class="status-icon-circle">{{ statusIcon(order.status) }}</div>
-          <div>
-            <span class="status-title">{{ statusLabel(order.status) }}</span>
-            <span class="order-no">单号: {{ order.order_no }}</span>
-            <span class="copy-btn" @click="copyText(order.order_no,'工单号')">复制单号</span>
-          </div>
-        </div>
-        <span class="status-time">{{ order.created_at ? parseInt(order.created_at.slice(5,7))+'月'+parseInt(order.created_at.slice(8,10))+'日 '+order.created_at.slice(11,16) : '' }}</span>
-      </div>
+      <view class="status-header" :class="order.status">
+        <view class="status-left">
+          <view class="status-icon-circle">{{ statusIcon(order.status) }}</view>
+          <view>
+            <text class="status-title">{{ statusLabel(order.status) }}</text>
+            <text class="order-no">单号: {{ order.order_no }}</text>
+            <text class="copy-btn" @click="copyText(order.order_no,'工单号')">复制单号</text>
+          </view>
+        </view>
+        <text class="status-time">{{ order.created_at ? parseInt(order.created_at.slice(5,7))+'月'+parseInt(order.created_at.slice(8,10))+'日 '+order.created_at.slice(11,16) : '' }}</text>
+      </view>
 
       <!-- Order Timeline -->
-      <div class="timeline-wrap" v-if="showTimeline">
-        <div class="tl-step" v-for="(s,i) in timelineSteps" :key="i" :class="s.done?'tl-done':'tl-pending'">
-          <div class="tl-dot"></div>
-          <span class="tl-label">{{ s.label }}</span>
-          <div class="tl-line" v-if="i < timelineSteps.length-1" :class="s.done?'tl-line-done':''"></div>
-        </div>
-      </div>
+      <view class="timeline-wrap" v-if="showTimeline">
+        <view class="tl-step" v-for="(s,i) in timelineSteps" :key="i" :class="s.done?'tl-done':'tl-pending'">
+          <view class="tl-dot"></view>
+          <text class="tl-label">{{ s.label }}</text>
+          <view class="tl-line" v-if="i < timelineSteps.length-1" :class="s.done?'tl-line-done':''"></view>
+        </view>
+      </view>
 
       <!-- Customer Info -->
-      <div class="customer-card">
-        <div class="cc-top">
-          <div class="cc-avatar">{{ (order.customer_name||'客').charAt(0) }}</div>
-          <div class="cc-info">
-            <span class="cc-name">{{ order.customer_name||'客户' }}</span>
-            <span class="cc-phone">{{ order.customer_phone ? order.customer_phone.slice(0,3)+'****'+order.customer_phone.slice(-4) : '' }}</span>
-          </div>
-          <div class="cc-actions">
-            <div class="cc-icon" @click="callCustomer">📞</div>
-            <div class="cc-icon" @click="smsCustomer">💬</div>
-          </div>
-        </div>
-        <div class="cc-divider"></div>
-        <div class="cc-row">
-          <div class="cc-r-icon">📍</div>
-          <span class="cc-r-text">{{ order.address||'待确认' }}</span>
-          <span class="cc-action-text" @click="copyText(order.address,'地址')">复制</span>
-          <div class="cc-nav-btn" @click="openMap('amap')">导航</div>
-        </div>
-        <div class="cc-row" v-if="order.appointment_time">
-          <div class="cc-r-icon">📅</div>
-          <span class="cc-r-text">预约 {{ (order.appointment_time||'').replace('T',' ').slice(0,16) }}</span>
-        </div>
-        <div class="cc-row" v-else>
-          <div class="cc-r-icon">🕐</div>
-          <span class="cc-r-text">{{ order.created_at ? order.created_at.slice(0,10)+' '+order.created_at.slice(11,16) : '' }}</span>
-        </div>
-      </div>
+      <view class="customer-card">
+        <view class="cc-top">
+          <view class="cc-avatar">{{ (order.customer_name||'客').charAt(0) }}</view>
+          <view class="cc-info">
+            <text class="cc-name">{{ order.customer_name||'客户' }}</text>
+            <text class="cc-phone">{{ order.customer_phone ? order.customer_phone.slice(0,3)+'****'+order.customer_phone.slice(-4) : '' }}</text>
+          </view>
+          <view class="cc-actions">
+            <view class="cc-icon" @click="callCustomer">📞</view>
+            <view class="cc-icon" @click="smsCustomer">💬</view>
+          </view>
+        </view>
+        <view class="cc-divider"></view>
+        <view class="cc-row">
+          <view class="cc-r-icon">📍</view>
+          <text class="cc-r-text">{{ order.address||'待确认' }}</text>
+          <text class="cc-action-text" @click="copyText(order.address,'地址')">复制</text>
+          <view class="cc-nav-btn" @click="openMap('amap')">导航</view>
+        </view>
+        <view class="cc-row" v-if="order.appointment_time">
+          <view class="cc-r-icon">📅</view>
+          <text class="cc-r-text">预约 {{ (order.appointment_time||'').replace('T',' ').slice(0,16) }}</text>
+        </view>
+        <view class="cc-row" v-else>
+          <view class="cc-r-icon">🕐</view>
+          <text class="cc-r-text">{{ order.created_at ? order.created_at.slice(0,10)+' '+order.created_at.slice(11,16) : '' }}</text>
+        </view>
+      </view>
 
       <!-- 客户历史 -->
-      <div class="section-card" v-if="customerHistory.length">
-        <div class="section-title">
-          <span>客户历史</span>
-          <span class="section-badge">{{ customerHistory.length }}次服务</span>
-        </div>
-        <div v-for="(h, i) in customerHistory.slice(0, 5)" :key="h.id" class="history-item" @click="goDetail(h.id)">
-          <div class="hi-header">
-            <span class="hi-time">{{ h.created_at ? h.created_at.slice(0,10) : '' }}</span>
-            <span :class="'hi-status ' + h.status">{{ statusLabel(h.status) }}</span>
-          </div>
-          <span class="hi-service">{{ h.service_item_name || '维修' }}</span>
-          <span class="hi-fee" v-if="h.total_fee">¥{{ h.total_fee }}</span>
-        </div>
-      </div>
+      <view class="section-card" v-if="customerHistory.length">
+        <view class="section-title">
+          <text>客户历史</text>
+          <text class="section-badge">{{ customerHistory.length }}次服务</text>
+        </view>
+        <view v-for="(h, i) in customerHistory.slice(0, 5)" :key="h.id" class="history-item" @click="goDetail(h.id)">
+          <view class="hi-header">
+            <text class="hi-time">{{ h.created_at ? h.created_at.slice(0,10) : '' }}</text>
+            <text :class="'hi-status ' + h.status">{{ statusLabel(h.status) }}</text>
+          </view>
+          <text class="hi-service">{{ h.service_item_name || '维修' }}</text>
+          <text class="hi-fee" v-if="h.total_fee">¥{{ h.total_fee }}</text>
+        </view>
+      </view>
 
       <!-- Service Info -->
-      <div class="section-card">
-        <div class="section-title">服务信息</div>
-        <div class="detail-row">
-          <span class="detail-label">服务项目</span>
-          <span class="detail-val-primary">{{ order.service_item_name||'-' }}</span>
-        </div>
-        <div class="detail-row">
-          <span class="detail-label">分类</span>
-          <span class="detail-value">{{ order.category_type||'-' }}</span>
-        </div>
-        <div class="detail-row" v-if="order.fault_description">
-          <span class="detail-label">故障描述</span>
-          <span class="detail-fault">{{ order.fault_description }}</span>
-        </div>
-      </div>
+      <view class="section-card">
+        <view class="section-title">服务信息</view>
+        <view class="detail-row">
+          <text class="detail-label">服务项目</text>
+          <text class="detail-val-primary">{{ order.service_item_name||'-' }}</text>
+        </view>
+        <view class="detail-row">
+          <text class="detail-label">分类</text>
+          <text class="detail-value">{{ order.category_type||'-' }}</text>
+        </view>
+        <view class="detail-row" v-if="order.fault_description">
+          <text class="detail-label">故障描述</text>
+          <text class="detail-fault">{{ order.fault_description }}</text>
+        </view>
+      </view>
 
       <!-- Income & Payment -->
-      <div class="income-section" v-if="order.total_fee||order.service_fee">
-        <div class="income-title">费用明细</div>
-        <div class="income-row"><span class="il">服务费</span><span class="ir">¥{{ order.service_fee||0 }}</span></div>
-        <div class="income-row" v-if="order.material_fee"><span class="il">材料费</span><span class="ir">¥{{ order.material_fee }}</span></div>
-        <div class="income-row" v-if="orderParts.length"><span class="il">配件费</span><span class="ir">¥{{ orderParts.reduce((s,p)=>s+(p.total_price||0),0) }}</span></div>
-        <div class="income-divider"></div>
-        <div class="income-row income-total"><span class="il il-bold">服务总费用</span><span class="ir-total">¥{{ order.total_fee||order.service_fee||0 }}</span></div>
-        <div class="income-row income-net"><span class="il il-sm">实收入（已扣除平台费）</span><span class="ir-net">¥{{ ((order.total_fee||order.service_fee||0) * 0.8).toFixed(1) }}</span></div>
-        <div class="income-row income-foot" v-if="order.pay_status==='paid'">
-          <span class="il il-sm">收款方式：{{ order.payment_method==='cash'?'现金':order.payment_method==='wechat'?'微信':order.payment_method==='alipay'?'支付宝':'转账' }}</span>
-          <span class="il-sm" style="color:var(--text-tertiary)">{{ (order.paid_at||'').slice(0,16)||'' }}</span>
-        </div>
-        <div class="income-row income-foot" v-else-if="order.status==='completed'||order.status==='done'">
-          <span class="il-pending">待收款 — 请提醒客户付款</span>
-        </div>
-      </div>
+      <view class="income-section" v-if="order.total_fee||order.service_fee">
+        <view class="income-title">费用明细</view>
+        <view class="income-row"><text class="il">服务费</text><text class="ir">¥{{ order.service_fee||0 }}</text></view>
+        <view class="income-row" v-if="order.material_fee"><text class="il">材料费</text><text class="ir">¥{{ order.material_fee }}</text></view>
+        <view class="income-row" v-if="orderParts.length"><text class="il">配件费</text><text class="ir">¥{{ orderParts.reduce((s,p)=>s+(p.total_price||0),0) }}</text></view>
+        <view class="income-divider"></view>
+        <view class="income-row income-total"><text class="il il-bold">服务总费用</text><text class="ir-total">¥{{ order.total_fee||order.service_fee||0 }}</text></view>
+        <view class="income-row income-net"><text class="il il-sm">实收入（已扣除平台费）</text><text class="ir-net">¥{{ ((order.total_fee||order.service_fee||0) * 0.8).toFixed(1) }}</text></view>
+        <view class="income-row income-foot" v-if="order.pay_status==='paid'">
+          <text class="il il-sm">收款方式：{{ order.payment_method==='cash'?'现金':order.payment_method==='wechat'?'微信':order.payment_method==='alipay'?'支付宝':'转账' }}</text>
+          <text class="il-sm" style="color:var(--text-tertiary)">{{ (order.paid_at||'').slice(0,16)||'' }}</text>
+        </view>
+        <view class="income-row income-foot" v-else-if="order.status==='completed'||order.status==='done'">
+          <text class="il-pending">待收款 — 请提醒客户付款</text>
+        </view>
+      </view>
 
       <!-- Parts -->
-      <div class="section-card" v-if="orderParts.length">
-        <div class="section-title"><span>配件材料</span><span class="section-badge">{{ orderParts.length }}项</span></div>
-        <div v-for="(p,i) in orderParts" :key="p.id" class="part-item">
-          <div class="part-top"><span class="part-name">{{ p.name }}</span><span class="part-qty">x{{ p.quantity }}</span></div>
-          <div class="part-bottom"><span class="part-price">¥{{ p.unit_price }}/个</span><span class="part-total">= ¥{{ p.total_price }}</span></div>
-          <div class="part-meta" v-if="p.store_name||p.receipt_image||p.part_photo">
-            <span v-if="p.store_name">{{ p.store_name }}</span>
-            <span v-if="p.store_phone">{{ p.store_phone }}</span>
-            <span v-if="p.receipt_image" class="link" @click="previewImage(p.receipt_image)">票据</span>
-            <span v-if="p.part_photo" class="link" style="color:var(--success)" @click="previewImage(p.part_photo)">照片</span>
-          </div>
-        </div>
-      </div>
+      <view class="section-card" v-if="orderParts.length">
+        <view class="section-title"><text>配件材料</text><text class="section-badge">{{ orderParts.length }}项</text></view>
+        <view v-for="(p,i) in orderParts" :key="p.id" class="part-item">
+          <view class="part-top"><text class="part-name">{{ p.name }}</text><text class="part-qty">x{{ p.quantity }}</text></view>
+          <view class="part-bottom"><text class="part-price">¥{{ p.unit_price }}/个</text><text class="part-total">= ¥{{ p.total_price }}</text></view>
+          <view class="part-meta" v-if="p.store_name||p.receipt_image||p.part_photo">
+            <text v-if="p.store_name">{{ p.store_name }}</text>
+            <text v-if="p.store_phone">{{ p.store_phone }}</text>
+            <text v-if="p.receipt_image" class="link" @click="previewImage(p.receipt_image)">票据</text>
+            <text v-if="p.part_photo" class="link" style="color:var(--success)" @click="previewImage(p.part_photo)">照片</text>
+          </view>
+        </view>
+      </view>
 
       <!-- Quote -->
-      <div class="section-card" v-if="order.quote_status">
-        <div class="section-title"><span>报价信息</span><span :class="'quote-badge '+order.quote_status">{{ order.quote_status==='pending'?'待客户确认':order.quote_status==='accepted'?'客户已接受':order.quote_status==='rejected'?'客户已拒绝':'' }}</span></div>
-        <div class="qi-box" v-if="quoteItems.length">
-          <div class="qi-row" v-for="(item,i) in quoteItems" :key="i">
-            <div class="qi-left"><span class="qi-name">{{ item.name }}</span><span class="qi-detail">x{{ item.quantity }} 个 · ¥{{ item.unit_price }}/个</span></div>
-            <span class="qi-subtotal">¥{{ (item.quantity||1)*(item.unit_price||0) }}</span>
-          </div>
-        </div>
-        <div class="qi-summary" v-if="order.service_fee || order.material_fee">
-          <div class="qi-fee" v-if="order.service_fee"><span>服务费</span><span>¥{{ order.service_fee }}</span></div>
-          <div class="qi-fee" v-if="order.material_fee"><span>材料费</span><span>¥{{ order.material_fee }}</span></div>
-        </div>
-        <div class="qi-total"><span>合计</span><span class="qi-amount">¥{{ order.quote_amount||0 }}</span></div>
-      </div>
+      <view class="section-card" v-if="order.quote_status">
+        <view class="section-title"><text>报价信息</text><text :class="'quote-badge '+order.quote_status">{{ order.quote_status==='pending'?'待客户确认':order.quote_status==='accepted'?'客户已接受':order.quote_status==='rejected'?'客户已拒绝':'' }}</text></view>
+        <view class="qi-box" v-if="quoteItems.length">
+          <view class="qi-row" v-for="(item,i) in quoteItems" :key="i">
+            <view class="qi-left"><text class="qi-name">{{ item.name }}</text><text class="qi-detail">x{{ item.quantity }} 个 · ¥{{ item.unit_price }}/个</text></view>
+            <text class="qi-subtotal">¥{{ (item.quantity||1)*(item.unit_price||0) }}</text>
+          </view>
+        </view>
+        <view class="qi-summary" v-if="order.service_fee || order.material_fee">
+          <view class="qi-fee" v-if="order.service_fee"><text>服务费</text><text>¥{{ order.service_fee }}</text></view>
+          <view class="qi-fee" v-if="order.material_fee"><text>材料费</text><text>¥{{ order.material_fee }}</text></view>
+        </view>
+        <view class="qi-total"><text>合计</text><text class="qi-amount">¥{{ order.quote_amount||0 }}</text></view>
+      </view>
 
       <!-- Trip Fee -->
-      <div class="section-card" v-if="order.quote_status==='rejected'&&!order.trip_fee_status">
-        <div class="section-title">上门费</div>
-        <div class="trip-hint">客户拒绝报价，可收取上门检测费</div>
-        <div class="trip-form">
-          <span class="trip-label">金额</span>
+      <view class="section-card" v-if="order.quote_status==='rejected'&&!order.trip_fee_status">
+        <view class="section-title">上门费</view>
+        <view class="trip-hint">客户拒绝报价，可收取上门检测费</view>
+        <view class="trip-form">
+          <text class="trip-label">金额</text>
           <input class="trip-input" type="digit" v-model="tripFeeAmount" />
-          <span style="margin-left:4px;color:var(--text-tertiary)">元</span>
-        </div>
+          <text style="margin-left:4px;color:var(--text-tertiary)">元</text>
+        </view>
         <button class="btn-trip" @click="chargeTripFee">收取上门费 ¥{{ tripFeeAmount }}</button>
-      </div>
+      </view>
 
       <!-- Photos & Video -->
-      <div class="section-card" v-if="order.before_photos||order.after_photos||order.video_url">
-        <div class="section-title">维修影像</div>
-        <div class="media-block" v-if="order.before_photos">
-          <span class="media-label">维修前</span>
-          <div class="media-grid">
-            <div v-for="(p,i) in parsePhotos(order.before_photos)" :key="i" class="media-item" @click="previewImage(p)">
+      <view class="section-card" v-if="order.before_photos||order.after_photos||order.video_url">
+        <view class="section-title">维修影像</view>
+        <view class="media-block" v-if="order.before_photos">
+          <text class="media-label">维修前</text>
+          <view class="media-grid">
+            <view v-for="(p,i) in parsePhotos(order.before_photos)" :key="i" class="media-item" @click="previewImage(p)">
               <img :src="p" class="media-img" style="object-fit:cover;width:100%;height:100%">
-            </div>
-          </div>
-        </div>
-        <div class="media-block" v-if="order.after_photos">
-          <span class="media-label">维修后</span>
-          <div class="media-grid">
-            <div v-for="(p,i) in parsePhotos(order.after_photos)" :key="i" class="media-item" @click="previewImage(p)">
+            </view>
+          </view>
+        </view>
+        <view class="media-block" v-if="order.after_photos">
+          <text class="media-label">维修后</text>
+          <view class="media-grid">
+            <view v-for="(p,i) in parsePhotos(order.after_photos)" :key="i" class="media-item" @click="previewImage(p)">
               <img :src="p" class="media-img" style="object-fit:cover;width:100%;height:100%">
-            </div>
-          </div>
-        </div>
-        <div class="media-block" v-if="order.video_url">
-          <span class="media-label">维修视频</span>
+            </view>
+          </view>
+        </view>
+        <view class="media-block" v-if="order.video_url">
+          <text class="media-label">维修视频</text>
           <video :src="order.video_url" class="detail-video" controls :autoplay="false" @error="console.error('video error', $event)"></video>
-        </div>
-      </div>
+        </view>
+      </view>
 
       <!-- Complete Form -->
-      <div class="section-card" v-if="order.status==='in_progress'">
-        <div class="section-title">上传完工照片</div>
-        <div class="media-block">
-          <span class="media-label">维修前照片</span>
-          <div class="media-grid">
-            <div v-for="(p,i) in captureBefore" :key="i" class="media-item"><img :src="p" class="media-img" style="object-fit:cover;width:100%;height:100%"><span class="media-del" @click="captureBefore.splice(i,1)">✕</span></div>
-            <div class="media-add" @click="takePhoto('before')"><span class="plus-icon">+</span><span class="media-add-label">拍照</span></div>
-          </div>
-        </div>
-        <div class="media-block">
-          <span class="media-label">维修后照片</span>
-          <div class="media-grid">
-            <div v-for="(p,i) in captureAfter" :key="i" class="media-item"><img :src="p" class="media-img" style="object-fit:cover;width:100%;height:100%"><span class="media-del" @click="captureAfter.splice(i,1)">✕</span></div>
-            <div class="media-add" @click="takePhoto('after')"><span class="plus-icon">+</span><span class="media-add-label">拍照</span></div>
-          </div>
-        </div>
-        <div class="video-row">
-          <span class="video-btn" @click="recordVideo">补充视频佐证</span>
-          <span v-if="captureVideo" class="video-done">已录制</span>
-        </div>
-      </div>
+      <view class="section-card" v-if="order.status==='in_progress'">
+        <view class="section-title">上传完工照片</view>
+        <view class="media-block">
+          <text class="media-label">维修前照片</text>
+          <view class="media-grid">
+            <view v-for="(p,i) in captureBefore" :key="i" class="media-item"><img :src="p" class="media-img" style="object-fit:cover;width:100%;height:100%"><text class="media-del" @click="captureBefore.splice(i,1)">✕</text></view>
+            <view class="media-add" @click="takePhoto('before')"><text class="plus-icon">+</text><text class="media-add-label">拍照</text></view>
+          </view>
+        </view>
+        <view class="media-block">
+          <text class="media-label">维修后照片</text>
+          <view class="media-grid">
+            <view v-for="(p,i) in captureAfter" :key="i" class="media-item"><img :src="p" class="media-img" style="object-fit:cover;width:100%;height:100%"><text class="media-del" @click="captureAfter.splice(i,1)">✕</text></view>
+            <view class="media-add" @click="takePhoto('after')"><text class="plus-icon">+</text><text class="media-add-label">拍照</text></view>
+          </view>
+        </view>
+        <view class="video-row">
+          <text class="video-btn" @click="recordVideo">补充视频佐证</text>
+          <text v-if="captureVideo" class="video-done">已录制</text>
+        </view>
+      </view>
 
       <!-- Action Bar -->
-      <div class="action-bar" v-if="showActions">
-        <div class="action-steps">
-          <div class="action-row" v-if="order.status==='pending'||order.status==='dispatched'||(order.status==='accepted' && !order.technician_id)">
+      <view class="action-bar" v-if="showActions">
+        <view class="action-steps">
+          <view class="action-row" v-if="order.status==='pending'||order.status==='dispatched'||(order.status==='accepted' && !order.technician_id)">
             <button class="action-btn action-primary" @click="acceptOrder">
               {{ order.status==='accepted'?'抢单':'接单' }}
             </button>
             <button class="action-btn action-outline" @click="showReject=true">无法接单</button>
-          </div>
+          </view>
           <template v-if="order.status==='accepted' && order.technician_id">
             <button class="action-btn action-blue" @click="callCustomer" v-if="!contacted">联系客户</button>
             <template v-if="contacted && !verified">
               <button class="action-btn action-primary" @click="showDatePicker=true" v-if="!order.appointment_time">📅 预约上门时间</button>
-              <div class="action-schedule" v-if="order.appointment_time">
-                <span>📅 {{ order.appointment_time.slice(5,10) }} {{ order.appointment_time.slice(11,16) }} 上门</span>
-                <span class="action-reschedule" @click="showDatePicker=true">改期</span>
-              </div>
+              <view class="action-schedule" v-if="order.appointment_time">
+                <text>📅 {{ order.appointment_time.slice(5,10) }} {{ order.appointment_time.slice(11,16) }} 上门</text>
+                <text class="action-reschedule" @click="showDatePicker=true">改期</text>
+              </view>
               <button class="action-btn action-primary" @click="goToDoor">📍 我已到达</button>
             </template>
             <button class="action-btn action-green" @click="startServiceAfterVerify" v-if="verified">开始服务</button>
@@ -234,110 +234,110 @@
           <button class="action-btn action-primary" @click="startRepair" v-if="order.status==='in_progress' && order.quote_status==='accepted' && !repairStarted">确认维修</button>
           <button class="action-btn action-green" @click="finishWork" v-if="order.status==='in_progress' && order.quote_status==='accepted' && repairStarted">完工</button>
           <button class="action-btn action-yellow" @click="showPayOptions" v-if="(order.status==='completed'||order.status==='done') && order.pay_status!=='paid'">收款 ¥{{ order.total_fee||order.service_fee||0 }}</button>
-          <div class="action-paid" v-if="(order.status==='paid')">已收款</div>
-        </div>
-      </div>
+          <view class="action-paid" v-if="(order.status==='paid')">已收款</view>
+        </view>
+      </view>
 
-      <div class="bottom-spacer"></div>
+      <view class="bottom-spacer"></view>
 
       <!-- 日期选择弹窗 -->
-      <div class="modal-overlay" v-if="showDatePicker" @click="showDatePicker=false">
-        <div class="schedule-box" @click.stop>
-          <div class="schedule-header">📅 预约上门时间</div>
-          <div class="schedule-row">
-            <span class="schedule-label">日期</span>
+      <view class="modal-overlay" v-if="showDatePicker" @click="showDatePicker=false">
+        <view class="schedule-box" @click.stop>
+          <view class="schedule-header">📅 预约上门时间</view>
+          <view class="schedule-row">
+            <text class="schedule-label">日期</text>
             <input type="date" :value="pickerDate" @change="e=>pickerDate=e.target.value" style="flex:1;padding:8px 12px;border:1px solid var(--border,#e8e8e8);border-radius:8px;font-size:15px" />
-          </div>
-          <div class="schedule-row">
-            <span class="schedule-label">时间</span>
+          </view>
+          <view class="schedule-row">
+            <text class="schedule-label">时间</text>
             <input type="time" :value="pickerTime" @change="e=>pickerTime=e.target.value" style="flex:1;padding:8px 12px;border:1px solid var(--border,#e8e8e8);border-radius:8px;font-size:15px" />
-          </div>
-          <div class="schedule-actions">
+          </view>
+          <view class="schedule-actions">
             <button class="schedule-btn schedule-cancel" @click="showDatePicker=false">取消</button>
             <button class="schedule-btn schedule-confirm" @click="confirmSchedule">确定</button>
-          </div>
-        </div>
-      </div>
+          </view>
+        </view>
+      </view>
 
       <!-- 验证弹窗 -->
-      <div class="modal-overlay" v-if="showVerify" @click="showVerify=false">
-        <div class="verify-box" @click.stop>
-          <div class="verify-header">确认已到达</div>
-          <div class="verify-addr">{{ order.customer_name||'客户' }} · {{ (order.address||'').slice(0,20) }}</div>
-          <div class="verify-hint">请输入客户手机号后4位验证</div>
+      <view class="modal-overlay" v-if="showVerify" @click="showVerify=false">
+        <view class="verify-box" @click.stop>
+          <view class="verify-header">确认已到达</view>
+          <view class="verify-addr">{{ order.customer_name||'客户' }} · {{ (order.address||'').slice(0,20) }}</view>
+          <view class="verify-hint">请输入客户手机号后4位验证</view>
           <input class="verify-input" type="tel" maxlength="4" v-model="verifyCode" placeholder="...." @confirm="doVerify"/>
-          <div class="verify-actions">
+          <view class="verify-actions">
             <button class="verify-btn verify-cancel" @click="showVerify=false">取消</button>
             <button class="verify-btn verify-confirm" @click="doVerify">确认到达</button>
-          </div>
-        </div>
-      </div>
+          </view>
+        </view>
+      </view>
 
       <!-- 评价弹窗 -->
-      <div class="modal-overlay" v-if="showRate" @click="showRate=false">
-        <div class="rmodal" @click.stop>
-          <div class="rate-title">客户评价</div>
-          <div class="rate-body">
-            <span class="rate-hint">为本次服务打分</span>
-            <div class="rate-stars">
-              <span v-for="s in 5" :key="s" @click="rateScore=s" :class="'rate-star '+(s<=rateScore?'active':'')">{{ s<=rateScore?'★':'☆' }}</span>
-            </div>
-          </div>
+      <view class="modal-overlay" v-if="showRate" @click="showRate=false">
+        <view class="rmodal" @click.stop>
+          <view class="rate-title">客户评价</view>
+          <view class="rate-body">
+            <text class="rate-hint">为本次服务打分</text>
+            <view class="rate-stars">
+              <text v-for="s in 5" :key="s" @click="rateScore=s" :class="'rate-star '+(s<=rateScore?'active':'')">{{ s<=rateScore?'★':'☆' }}</text>
+            </view>
+          </view>
           <input class="rate-input" type="text" v-model="rateComment" placeholder="写点评价（选填）" />
-          <div class="rate-actions">
+          <view class="rate-actions">
             <button class="rate-btn rate-skip" @click="showRate=false">跳过</button>
             <button class="rate-btn rate-submit" @click="doRate">提交评价</button>
-          </div>
-        </div>
-      </div>
+          </view>
+        </view>
+      </view>
 
       <!-- 拒单弹窗 -->
-      <div class="modal-overlay" v-if="showReject" @click="showReject=false">
-        <div class="rmodal" @click.stop>
-          <div class="rate-title">申请取消工单</div>
-          <span class="reject-hint">说明取消原因，管理员审核后将重新派单</span>
+      <view class="modal-overlay" v-if="showReject" @click="showReject=false">
+        <view class="rmodal" @click.stop>
+          <view class="rate-title">申请取消工单</view>
+          <text class="reject-hint">说明取消原因，管理员审核后将重新派单</text>
           <select :value="rejectReasonIndex" @change="e=>{const i=parseInt(e.target.value);rejectReasonIndex=i;rejectReason=rejectReasons[i]}" style="width:100%;margin-bottom:12px;padding:10px 12px;border:1.5px solid var(--border,#e8e8e8);border-radius:10px;font-size:15px;background:var(--bg-fill,#f8f9fb)">
             <option value="-1" disabled>请选择原因</option>
             <option v-for="(r,i) in rejectReasons" :key="i" :value="i">{{ r }}</option>
           </select>
           <input class="rate-input" type="text" v-model="rejectReason" placeholder="或手动输入原因..." />
-          <div class="rate-actions">
+          <view class="rate-actions">
             <button class="rate-btn rate-skip" @click="showReject=false">再想想</button>
             <button class="rate-btn rate-submit" style="background:var(--danger)" @click="doReject">确认取消</button>
-          </div>
-        </div>
-      </div>
+          </view>
+        </view>
+      </view>
 
       <!-- 转单弹窗 -->
-      <div class="modal-overlay" v-if="showTransfer" @click="showTransfer=false">
-        <div class="rmodal" @click.stop>
-          <div class="rate-title">转给其他师傅</div>
-          <span class="reject-hint" v-if="transferTechs.length===0">加载师傅列表...</span>
-          <div style="max-height:320px;overflow-y:auto;margin-bottom:12px" v-else>
-            <div
+      <view class="modal-overlay" v-if="showTransfer" @click="showTransfer=false">
+        <view class="rmodal" @click.stop>
+          <view class="rate-title">转给其他师傅</view>
+          <text class="reject-hint" v-if="transferTechs.length===0">加载师傅列表...</text>
+          <view style="max-height:320px;overflow-y:auto;margin-bottom:12px" v-else>
+            <view
               v-for="tech in transferTechs" :key="tech.id"
               :class="'transfer-item '+(transferTargetId===tech.id?'transfer-active':'')"
               @click="transferTargetId=tech.id"
             >
-              <div class="transfer-left">
-                <div class="transfer-avatar">{{ (tech.name||'?').charAt(0) }}</div>
-                <div class="transfer-info">
-                  <span class="transfer-name">{{ tech.name }}</span>
-                  <span class="transfer-detail">{{ tech.skills?.length||0 }}项技能 · {{ tech.active_orders||0 }}个进行中</span>
-                </div>
-              </div>
-              <span class="transfer-check" v-if="transferTargetId===tech.id">✓</span>
-            </div>
-          </div>
+              <view class="transfer-left">
+                <view class="transfer-avatar">{{ (tech.name||'?').charAt(0) }}</view>
+                <view class="transfer-info">
+                  <text class="transfer-name">{{ tech.name }}</text>
+                  <text class="transfer-detail">{{ tech.skills?.length||0 }}项技能 · {{ tech.active_orders||0 }}个进行中</text>
+                </view>
+              </view>
+              <text class="transfer-check" v-if="transferTargetId===tech.id">✓</text>
+            </view>
+          </view>
           <input class="rate-input" type="text" v-model="transferReason" placeholder="转单原因（选填）" />
-          <div class="rate-actions">
+          <view class="rate-actions">
             <button class="rate-btn rate-skip" @click="showTransfer=false">取消</button>
             <button class="rate-btn rate-submit" :disabled="!transferTargetId" @click="doTransfer">确认转单</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
 
 </template>
 <script>

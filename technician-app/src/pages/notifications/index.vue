@@ -1,60 +1,60 @@
 <template>
-  <div class="page">
+  <view class="page">
     <!-- 头部操作栏 -->
-    <div class="top-bar">
-      <div class="top-tabs">
-        <div :class="'tab '+(activeTab==='all'?'active':'')" @click="switchTab('all')">全部</div>
-        <div :class="'tab '+(activeTab==='unread'?'active':'')" @click="switchTab('unread')">未读</div>
-      </div>
-      <span class="mark-btn" @click="markAllRead" v-if="unreadCount > 0">全部已读</span>
-    </div>
+    <view class="top-bar">
+      <view class="top-tabs">
+        <view :class="'tab '+(activeTab==='all'?'active':'')" @click="switchTab('all')">全部</view>
+        <view :class="'tab '+(activeTab==='unread'?'active':'')" @click="switchTab('unread')">未读</view>
+      </view>
+      <text class="mark-btn" @click="markAllRead" v-if="unreadCount > 0">全部已读</text>
+    </view>
 
     <!-- 骨架屏 -->
-    <div v-if="loading" class="skeleton-list">
-      <div class="skeleton-card" v-for="i in 5" :key="i">
-        <div style="display:flex;gap:12px;align-items:center">
-          <div class="skeleton-block" style="width:36px;height:36px;border-radius:50%;flex-shrink:0"></div>
-          <div style="flex:1"><div class="skeleton-line w60"></div><div class="skeleton-line w80"></div></div>
-        </div>
-      </div>
-    </div>
+    <view v-if="loading" class="skeleton-list">
+      <view class="skeleton-card" v-for="i in 5" :key="i">
+        <view style="display:flex;gap:12px;align-items:center">
+          <view class="skeleton-block" style="width:36px;height:36px;border-radius:50%;flex-shrink:0"></view>
+          <view style="flex:1"><view class="skeleton-line w60"></view><view class="skeleton-line w80"></view></view>
+        </view>
+      </view>
+    </view>
 
     <!-- 空状态 -->
-    <div v-else-if="list.length === 0" class="empty-state">
-      <div class="empty-icon">🔔</div>
-      <span class="empty-title">暂无消息</span>
-      <span class="empty-desc">当有新工单或审批结果时会通知您</span>
-    </div>
+    <view v-else-if="list.length === 0" class="empty-state">
+      <view class="empty-icon">🔔</view>
+      <text class="empty-title">暂无消息</text>
+      <text class="empty-desc">当有新工单或审批结果时会通知您</text>
+    </view>
 
     <!-- 通知列表 -->
-    <div v-else class="list-wrap">
-      <div
+    <view v-else class="list-wrap">
+      <view
         v-for="item in list" :key="item.id"
         :class="'notify-card '+(item.is_read?'read':'unread')"
         @click="openNotify(item)"
       >
-        <div class="notify-left">
-          <div class="notify-icon" :class="'icon-'+item.type">{{ notifyIcon(item.type) }}</div>
-          <div v-if="!item.is_read" class="unread-dot"></div>
-        </div>
-        <div class="notify-content">
-          <div class="notify-header">
-            <span class="notify-title">{{ item.title }}</span>
-            <span class="notify-time">{{ formatTime(item.created_at) }}</span>
-          </div>
-          <span class="notify-desc">{{ item.content }}</span>
-        </div>
-      </div>
+        <view class="notify-left">
+          <view class="notify-icon" :class="'icon-'+item.type">{{ notifyIcon(item.type) }}</view>
+          <view v-if="!item.is_read" class="unread-dot"></view>
+        </view>
+        <view class="notify-content">
+          <view class="notify-header">
+            <text class="notify-title">{{ item.title }}</text>
+            <text class="notify-time">{{ formatTime(item.created_at) }}</text>
+          </view>
+          <text class="notify-desc">{{ item.content }}</text>
+        </view>
+      </view>
 
       <!-- 加载更多 -->
-      <div class="load-more" v-if="hasMore">
-        <span class="load-text" @click="loadMore">{{ loadingMore ? '加载中...' : '加载更多' }}</span>
-      </div>
-      <div class="load-more" v-else-if="list.length > 0">
-        <span class="load-text load-end">— 没有更多了 —</span>
-      </div>
-    </div>
-  </div>
+      <view class="load-more" v-if="hasMore">
+        <text class="load-text" @click="loadMore">{{ loadingMore ? '加载中...' : '加载更多' }}</text>
+      </view>
+      <view class="load-more" v-else-if="list.length > 0">
+        <text class="load-text load-end">— 没有更多了 —</text>
+      </view>
+    </view>
+  </view>
 </template>
 
 <script>

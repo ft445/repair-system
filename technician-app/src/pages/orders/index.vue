@@ -1,58 +1,58 @@
 <template>
-  <div class="page">
+  <view class="page">
     <!-- Tabs -->
-    <div class="tabs">
-      <div v-for="t in tabs" :key="t.key" :class="'tab '+(activeTab===t.key?'active':'')" @click="switchTab(t.key)">{{ t.label }}</div>
-    </div>
+    <view class="tabs">
+      <view v-for="t in tabs" :key="t.key" :class="'tab '+(activeTab===t.key?'active':'')" @click="switchTab(t.key)">{{ t.label }}</view>
+    </view>
 
     <!-- Skeleton -->
-    <div v-if="loading" class="order-list">
-      <div class="skeleton-card"><div class="skeleton-line w60"></div><div class="skeleton-line w80"></div><div class="skeleton-line w40 h32"></div></div>
-      <div class="skeleton-card"><div class="skeleton-line w60"></div><div class="skeleton-line w80"></div><div class="skeleton-line w40 h32"></div></div>
-      <div class="skeleton-card"><div class="skeleton-line w60"></div><div class="skeleton-line w80"></div><div class="skeleton-line w40 h32"></div></div>
-    </div>
+    <view v-if="loading" class="order-list">
+      <view class="skeleton-card"><view class="skeleton-line w60"></view><view class="skeleton-line w80"></view><view class="skeleton-line w40 h32"></view></view>
+      <view class="skeleton-card"><view class="skeleton-line w60"></view><view class="skeleton-line w80"></view><view class="skeleton-line w40 h32"></view></view>
+      <view class="skeleton-card"><view class="skeleton-line w60"></view><view class="skeleton-line w80"></view><view class="skeleton-line w40 h32"></view></view>
+    </view>
 
     <!-- Empty -->
-    <div v-else-if="orders.length === 0" class="empty-state">
-      <div class="empty-circle">{{ emptyIcons[activeTab] || '📋' }}</div>
-      <span class="empty-title">{{ emptyTitles[activeTab] || '暂无工单' }}</span>
-      <span class="empty-desc">{{ emptyDescs[activeTab] || '有新工单时会在这里显示' }}</span>
-    </div>
+    <view v-else-if="orders.length === 0" class="empty-state">
+      <view class="empty-circle">{{ emptyIcons[activeTab] || '📋' }}</view>
+      <text class="empty-title">{{ emptyTitles[activeTab] || '暂无工单' }}</text>
+      <text class="empty-desc">{{ emptyDescs[activeTab] || '有新工单时会在这里显示' }}</text>
+    </view>
 
     <!-- List -->
-    <div v-else-if="!loading" class="order-list">
-      <div v-for="item in orders" :key="item.id" class="order-card" @click="goDetail(item.id)">
-        <div class="card-row">
-          <div class="card-service">
-            <div class="card-service-icon">{{ serviceIcon(item.category_type) }}</div>
-            <div>
-              <span class="card-service-name">{{ item.service_item_name || '维修' }}</span>
-              <span class="card-customer-name">{{ item.customer_name || '客户' }}</span>
-            </div>
-          </div>
-          <span :class="'card-badge ' + item.status">{{ statusLabel(item.status) }}</span>
-        </div>
-        <div class="card-addr">{{ item.address?.slice(0,30) || '地址待确认' }}</div>
-        <div class="card-row card-bottom">
-          <div class="card-time">
-            <span v-if="item.appointment_time">{{ item.appointment_time.slice(5,10) }} {{ item.appointment_time.slice(11,16) }}</span>
-            <span v-else>{{ item.created_at ? parseInt(item.created_at.slice(5,7))+'月'+parseInt(item.created_at.slice(8,10))+'日' : '' }}</span>
-          </div>
-          <div class="card-right">
-            <span class="card-phone" v-if="item.customer_phone">{{ item.customer_phone.slice(0,3)+'****'+item.customer_phone.slice(-4) }}</span>
-            <span v-if="item.total_fee" class="card-fee">¥{{ item.total_fee }}</span>
-          </div>
-        </div>
-      </div>
+    <view v-else-if="!loading" class="order-list">
+      <view v-for="item in orders" :key="item.id" class="order-card" @click="goDetail(item.id)">
+        <view class="card-row">
+          <view class="card-service">
+            <view class="card-service-icon">{{ serviceIcon(item.category_type) }}</view>
+            <view>
+              <text class="card-service-name">{{ item.service_item_name || '维修' }}</text>
+              <text class="card-customer-name">{{ item.customer_name || '客户' }}</text>
+            </view>
+          </view>
+          <text :class="'card-badge ' + item.status">{{ statusLabel(item.status) }}</text>
+        </view>
+        <view class="card-addr">{{ item.address?.slice(0,30) || '地址待确认' }}</view>
+        <view class="card-row card-bottom">
+          <view class="card-time">
+            <text v-if="item.appointment_time">{{ item.appointment_time.slice(5,10) }} {{ item.appointment_time.slice(11,16) }}</text>
+            <text v-else>{{ item.created_at ? parseInt(item.created_at.slice(5,7))+'月'+parseInt(item.created_at.slice(8,10))+'日' : '' }}</text>
+          </view>
+          <view class="card-right">
+            <text class="card-phone" v-if="item.customer_phone">{{ item.customer_phone.slice(0,3)+'****'+item.customer_phone.slice(-4) }}</text>
+            <text v-if="item.total_fee" class="card-fee">¥{{ item.total_fee }}</text>
+          </view>
+        </view>
+      </view>
       <!-- 加载更多 -->
-      <div class="load-more-wrap" v-if="hasMore">
-        <span class="load-more-btn" @click="loadMore">{{ loadingMore ? '加载中...' : '加载更多' }}</span>
-      </div>
-      <div class="load-more-wrap" v-else-if="orders.length > 0">
-        <span class="load-end-text">— 共 {{ totalCount }} 条，已全部加载 —</span>
-      </div>
-    </div>
-  </div>
+      <view class="load-more-wrap" v-if="hasMore">
+        <text class="load-more-btn" @click="loadMore">{{ loadingMore ? '加载中...' : '加载更多' }}</text>
+      </view>
+      <view class="load-more-wrap" v-else-if="orders.length > 0">
+        <text class="load-end-text">— 共 {{ totalCount }} 条，已全部加载 —</text>
+      </view>
+    </view>
+  </view>
 </template>
 
 <script>

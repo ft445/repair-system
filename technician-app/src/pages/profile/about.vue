@@ -1,39 +1,39 @@
 <template>
-  <div class="page">
-    <div class="about-card">
-      <div class="about-logo">🛠️</div>
-      <div class="about-name">黄师傅维修</div>
-      <div class="about-version">v{{ appVersion }}</div>
-    </div>
+  <view class="page">
+    <view class="about-card">
+      <view class="about-logo">🛠️</view>
+      <view class="about-name">黄师傅维修</view>
+      <view class="about-version">v{{ appVersion }}</view>
+    </view>
 
-    <div class="info-section">
-      <div class="info-row">
-        <span class="info-label">应用名称</span>
-        <span class="info-value">黄师傅维修 - 师傅端</span>
-      </div>
-      <div class="info-row">
-        <span class="info-label">版本号</span>
-        <span class="info-value">{{ appVersion }}</span>
-      </div>
-      <div class="info-row">
-        <span class="info-label">开发团队</span>
-        <span class="info-value">黄师傅技术团队</span>
-      </div>
-      <div class="info-row">
-        <span class="info-label">客服热线</span>
-        <span class="info-value link" @click="callPhone">{{ servicePhone }}</span>
-      </div>
-      <div class="info-row">
-        <span class="info-label">官方网站</span>
-        <span class="info-value link" @click="openSite">www.zpqy.cn</span>
-      </div>
-    </div>
+    <view class="info-section">
+      <view class="info-row">
+        <text class="info-label">应用名称</text>
+        <text class="info-value">黄师傅维修 - 师傅端</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">版本号</text>
+        <text class="info-value">{{ appVersion }}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">开发团队</text>
+        <text class="info-value">黄师傅技术团队</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">客服热线</text>
+        <text class="info-value link" @click="callPhone">{{ servicePhone }}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">官方网站</text>
+        <text class="info-value link" @click="openSite">www.zpqy.cn</text>
+      </view>
+    </view>
 
-    <div class="copyright">
-      <span>Copyright © 2024-2026 黄师傅维修</span>
-      <span>All Rights Reserved</span>
-    </div>
-  </div>
+    <view class="copyright">
+      <text>Copyright © 2024-2026 黄师傅维修</text>
+      <text>All Rights Reserved</text>
+    </view>
+  </view>
 </template>
 
 <script>

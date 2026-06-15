@@ -1,148 +1,148 @@
 <template>
-  <div class="page">
+  <view class="page">
     <!-- 用户信息头部（点击可编辑） -->
-    <div class="profile-header" @click="navTo('/pages/profile/edit')">
-      <div class="avatar">{{ user?.name?.charAt(0) || '师' }}</div>
-      <div class="profile-name">{{ user?.name || '未登录' }}</div>
-      <div class="profile-phone">{{ user?.phone ? user.phone.slice(0,3)+'****'+user.phone.slice(-4) : '' }}</div>
-      <div class="profile-status"><div class="pdot"></div><span>在线</span></div>
-      <div class="edit-hint">编辑资料 ›</div>
-    </div>
+    <view class="profile-header" @click="navTo('/pages/profile/edit')">
+      <view class="avatar">{{ user?.name?.charAt(0) || '师' }}</view>
+      <view class="profile-name">{{ user?.name || '未登录' }}</view>
+      <view class="profile-phone">{{ user?.phone ? user.phone.slice(0,3)+'****'+user.phone.slice(-4) : '' }}</view>
+      <view class="profile-status"><view class="pdot"></view><text>在线</text></view>
+      <view class="edit-hint">编辑资料 ›</view>
+    </view>
 
     <!-- 统计栏 -->
-    <div class="stat-bar">
-      <div class="stat-item"><span class="s-num">{{ totalOrders }}</span><span class="s-lbl">累计工单</span></div>
-      <div class="stat-item"><span class="s-num">{{ skillCount }}</span><span class="s-lbl">专业技能</span></div>
-      <div class="stat-item"><span class="s-num">{{ rating }}</span><span class="s-lbl">评分</span></div>
-    </div>
+    <view class="stat-bar">
+      <view class="stat-item"><text class="s-num">{{ totalOrders }}</text><text class="s-lbl">累计工单</text></view>
+      <view class="stat-item"><text class="s-num">{{ skillCount }}</text><text class="s-lbl">专业技能</text></view>
+      <view class="stat-item"><text class="s-num">{{ rating }}</text><text class="s-lbl">评分</text></view>
+    </view>
 
     <!-- 考勤快捷卡片 -->
-    <div class="attendance-card" @click="showAttendance">
-      <div class="att-header">
-        <span class="att-title">📅 本月考勤</span>
-        <span class="att-more">详情 ›</span>
-      </div>
-      <div class="att-stats">
-        <div class="att-item"><span class="att-num">{{ attendDays }}</span><span class="att-lbl">出勤(天)</span></div>
-        <div class="att-item"><span class="att-num">{{ leaveDays }}</span><span class="att-lbl">请假(天)</span></div>
-        <div class="att-item"><span class="att-num" :style="'color:'+(attendRate>80?'var(--success)':'var(--danger)')">{{ attendRate }}%</span><span class="att-lbl">出勤率</span></div>
-      </div>
-    </div>
+    <view class="attendance-card" @click="showAttendance">
+      <view class="att-header">
+        <text class="att-title">📅 本月考勤</text>
+        <text class="att-more">详情 ›</text>
+      </view>
+      <view class="att-stats">
+        <view class="att-item"><text class="att-num">{{ attendDays }}</text><text class="att-lbl">出勤(天)</text></view>
+        <view class="att-item"><text class="att-num">{{ leaveDays }}</text><text class="att-lbl">请假(天)</text></view>
+        <view class="att-item"><text class="att-num" :style="'color:'+(attendRate>80?'var(--success)':'var(--danger)')">{{ attendRate }}%</text><text class="att-lbl">出勤率</text></view>
+      </view>
+    </view>
 
     <!-- 菜单组1：工作相关 -->
-    <div class="menu-group">
-      <div class="menu-item" @click="showDeposit">
-        <div class="mi-icon-wrap" style="background:#fff7e6"><span class="mi-icon">🛡️</span></div>
-        <span class="mi-label">保证金</span>
-        <span class="mi-value" :style="'color:'+(deposit>0?'#52c41a':'#ff4d4f')">¥{{ deposit||0 }}</span>
-        <span class="mi-arrow">›</span>
-      </div>
-      <div class="menu-item" @click="jump('/pages/orders/index')">
-        <div class="mi-icon-wrap"><span class="mi-icon">📋</span></div>
-        <span class="mi-label">我的工单</span>
-        <span class="mi-arrow">›</span>
-      </div>
-      <div class="menu-item" @click="jump('/pages/income/index')">
-        <div class="mi-icon-wrap"><span class="mi-icon">💰</span></div>
-        <span class="mi-label">收入中心</span>
-        <span class="mi-arrow">›</span>
-      </div>
-      <div class="menu-item" @click="navTo('/pages/income/withdrawals')">
-        <div class="mi-icon-wrap"><span class="mi-icon">💳</span></div>
-        <span class="mi-label">提现记录</span>
-        <span class="mi-arrow">›</span>
-      </div>
-    </div>
+    <view class="menu-group">
+      <view class="menu-item" @click="showDeposit">
+        <view class="mi-icon-wrap" style="background:#fff7e6"><text class="mi-icon">🛡️</text></view>
+        <text class="mi-label">保证金</text>
+        <text class="mi-value" :style="'color:'+(deposit>0?'#52c41a':'#ff4d4f')">¥{{ deposit||0 }}</text>
+        <text class="mi-arrow">›</text>
+      </view>
+      <view class="menu-item" @click="jump('/pages/orders/index')">
+        <view class="mi-icon-wrap"><text class="mi-icon">📋</text></view>
+        <text class="mi-label">我的工单</text>
+        <text class="mi-arrow">›</text>
+      </view>
+      <view class="menu-item" @click="jump('/pages/income/index')">
+        <view class="mi-icon-wrap"><text class="mi-icon">💰</text></view>
+        <text class="mi-label">收入中心</text>
+        <text class="mi-arrow">›</text>
+      </view>
+      <view class="menu-item" @click="navTo('/pages/income/withdrawals')">
+        <view class="mi-icon-wrap"><text class="mi-icon">💳</text></view>
+        <text class="mi-label">提现记录</text>
+        <text class="mi-arrow">›</text>
+      </view>
+    </view>
 
     <!-- 菜单组2：个人资料 -->
-    <div class="menu-group">
-      <div class="menu-item" @click="showSkills()">
-        <div class="mi-icon-wrap"><span class="mi-icon">🔧</span></div>
-        <span class="mi-label">我的技能</span>
-        <span class="mi-value">{{ skillCount }}项</span>
-        <span class="mi-arrow">›</span>
-      </div>
-      <div class="menu-item" @click="navTo('/pages/profile/ratings')">
-        <div class="mi-icon-wrap"><span class="mi-icon">⭐</span></div>
-        <span class="mi-label">我的评价</span>
-        <span class="mi-value">{{ rating }}</span>
-        <span class="mi-arrow">›</span>
-      </div>
-      <div class="menu-item" @click="navTo('/pages/profile/edit')">
-        <div class="mi-icon-wrap"><span class="mi-icon">📝</span></div>
-        <span class="mi-label">个人资料</span>
-        <span class="mi-arrow">›</span>
-      </div>
-    </div>
+    <view class="menu-group">
+      <view class="menu-item" @click="showSkills()">
+        <view class="mi-icon-wrap"><text class="mi-icon">🔧</text></view>
+        <text class="mi-label">我的技能</text>
+        <text class="mi-value">{{ skillCount }}项</text>
+        <text class="mi-arrow">›</text>
+      </view>
+      <view class="menu-item" @click="navTo('/pages/profile/ratings')">
+        <view class="mi-icon-wrap"><text class="mi-icon">⭐</text></view>
+        <text class="mi-label">我的评价</text>
+        <text class="mi-value">{{ rating }}</text>
+        <text class="mi-arrow">›</text>
+      </view>
+      <view class="menu-item" @click="navTo('/pages/profile/edit')">
+        <view class="mi-icon-wrap"><text class="mi-icon">📝</text></view>
+        <text class="mi-label">个人资料</text>
+        <text class="mi-arrow">›</text>
+      </view>
+    </view>
 
     <!-- 菜单组3：通知与日程 -->
-    <div class="menu-group">
-      <div class="menu-item" @click="navTo('/pages/notifications/index')">
-        <div class="mi-icon-wrap"><span class="mi-icon">🔔</span></div>
-        <span class="mi-label">消息通知</span>
-        <span class="mi-value" v-if="unreadCount>0" style="color:var(--danger)">{{ unreadCount }}条未读</span>
-        <span class="mi-arrow">›</span>
-      </div>
-      <div class="menu-item" @click="navTo('/pages/schedule/index')">
-        <div class="mi-icon-wrap"><span class="mi-icon">📅</span></div>
-        <span class="mi-label">工作日程</span>
-        <span class="mi-arrow">›</span>
-      </div>
-    </div>
+    <view class="menu-group">
+      <view class="menu-item" @click="navTo('/pages/notifications/index')">
+        <view class="mi-icon-wrap"><text class="mi-icon">🔔</text></view>
+        <text class="mi-label">消息通知</text>
+        <text class="mi-value" v-if="unreadCount>0" style="color:var(--danger)">{{ unreadCount }}条未读</text>
+        <text class="mi-arrow">›</text>
+      </view>
+      <view class="menu-item" @click="navTo('/pages/schedule/index')">
+        <view class="mi-icon-wrap"><text class="mi-icon">📅</text></view>
+        <text class="mi-label">工作日程</text>
+        <text class="mi-arrow">›</text>
+      </view>
+    </view>
 
     <!-- 菜单组4：账户 -->
-    <div class="menu-group">
-      <div class="menu-item" @click="changePwd">
-        <div class="mi-icon-wrap"><span class="mi-icon">🔑</span></div>
-        <span class="mi-label">修改密码</span>
-        <span class="mi-arrow">›</span>
-      </div>
-      <div class="menu-item" @click="navTo('/pages/profile/settings')">
-        <div class="mi-icon-wrap"><span class="mi-icon">⚙️</span></div>
-        <span class="mi-label">设置</span>
-        <span class="mi-arrow">›</span>
-      </div>
-      <div class="menu-item menu-logout" @click="logout">
-        <div class="mi-icon-wrap"><span class="mi-icon">🚪</span></div>
-        <span class="mi-label">退出登录</span>
-      </div>
-    </div>
+    <view class="menu-group">
+      <view class="menu-item" @click="changePwd">
+        <view class="mi-icon-wrap"><text class="mi-icon">🔑</text></view>
+        <text class="mi-label">修改密码</text>
+        <text class="mi-arrow">›</text>
+      </view>
+      <view class="menu-item" @click="navTo('/pages/profile/settings')">
+        <view class="mi-icon-wrap"><text class="mi-icon">⚙️</text></view>
+        <text class="mi-label">设置</text>
+        <text class="mi-arrow">›</text>
+      </view>
+      <view class="menu-item menu-logout" @click="logout">
+        <view class="mi-icon-wrap"><text class="mi-icon">🚪</text></view>
+        <text class="mi-label">退出登录</text>
+      </view>
+    </view>
 
     <!-- 保证金弹窗 -->
-    <div class="modal-overlay" v-if="showDepositDlg" @click="showDepositDlg=false">
-      <div class="deposit-box" @click.stop>
-        <div class="deposit-header">🛡️ 保证金</div>
-        <div class="deposit-balance">
-          <span class="deposit-label">当前保证金</span>
-          <span class="deposit-amount">¥{{ deposit }}</span>
-        </div>
-        <div class="deposit-hint">充值保证金后方可接单，平台将从保证金中扣除抽成</div>
-        <div class="deposit-presets">
-          <span v-for="a in [100,200,500,1000]" :key="a" :class="'deposit-preset '+(depositAmount===a?'active':'')" @click="depositAmount=a">¥{{ a }}</span>
-        </div>
-        <div class="deposit-custom">
-          <span class="deposit-custom-label">自定义金额</span>
+    <view class="modal-overlay" v-if="showDepositDlg" @click="showDepositDlg=false">
+      <view class="deposit-box" @click.stop>
+        <view class="deposit-header">🛡️ 保证金</view>
+        <view class="deposit-balance">
+          <text class="deposit-label">当前保证金</text>
+          <text class="deposit-amount">¥{{ deposit }}</text>
+        </view>
+        <view class="deposit-hint">充值保证金后方可接单，平台将从保证金中扣除抽成</view>
+        <view class="deposit-presets">
+          <text v-for="a in [100,200,500,1000]" :key="a" :class="'deposit-preset '+(depositAmount===a?'active':'')" @click="depositAmount=a">¥{{ a }}</text>
+        </view>
+        <view class="deposit-custom">
+          <text class="deposit-custom-label">自定义金额</text>
           <input class="deposit-input" type="digit" v-model="depositAmount" placeholder="输入金额" />
-        </div>
+        </view>
         <button class="deposit-btn" @click="payDeposit">充值 ¥{{ depositAmount }}</button>
-        <span class="deposit-close" @click="showDepositDlg=false">取消</span>
-      </div>
-    </div>
+        <text class="deposit-close" @click="showDepositDlg=false">取消</text>
+      </view>
+    </view>
 
     <!-- 考勤弹窗 -->
-    <div class="modal-overlay" v-if="showAttDlg" @click="showAttDlg=false">
-      <div class="att-modal" @click.stop>
-        <div class="att-modal-header">📅 考勤统计</div>
-        <div class="att-modal-body">
-          <div class="attm-row"><span class="attm-label">本月出勤</span><span class="attm-val">{{ attendDays }} 天</span></div>
-          <div class="attm-row"><span class="attm-label">本月请假</span><span class="attm-val">{{ leaveDays }} 天</span></div>
-          <div class="attm-row"><span class="attm-label">出勤率</span><span class="attm-val">{{ attendRate }}%</span></div>
-          <div class="attm-row"><span class="attm-label">今日状态</span><span class="attm-val" :style="'color:'+(todayClockIn?'var(--success)':'var(--warning)')">{{ todayClockIn ? '已打卡' : '未打卡' }}</span></div>
-        </div>
-        <span class="deposit-close" @click="showAttDlg=false">关闭</span>
-      </div>
-    </div>
-  </div>
+    <view class="modal-overlay" v-if="showAttDlg" @click="showAttDlg=false">
+      <view class="att-modal" @click.stop>
+        <view class="att-modal-header">📅 考勤统计</view>
+        <view class="att-modal-body">
+          <view class="attm-row"><text class="attm-label">本月出勤</text><text class="attm-val">{{ attendDays }} 天</text></view>
+          <view class="attm-row"><text class="attm-label">本月请假</text><text class="attm-val">{{ leaveDays }} 天</text></view>
+          <view class="attm-row"><text class="attm-label">出勤率</text><text class="attm-val">{{ attendRate }}%</text></view>
+          <view class="attm-row"><text class="attm-label">今日状态</text><text class="attm-val" :style="'color:'+(todayClockIn?'var(--success)':'var(--warning)')">{{ todayClockIn ? '已打卡' : '未打卡' }}</text></view>
+        </view>
+        <text class="deposit-close" @click="showAttDlg=false">关闭</text>
+      </view>
+    </view>
+  </view>
 </template>
 
 <script>
