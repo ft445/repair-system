@@ -13,7 +13,7 @@ engine = create_engine(
     pool_recycle=3600,
     echo=False,
 )
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine, expire_on_commit=False)
 
 
 class Base(DeclarativeBase):

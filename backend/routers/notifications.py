@@ -134,6 +134,4 @@ def create_notification(
         is_read=False,
     )
     db.add(n)
-    db.flush()
-    db.refresh(n)
     return n

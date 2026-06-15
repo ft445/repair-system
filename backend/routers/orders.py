@@ -518,7 +518,19 @@ def transfer_order(order_id: int, data: dict, db: Session = Depends(get_db)):
     if not new_tech:
         raise HTTPException(400, "指定的师傅不存在或已禁用")
 
+    # 技能验证
+    if order.service_item_id:
+        has_skill = db.query(TechnicianSkill).filter(
+            TechnicianSkill.user_id == new_tech_id,
+            TechnicianSkill.service_item_id == order.service_item_id,
+        ).first()
+        if not has_skill:
+            from sqlalchemy import text
+            item_name = db.execute(text("SELECT name FROM service_items WHERE id = " + str(order.service_item_id))).scalar() or ''
+            raise HTTPException(400, f"目标师傅不具备「{item_name}」技能，无法转单")
+
     reason = data.get("reason", "")
+    new_tech_name = new_tech.name  # commit前保存
 
     # 转单
     order.technician_id = new_tech_id
@@ -527,7 +539,7 @@ def transfer_order(order_id: int, data: dict, db: Session = Depends(get_db)):
         order.status = OrderStatus.ACCEPTED.value  # 转给新师傅后需要新师傅重新开始服务
 
     # 记录日志
-    log_content = f"转单：从 {old_tech.name if old_tech else '未指派'} 转给 {new_tech.name}"
+    log_content = f"转单：从 {old_tech.name if old_tech else '未指派'} 转给 {new_tech_name}"
     if reason:
         log_content += f"（原因：{reason}）"
     db.add(WorkOrderLog(order_id=order_id, action="transfer", content=log_content))
@@ -546,7 +558,7 @@ def transfer_order(order_id: int, data: dict, db: Session = Depends(get_db)):
             db, user_id=old_tech_id,
             type="order_status",
             title="工单已转出",
-            content=f"工单 #{order.order_no} 已转给 {new_tech.name}",
+            content=f"工单 #{order.order_no} 已转给 {new_tech_name}",
             ref_id=order_id, ref_type="order",
         )
 
@@ -566,4 +578,4 @@ def transfer_order(order_id: int, data: dict, db: Session = Depends(get_db)):
     except Exception:
         pass
 
-    return ApiResponse(message=f"已转单给 {new_tech.name}")
+    return ApiResponse(message=f"已转单给 {new_tech_name}")

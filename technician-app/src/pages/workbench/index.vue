@@ -320,7 +320,7 @@ export default {
 
       try {
         const [res, nearbyRes] = await Promise.all([
-          api.getMyOrders(this.user.id),
+          api.getMyOrders(this.user.id).catch(()=>({data:[]})),
           api.getNearbyOrders(this.user?.id).catch(() => ({ data: [] }))
         ])
         // 如果已经不是最新请求，丢弃结果

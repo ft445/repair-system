@@ -165,7 +165,7 @@ h3{font-size:16px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
         <div class="card" style="cursor:pointer" @click="goOrders('undispatch')"><div class="label">📨 未派单</div><div class="num" style="color:#faad14">{{ stats.undispatch||0 }}</div><div style="font-size:12px;color:#faad14;margin-top:4px">待派单 →</div></div>
         <div class="card" style="cursor:pointer" @click="goOrders('active')"><div class="label">🔄 进行中</div><div class="num" style="color:#E67A2E">{{ stats.in_progress||0 }}</div><div style="font-size:12px;color:#E67A2E;margin-top:4px">点击查看 →</div></div>
         <div class="card" style="cursor:pointer" @click="goOrders('completed_today')"><div class="label">✅ 今天完成</div><div class="num" style="color:#52c41a">{{ stats.completed_today||0 }}</div><div style="font-size:12px;color:#52c41a;margin-top:4px">已完成 {{ stats.completed||0 }} 单 →</div></div>
-        <div class="card" style="cursor:pointer" @click="goOrders('all')"><div class="label">📈 总工单</div><div class="num">{{ stats.total||0 }}</div><div style="font-size:12px;color:#1677ff;margin-top:4px">本月新增 {{ stats.created_today||0 }} →</div></div>
+        <div class="card" style="cursor:pointer" @click="goOrders('all')"><div class="label">📈 总工单</div><div class="num">{{ stats.total||0 }}</div><div style="font-size:12px;color:#1677ff;margin-top:4px">今日新增 {{ stats.created_today||0 }} →</div></div>
       </div>
       <!-- Auto Dispatch Toggle -->
       <div class="panel" style="margin-bottom:12px">
@@ -237,7 +237,7 @@ h3{font-size:16px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
                 <el-button text type="primary" size="small" @click="viewOrder(r)">详情</el-button>
                 <el-button v-if="r.status==='pending'||r.status==='accepted'" text type="primary" size="small" @click="openDispatch(r)">派单</el-button>
                 <el-button v-if="r.status==='pending'||r.status==='accepted'" text type="success" size="small" @click="autoDispatch(r)">智能派</el-button>
-                <el-button v-if="r.status!=='completed'&&r.status!=='done'&&r.status!=='cancelled'" text type="danger" size="small" @click="cancelOrder(r)">取消</el-button>
+                <el-button v-if="r.status!=='completed'&&r.status!=='done'&&r.status!=='cancelled'&&r.status!=='CANCEL_PENDING'&&r.status!=='CANCEL_PENDING'" text type="danger" size="small" @click="cancelOrder(r)">取消</el-button>
                 <el-button v-if="r.status==='CANCEL_PENDING'" text type="success" size="small" @click="approveCancel(r)">✓ 同意</el-button>
                 <el-button v-if="r.status==='CANCEL_PENDING'" text type="danger" size="small" @click="rejectCancel(r)">✕ 驳回</el-button>
                 <el-button v-if="r.status==='completed'||r.status==='paid'" text type="warning" size="small" @click="refundOrder(r)">退款</el-button>
@@ -979,7 +979,15 @@ h3{font-size:16px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
         });
         if (!data.length) { alert('所选日期范围内没有数据'); return; }
       }
-      exportCSV(data, 'WorkOrders_' + (startDate ? startDate + '~' + endDate : 'all'));
+      const h={'order_no':'工单号','customer_name':'客户','customer_phone':'手机','address':'地址','service_item_name':'服务','technician_name':'师傅','status':'状态','total_fee':'费用','pay_status':'支付','payment_method':'支付方式','created_at':'创建','appointment_time':'预约','completed_at':'完成','paid_at':'付款','category_type':'分类','fault_description':'描述','remark':'备注'};
+            const keys=data.length?Object.keys(data[0]).filter(k=>h[k]):[];
+      const rows=[keys.map(k=>h[k]).join(',')];
+      data.forEach(r=>{rows.push(keys.map(k=>{let v=r[k]??'';if(typeof v==='string'&&(v.includes(',')||v.includes('"')||v.includes(String.fromCharCode(10))))v='"'+v.replace(/"/g,'""')+'"';return v;}).join(','));});
+      const csv=rows.join(String.fromCharCode(10));
+      const blob=new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8;'});
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');a.href=url;a.download='工单_'+(startDate||'全部')+'.csv';
+      document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
     }
 
     function exportCSV(data, filename) {
@@ -1260,9 +1268,9 @@ h3{font-size:16px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
     async function loadEarnings(){try{const r=await api('/finance/technician-earnings');earnings.value=r.data||[]}catch(e){}}
 
     // ─── Customers ───
-    const applications=ref([]);const customers=ref([]);
+    const applications=ref([]);const customers=ref([]);const customerKeyword=ref('');const customerPage=ref(1);const customerTotal=ref(0);const customerPages=ref([]);
     async function loadApplications(){try{const r=await api('/recruit/list');applications.value=r.data||[]}catch(e){}}
-    async function loadCustomers(){try{const r=await api('/customers');customers.value=r.data||[]}catch(e){}}
+    async function loadCustomers(){try{const kw=customerKeyword.value?'&keyword='+encodeURIComponent(customerKeyword.value):'';const r=await api('/customers?page='+customerPage.value+'&page_size=20'+kw);const d=r.data||{};customers.value=d.items||d||[];customerTotal.value=d.total||customers.value.length;const pg=Math.ceil(customerTotal.value/20);customerPages.value=pg>1?Array.from({length:Math.min(pg,20)},(_,i)=>i+1):[]}catch(e){}}
     async function loadOrgs(){try{const r=await api('/organizations');orgs.value=r.data||[];orgList.value=r.data||[]}catch(e){}}
     async function loadAdmins(){try{const r=await api('/auth/admins');admins.value=r.data||[]}catch(e){}}
     async function changePwd(){if(!pwdForm.old||!pwdForm.new){setMsg('请输入旧密码和新密码',true);return}pwdLoading.value=true;try{await api('/auth/change-password',{method:'POST',body:JSON.stringify({old_password:pwdForm.old,new_password:pwdForm.new})});setMsg('密码已修改',false);pwdForm.old='';pwdForm.new=''}catch(e){setMsg(e.message,true)}finally{pwdLoading.value=false}}
@@ -1311,7 +1319,7 @@ h3{font-size:16px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
       if(token.value){
         try{const r=await api('/auth/me');user.value=r.data}catch(e){token.value='';localStorage.removeItem('token');return}
         if(!token.value)return;
-        try{await loadDashboard();const sr=await api('/stats/orders');prevTotalOrders.value=sr.data?.created_today||0}catch(e){}
+        try{await loadDashboard();const sr=await api('/stats/orders');const created=sr.data?.created_today||0;if(prevTotalOrders.value>0&&created>prevTotalOrders.value)newOrderCount.value=created-prevTotalOrders.value;prevTotalOrders.value=created}catch(e){}
         pollTimer = setInterval(async()=>{
           if(!token.value) return;
           try{
@@ -1393,7 +1401,7 @@ h3{font-size:16px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
     // Export finance monthly report
     function exportFinance() {
       if (!(monthStats.value||[]).length) { alert('没有统计数据可导出'); return; }
-      const headers = ['Month','Orders','Revenue','TechShare','PlatformShare','Paid','Unpaid'];
+      const headers = ['月份','工单数','总收入','师傅分成','平台收入','已付款','未付款'];
       const rows = monthStats.value.map(r => [r.month, r.count, r.revenue, r.techShare, r.platformShare, r.paid, r.unpaid]);
       const csv = [headers.join(','), ...rows.map(r => r.join(','))].join(String.fromCharCode(10));
       const bom = String.fromCharCode(0xFEFF);
