@@ -61,9 +61,9 @@
         </view>
         <view class="form-row">
           <text class="form-label">方式</text>
-          <picker :value="withdrawMethod" :range="withdrawMethods" @change="e=>withdrawMethod=withdrawMethods[e.detail.value]" style="flex:1">
-            <view class="form-input form-picker">{{ withdrawMethod }}</view>
-          </picker>
+          <select :value="withdrawMethod" @change="e=>withdrawMethod=e.target.value" style="flex:1;padding:10px 12px;border:1.5px solid var(--border,#e8e8e8);border-radius:10px;font-size:15px;background:var(--bg-fill,#f8f9fb);color:var(--text-primary)">
+            <option v-for="m in withdrawMethods" :key="m" :value="m">{{ m }}</option>
+          </select>
         </view>
         <view class="modal-actions">
           <button class="mbtn cancel" @click="showWithdraw=false">取消</button>
@@ -77,22 +77,25 @@
 <script>
 import api from '../../api'
 export default {
-  data() { return { totalEarned: 0, balance: 0, thisMonthEarn: 0, thisMonthCount: 0, dailyEarns: [], user: null, showWithdraw: false, withdrawAmount: '', withdrawMethod: '微信', withdrawMethods: ['微信', '支付宝', '银行卡'], rank: 0, totalTechs: 0, avgRating: null } },
+  data() { return { totalEarned: 0, balance: 0, thisMonthEarn: 0, thisMonthCount: 0, dailyEarns: [], user: null, showWithdraw: false, withdrawAmount: '', withdrawMethod: '微信', withdrawMethods: ['微信', '支付宝', '银行卡'], rank: 0, totalTechs: 0, avgRating: null, _reqId: 0 } },
   onShow() { this.user = uni.getStorageSync('user'); if (!this.user) return uni.reLaunch({ url: '/pages/login/index' }); this.loadData() },
   methods: {
     async loadData() {
+      const reqId = ++this._reqId
+      this.dailyEarns = []; this.totalEarned = 0; this.balance = 0
       try {
         const [orderRes, statsRes] = await Promise.all([
           api.getMyOrders(this.user.id),
           api.getMonthlyStats(this.user.id).catch(() => ({ data: {} })),
         ])
+        if (reqId !== this._reqId) return
         const orders = (Array.isArray(orderRes.data) ? orderRes.data : orderRes.data?.items) || []
         const stats = statsRes.data || {}
         this.rank = stats.rank || 0
         this.totalTechs = stats.total_techs || 0
         this.avgRating = stats.avg_rating || null
 
-        const done = orders.filter(o => o.status === 'completed' || o.status === 'done' || o.status === 'paid')
+        const done = orders.filter(o => (o.status === 'completed' || o.status === 'done' || o.status === 'paid') && o.total_fee && Number(o.total_fee) > 0)
         this.totalEarned = done.reduce((s, o) => s + (o.total_fee || 0), 0)
         this.balance = Math.floor(this.totalEarned * 0.8)
         const now = new Date(), ym = now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')
@@ -116,7 +119,7 @@ export default {
 </script>
 
 <style>
-.page{background:var(--bg-page);min-height:100vh;padding:var(--spacing-md)}
+.page{background:var(--bg-page);min-height:100vh;padding:var(--spacing-md);padding-bottom:60px;width:100%;overflow-x:hidden;box-sizing:border-box}
 .header-card{background:var(--primary-gradient);border-radius:var(--radius-lg);padding:28px 20px;color:#fff;margin-bottom:var(--spacing-md);box-shadow:0 4px 16px rgba(230,122,46,.3)}
 .header-top{text-align:center;margin-bottom:var(--spacing-lg)}
 .header-label{font-size:var(--font-sm);opacity:.7}

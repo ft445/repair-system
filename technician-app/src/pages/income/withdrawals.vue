@@ -1,40 +1,40 @@
 <template>
-  <view class="page">
+  <div class="page">
     <!-- 统计头 -->
-    <view class="header-bar">
-      <text class="header-title">提现记录</text>
-      <text class="header-count" v-if="list.length">共 {{ list.length }} 笔</text>
-    </view>
+    <div class="header-bar">
+      <span class="header-title">提现记录</span>
+      <span class="header-count" v-if="list.length">共 {{ list.length }} 笔</span>
+    </div>
 
     <!-- 加载 -->
-    <view v-if="loading" class="loading-wrap">
-      <view class="loading-icon">⏳</view>
-      <text class="loading-text">加载中...</text>
-    </view>
+    <div v-if="loading" class="loading-wrap">
+      <div class="loading-icon">⏳</div>
+      <span class="loading-text">加载中...</span>
+    </div>
 
     <!-- 空状态 -->
-    <view v-else-if="list.length === 0" class="empty-state">
-      <view class="empty-icon">💳</view>
-      <text class="empty-title">暂无提现记录</text>
-      <text class="empty-desc">申请提现后将显示在这里</text>
-    </view>
+    <div v-else-if="list.length === 0" class="empty-state">
+      <div class="empty-icon">💳</div>
+      <span class="empty-title">暂无提现记录</span>
+      <span class="empty-desc">申请提现后将显示在这里</span>
+    </div>
 
     <!-- 列表 -->
-    <view v-else class="list-wrap">
-      <view v-for="item in list" :key="item.id" class="withdraw-card">
-        <view class="wc-top">
-          <text class="wc-amount">¥{{ item.amount }}</text>
-          <text :class="'wc-status ' + item.status">{{ statusMap[item.status] || item.status }}</text>
-        </view>
-        <view class="wc-info">
-          <text class="wc-method">{{ item.bank_card === 'wechat' ? '微信' : item.bank_card === 'alipay' ? '支付宝' : item.bank_card || '银行卡' }}</text>
-          <text class="wc-divider">·</text>
-          <text class="wc-time">{{ formatTime(item.created_at) }}</text>
-        </view>
-        <view class="wc-id">编号: {{ item.id }}</view>
-      </view>
-    </view>
-  </view>
+    <div v-else class="list-wrap">
+      <div v-for="item in list" :key="item.id" class="withdraw-card">
+        <div class="wc-top">
+          <span class="wc-amount">¥{{ item.amount }}</span>
+          <span :class="'wc-status ' + item.status">{{ statusMap[item.status] || item.status }}</span>
+        </div>
+        <div class="wc-info">
+          <span class="wc-method">{{ item.bank_card === 'wechat' ? '微信' : item.bank_card === 'alipay' ? '支付宝' : item.bank_card || '银行卡' }}</span>
+          <span class="wc-divider">·</span>
+          <span class="wc-time">{{ formatTime(item.created_at) }}</span>
+        </div>
+        <div class="wc-id">编号: {{ item.id }}</div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -69,7 +69,7 @@ export default {
 </script>
 
 <style>
-.page{background:var(--bg-page);min-height:100vh;padding:var(--spacing-md)}
+.page{background:var(--bg-page);min-height:100vh;padding:var(--spacing-md);width:100%;overflow-x:hidden;box-sizing:border-box}
 .header-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--spacing-md)}
 .header-title{font-size:var(--font-xl);font-weight:700;color:var(--text-primary)}
 .header-count{font-size:var(--font-sm);color:var(--text-tertiary)}

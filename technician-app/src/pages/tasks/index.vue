@@ -1,39 +1,39 @@
 <template>
-  <view class="page">
-    <view class="header-bar">
-      <text class="back-btn" @click="goBack">‹ 返回</text>
-      <text class="title-txt">{{ pageTitle }}</text>
-      <text style="width:40px"></text>
-    </view>
+  <div class="page">
+    <div class="header-bar">
+      <span class="back-btn" @click="goBack">‹ 返回</span>
+      <span class="title-txt">{{ pageTitle }}</span>
+      <span style="width:40px"></span>
+    </div>
 
-    <view v-if="loading" class="loading-state">
-      <view class="skeleton-card"><view class="skeleton-line w60"></view><view class="skeleton-line w80"></view><view class="skeleton-line w40 h32"></view></view>
-      <view class="skeleton-card"><view class="skeleton-line w60"></view><view class="skeleton-line w80"></view><view class="skeleton-line w40 h32"></view></view>
-    </view>
+    <div v-if="loading" class="loading-state">
+      <div class="skeleton-card"><div class="skeleton-line w60"></div><div class="skeleton-line w80"></div><div class="skeleton-line w40 h32"></div></div>
+      <div class="skeleton-card"><div class="skeleton-line w60"></div><div class="skeleton-line w80"></div><div class="skeleton-line w40 h32"></div></div>
+    </div>
 
-    <view v-else-if="orders.length === 0" class="empty-state">
-      <view class="empty-circle">{{ emptyIcon }}</view>
-      <text class="empty-title">{{ emptyTitle }}</text>
-      <text class="empty-desc">{{ emptyDesc }}</text>
-    </view>
+    <div v-else-if="orders.length === 0" class="empty-state">
+      <div class="empty-circle">{{ emptyIcon }}</div>
+      <span class="empty-title">{{ emptyTitle }}</span>
+      <span class="empty-desc">{{ emptyDesc }}</span>
+    </div>
 
-    <view v-else class="list">
-      <view v-for="item in orders" :key="item.id" class="task-card" @click="goDetail(item.id)">
-        <view class="task-header">
-          <text class="task-time">{{ item.created_at ? item.created_at.slice(5,10)+' '+item.created_at.slice(11,16) : '' }}</text>
-          <text :class="'task-status ' + item.status">{{ statusTxt(item.status) }}</text>
-        </view>
-        <view class="task-title">{{ item.service_item_name || '维修' }}
-          <text class="task-cate">{{ item.category_type||'' }}</text>
-        </view>
-        <view class="task-addr">{{ item.address?.slice(0,30) || '' }}</view>
-        <view class="task-footer">
-          <text class="task-customer">{{ item.customer_name || '客户' }}</text>
-          <text class="task-fee" v-if="item.total_fee">¥{{ item.total_fee }}</text>
-        </view>
-      </view>
-    </view>
-  </view>
+    <div v-else class="list">
+      <div v-for="item in orders" :key="item.id" class="task-card" @click="goDetail(item.id)">
+        <div class="task-header">
+          <span class="task-time">{{ item.created_at ? item.created_at.slice(5,10)+' '+item.created_at.slice(11,16) : '' }}</span>
+          <span :class="'task-status ' + item.status">{{ statusTxt(item.status) }}</span>
+        </div>
+        <div class="task-title">{{ item.service_item_name || '维修' }}
+          <span class="task-cate">{{ item.category_type||'' }}</span>
+        </div>
+        <div class="task-addr">{{ item.address?.slice(0,30) || '' }}</div>
+        <div class="task-footer">
+          <span class="task-customer">{{ item.customer_name || '客户' }}</span>
+          <span class="task-fee" v-if="item.total_fee">¥{{ item.total_fee }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -89,7 +89,7 @@ export default {
 </script>
 
 <style>
-.page{background:var(--bg-page);min-height:100vh}
+.page{background:var(--bg-page);min-height:100vh;width:100%;overflow-x:hidden;box-sizing:border-box}
 .header-bar{display:flex;align-items:center;justify-content:space-between;padding:var(--spacing-md);background:var(--bg-card);border-bottom:1px solid var(--border)}
 .back-btn{font-size:var(--font-md);color:var(--primary);font-weight:500}
 .title-txt{font-size:var(--font-lg);font-weight:600;color:var(--text-primary)}

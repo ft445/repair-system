@@ -1,34 +1,34 @@
 <template>
-  <view class="page">
-    <view class="form-section">
-      <view class="form-row">
-        <text class="form-label">姓名</text>
+  <div class="page">
+    <div class="form-section">
+      <div class="form-row">
+        <span class="form-label">姓名</span>
         <input class="form-input" v-model="form.name" placeholder="请输入姓名" />
-      </view>
-      <view class="form-row">
-        <text class="form-label">手机号</text>
+      </div>
+      <div class="form-row">
+        <span class="form-label">手机号</span>
         <input class="form-input" v-model="form.phone" placeholder="请输入手机号" type="number" maxlength="11" />
-      </view>
-      <view class="form-row">
-        <text class="form-label">住址</text>
+      </div>
+      <div class="form-row">
+        <span class="form-label">住址</span>
         <input class="form-input" v-model="form.address" placeholder="请输入住址" />
-      </view>
-      <view class="form-row">
-        <text class="form-label">身份证</text>
+      </div>
+      <div class="form-row">
+        <span class="form-label">身份证</span>
         <input class="form-input" v-model="form.id_card" placeholder="请输入身份证号" disabled style="color:#999" />
-      </view>
-      <view class="form-row">
-        <text class="form-label">紧急联系人</text>
+      </div>
+      <div class="form-row">
+        <span class="form-label">紧急联系人</span>
         <input class="form-input" v-model="form.emergency_contact" placeholder="请输入紧急联系人姓名" />
-      </view>
-      <view class="form-row">
-        <text class="form-label">紧急电话</text>
+      </div>
+      <div class="form-row">
+        <span class="form-label">紧急电话</span>
         <input class="form-input" v-model="form.emergency_phone" placeholder="请输入紧急联系电话" type="number" />
-      </view>
-    </view>
+      </div>
+    </div>
 
     <button class="save-btn" @click="saveProfile">保存修改</button>
-  </view>
+  </div>
 </template>
 
 <script>
@@ -88,7 +88,7 @@ export default {
 </script>
 
 <style>
-.page{background:var(--bg-page);min-height:100vh;padding:var(--spacing-md)}
+.page{background:var(--bg-page);min-height:100vh;padding:var(--spacing-md);width:100%;overflow-x:hidden;box-sizing:border-box}
 .form-section{background:var(--bg-card);border-radius:var(--radius-lg);padding:var(--spacing-lg);box-shadow:var(--shadow-sm);border:1px solid var(--border)}
 .form-row{display:flex;align-items:center;padding:var(--spacing-md) 0;border-bottom:1px solid var(--border)}
 .form-row:last-child{border-bottom:none}

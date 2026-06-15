@@ -1,15 +1,15 @@
 <template>
-  <view class="page">
-    <view class="box">
-      <text class="title">{{ brandName }}</text>
-      <text class="sub">{{ brandSubtitle }}</text>
-      <view class="card">
+  <div class="page">
+    <div class="box">
+      <span class="title">{{ brandName }}</span>
+      <span class="sub">{{ brandSubtitle }}</span>
+      <div class="card">
         <input class="inp" type="text" v-model="phone" placeholder="请输入手机号" maxlength="11" @tap="onTap"/>
         <input class="inp" type="password" v-model="password" placeholder="请输入密码" @tap="onTap"/>
         <button class="btn" @click="doLogin" :disabled="loading">{{ loading ? '登录中...' : '登 录' }}</button>
-      </view>
-    </view>
-  </view>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>

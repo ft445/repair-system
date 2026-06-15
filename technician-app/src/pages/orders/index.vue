@@ -1,58 +1,58 @@
 <template>
-  <view class="page">
+  <div class="page">
     <!-- Tabs -->
-    <view class="tabs">
-      <view v-for="t in tabs" :key="t.key" :class="'tab '+(activeTab===t.key?'active':'')" @click="switchTab(t.key)">{{ t.label }}</view>
-    </view>
+    <div class="tabs">
+      <div v-for="t in tabs" :key="t.key" :class="'tab '+(activeTab===t.key?'active':'')" @click="switchTab(t.key)">{{ t.label }}</div>
+    </div>
 
     <!-- Skeleton -->
-    <view v-if="loading" class="order-list">
-      <view class="skeleton-card"><view class="skeleton-line w60"></view><view class="skeleton-line w80"></view><view class="skeleton-line w40 h32"></view></view>
-      <view class="skeleton-card"><view class="skeleton-line w60"></view><view class="skeleton-line w80"></view><view class="skeleton-line w40 h32"></view></view>
-      <view class="skeleton-card"><view class="skeleton-line w60"></view><view class="skeleton-line w80"></view><view class="skeleton-line w40 h32"></view></view>
-    </view>
+    <div v-if="loading" class="order-list">
+      <div class="skeleton-card"><div class="skeleton-line w60"></div><div class="skeleton-line w80"></div><div class="skeleton-line w40 h32"></div></div>
+      <div class="skeleton-card"><div class="skeleton-line w60"></div><div class="skeleton-line w80"></div><div class="skeleton-line w40 h32"></div></div>
+      <div class="skeleton-card"><div class="skeleton-line w60"></div><div class="skeleton-line w80"></div><div class="skeleton-line w40 h32"></div></div>
+    </div>
 
     <!-- Empty -->
-    <view v-else-if="orders.length === 0" class="empty-state">
-      <view class="empty-circle">{{ emptyIcons[activeTab] || '📋' }}</view>
-      <text class="empty-title">{{ emptyTitles[activeTab] || '暂无工单' }}</text>
-      <text class="empty-desc">{{ emptyDescs[activeTab] || '有新工单时会在这里显示' }}</text>
-    </view>
+    <div v-else-if="orders.length === 0" class="empty-state">
+      <div class="empty-circle">{{ emptyIcons[activeTab] || '📋' }}</div>
+      <span class="empty-title">{{ emptyTitles[activeTab] || '暂无工单' }}</span>
+      <span class="empty-desc">{{ emptyDescs[activeTab] || '有新工单时会在这里显示' }}</span>
+    </div>
 
     <!-- List -->
-    <view v-else class="order-list">
-      <view v-for="item in orders" :key="item.id" class="order-card" @click="goDetail(item.id)">
-        <view class="card-row">
-          <view class="card-service">
-            <view class="card-service-icon">{{ serviceIcon(item.category_type) }}</view>
-            <view>
-              <text class="card-service-name">{{ item.service_item_name || '维修' }}</text>
-              <text class="card-customer-name">{{ item.customer_name || '客户' }}</text>
-            </view>
-          </view>
-          <text :class="'card-badge ' + item.status">{{ statusLabel(item.status) }}</text>
-        </view>
-        <view class="card-addr">{{ item.address?.slice(0,30) || '地址待确认' }}</view>
-        <view class="card-row card-bottom">
-          <view class="card-time">
-            <text v-if="item.appointment_time">{{ item.appointment_time.slice(5,10) }} {{ item.appointment_time.slice(11,16) }}</text>
-            <text v-else>{{ item.created_at ? parseInt(item.created_at.slice(5,7))+'月'+parseInt(item.created_at.slice(8,10))+'日' : '' }}</text>
-          </view>
-          <view class="card-right">
-            <text class="card-phone" v-if="item.customer_phone">{{ item.customer_phone.slice(0,3)+'****'+item.customer_phone.slice(-4) }}</text>
-            <text v-if="item.total_fee" class="card-fee">¥{{ item.total_fee }}</text>
-          </view>
-        </view>
-      </view>
+    <div v-else-if="!loading" class="order-list">
+      <div v-for="item in orders" :key="item.id" class="order-card" @click="goDetail(item.id)">
+        <div class="card-row">
+          <div class="card-service">
+            <div class="card-service-icon">{{ serviceIcon(item.category_type) }}</div>
+            <div>
+              <span class="card-service-name">{{ item.service_item_name || '维修' }}</span>
+              <span class="card-customer-name">{{ item.customer_name || '客户' }}</span>
+            </div>
+          </div>
+          <span :class="'card-badge ' + item.status">{{ statusLabel(item.status) }}</span>
+        </div>
+        <div class="card-addr">{{ item.address?.slice(0,30) || '地址待确认' }}</div>
+        <div class="card-row card-bottom">
+          <div class="card-time">
+            <span v-if="item.appointment_time">{{ item.appointment_time.slice(5,10) }} {{ item.appointment_time.slice(11,16) }}</span>
+            <span v-else>{{ item.created_at ? parseInt(item.created_at.slice(5,7))+'月'+parseInt(item.created_at.slice(8,10))+'日' : '' }}</span>
+          </div>
+          <div class="card-right">
+            <span class="card-phone" v-if="item.customer_phone">{{ item.customer_phone.slice(0,3)+'****'+item.customer_phone.slice(-4) }}</span>
+            <span v-if="item.total_fee" class="card-fee">¥{{ item.total_fee }}</span>
+          </div>
+        </div>
+      </div>
       <!-- 加载更多 -->
-      <view class="load-more-wrap" v-if="hasMore">
-        <text class="load-more-btn" @click="loadMore">{{ loadingMore ? '加载中...' : '加载更多' }}</text>
-      </view>
-      <view class="load-more-wrap" v-else-if="orders.length > 0">
-        <text class="load-end-text">— 共 {{ totalCount }} 条，已全部加载 —</text>
-      </view>
-    </view>
-  </view>
+      <div class="load-more-wrap" v-if="hasMore">
+        <span class="load-more-btn" @click="loadMore">{{ loadingMore ? '加载中...' : '加载更多' }}</span>
+      </div>
+      <div class="load-more-wrap" v-else-if="orders.length > 0">
+        <span class="load-end-text">— 共 {{ totalCount }} 条，已全部加载 —</span>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -61,7 +61,7 @@ export default {
   data() {
     return {
       tabs: [{key:'',label:'全部'},{key:'pending',label:'待接单'},{key:'in_progress',label:'进行中'},{key:'completed',label:'已完成'}],
-      activeTab: '', orders: [], loading: false, loadingMore: false, user: null,
+      activeTab: '', orders: [], loading: false, loadingMore: false, user: null, _reqId: 0,
       page: 1, pageSize: 20, hasMore: true, totalCount: 0,
       emptyIcons: {'':'📋',pending:'📭',in_progress:'🔧',completed:'✅'},
       emptyTitles: {'':'暂无工单',pending:'暂无待接单',in_progress:'暂无进行中',completed:'暂无已完成'},
@@ -86,7 +86,8 @@ export default {
     statusLabel(s) { const m={pending:'待接单',dispatched:'已派单',accepted:'已接单',in_progress:'进行中',completed:'已完成',paid:'已付款',done:'已完成',cancelled:'已取消'}; return m[s]||s },
     switchTab(k) { this.activeTab = k; this.loadOrders(true) },
     async loadOrders(reset) {
-      if (reset) { this.page = 1; this.hasMore = true; this.loading = true }
+      const reqId = ++this._reqId
+      if (reset) { this.page = 1; this.hasMore = true; this.loading = true; this.orders = [] }
       else { this.loadingMore = true }
       try {
         const statusMap = { 'pending': 'dispatched', 'in_progress': 'in_progress', 'completed': 'completed' }
@@ -94,20 +95,20 @@ export default {
         const res = await api.getMyOrdersPaginated(this.user.id, {
           page: this.page, pageSize: this.pageSize, status: filterStatus,
         })
+        if (reqId !== this._reqId) return // 丢弃旧请求响应
         const d = res.data || {}
         const items = (d.items || []).filter(o => o.status !== 'cancelled')
         this.totalCount = d.total || items.length
 
         if (this.activeTab === '') {
-          // 全部Tab：前端过滤
-          let list = items
+          const list = items
           this.orders = reset ? list : [...this.orders, ...list]
         } else {
           this.orders = reset ? items : [...this.orders, ...items]
         }
         this.hasMore = (this.page * this.pageSize) < this.totalCount
       } catch(e) { console.error(e); uni.showToast({ title:'网络异常，下拉刷新重试', icon:'none' }) }
-      finally { this.loading = false; this.loadingMore = false }
+      finally { if (reqId === this._reqId) { this.loading = false; this.loadingMore = false } }
     },
     loadMore() {
       if (this.loadingMore || !this.hasMore) return
@@ -120,11 +121,11 @@ export default {
 </script>
 
 <style>
-.page{background:var(--bg-page);min-height:100vh;padding:var(--spacing-md)}
+.page{background:var(--bg-page);min-height:100vh;padding:var(--spacing-md);padding-bottom:60px;width:100%;overflow-x:hidden;box-sizing:border-box;width:100%;overflow-x:hidden;box-sizing:border-box}
 
 /* Tabs */
-.tabs{display:flex;background:var(--bg-card);border-radius:var(--radius-md);margin-bottom:var(--spacing-md);padding:4px;box-shadow:var(--shadow-sm)}
-.tab{flex:1;text-align:center;padding:8px 0;font-size:var(--font-base);color:var(--text-tertiary);border-radius:var(--radius-sm);font-weight:500;transition:all .2s}
+.tabs{display:flex;background:var(--bg-card);border-radius:var(--radius-md);margin-bottom:var(--spacing-md);padding:4px;box-shadow:var(--shadow-sm);overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch}
+.tab{flex:0 0 auto;text-align:center;padding:8px 16px;font-size:var(--font-base);color:var(--text-tertiary);border-radius:var(--radius-sm);font-weight:500;transition:all .2s;white-space:nowrap}
 .tab.active{background:var(--primary-gradient);color:#fff;font-weight:600;box-shadow:0 2px 8px rgba(230,122,46,0.25)}
 
 /* Order list */
@@ -145,6 +146,7 @@ export default {
 .card-right{display:flex;align-items:center;gap:var(--spacing-sm)}
 .card-phone{font-size:var(--font-sm);color:var(--text-tertiary)}
 .card-fee{color:var(--danger);font-weight:700;font-size:var(--font-md)}
+.card-service-name,.card-addr,.card-customer-name{word-break:break-word;overflow-wrap:break-word}
 
 /* Empty state */
 .empty-state{background:var(--bg-card);border-radius:var(--radius-lg);margin:0;padding:60px 20px;text-align:center;box-shadow:var(--shadow-sm);border:1px dashed var(--border-strong)}

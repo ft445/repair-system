@@ -1,110 +1,110 @@
 <template>
-  <view class="page">
-    <view class="header-bar">
-      <text class="back-btn" @click="goBack">‹ 返回</text>
-      <text class="title-txt">现场报价</text>
-      <text style="width:40px"></text>
-    </view>
+  <div class="page">
+    <div class="header-bar">
+      <span class="back-btn" @click="goBack">‹ 返回</span>
+      <span class="title-txt">现场报价</span>
+      <span style="width:40px"></span>
+    </div>
 
-    <view class="order-ref">工单: {{ orderNo }}</view>
+    <div class="order-ref">工单: {{ orderNo }}</div>
 
     <!-- 选择服务项目 -->
-    <view class="section">
-      <view class="sec-header">
-        <text class="sec-title">添加维修项目</text>
-        <text class="sec-hint">从常用项目中选择</text>
-      </view>
+    <div class="section">
+      <div class="sec-header">
+        <span class="sec-title">添加维修项目</span>
+        <span class="sec-hint">从常用项目中选择</span>
+      </div>
 
-      <view class="service-selector">
-        <view class="ss-search" v-if="serviceItems.length > 5">
-          <text class="ss-search-icon">🔍</text>
+      <div class="service-selector">
+        <div class="ss-search" v-if="serviceItems.length > 5">
+          <span class="ss-search-icon">🔍</span>
           <input class="ss-search-input" v-model="searchKeyword" placeholder="搜索项目..." />
-        </view>
-        <scroll-view class="ss-list" scroll-y show-scrollbar="true">
-          <view
+        </div>
+        <div class="ss-list" style="overflow-y:auto">
+          <div
             v-for="item in filteredItems" :key="item.id"
             :class="'ss-item ' + (selectedServiceId === item.id ? 'ss-active' : '')"
             @click="selectService(item)"
           >
-            <view class="ss-item-left">
-              <text class="ss-item-name">{{ item.name }}</text>
-              <text class="ss-item-unit">{{ item.unit_type || '次' }}</text>
-            </view>
-            <view class="ss-item-right">
-              <text class="ss-item-price" v-if="item.default_price">¥{{ item.default_price }}</text>
-              <text class="ss-item-add" v-if="selectedServiceId === item.id">✓</text>
-            </view>
-          </view>
-        </scroll-view>
-      </view>
+            <div class="ss-item-left">
+              <span class="ss-item-name">{{ item.name }}</span>
+              <span class="ss-item-unit">{{ item.unit_type || '次' }}</span>
+            </div>
+            <div class="ss-item-right">
+              <span class="ss-item-price" v-if="item.default_price">¥{{ item.default_price }}</span>
+              <span class="ss-item-add" v-if="selectedServiceId === item.id">✓</span>
+            </div>
+          </div>
+        </div>
+      </div>
       <button class="add-custom-btn" @click="addCustomItem">+ 手动输入项目</button>
-    </view>
+    </div>
 
     <!-- 费用项目列表 -->
-    <view class="section">
-      <view class="sec-header">
-        <text class="sec-title">费用项目</text>
-        <text class="sec-count">{{ quoteItems.length }}项</text>
-      </view>
+    <div class="section">
+      <div class="sec-header">
+        <span class="sec-title">费用项目</span>
+        <span class="sec-count">{{ quoteItems.length }}项</span>
+      </div>
 
-      <view v-for="(item, i) in quoteItems" :key="i" class="quote-card">
-        <view class="qc-top">
-          <view class="qc-num">{{ i + 1 }}</view>
+      <div v-for="(item, i) in quoteItems" :key="i" class="quote-card">
+        <div class="qc-top">
+          <div class="qc-num">{{ i + 1 }}</div>
           <input class="qc-name" v-model="item.name" placeholder="项目名称" />
-          <text class="qc-del" @click="removeItem(i)">✕</text>
-        </view>
-        <view class="qc-detail">
-          <view class="qc-field">
-            <text class="qc-label">数量</text>
+          <span class="qc-del" @click="removeItem(i)">✕</span>
+        </div>
+        <div class="qc-detail">
+          <div class="qc-field">
+            <span class="qc-label">数量</span>
             <input class="qc-input qty" type="number" v-model.number="item.quantity" />
-          </view>
-          <view class="qc-field">
-            <text class="qc-label">单价(元)</text>
+          </div>
+          <div class="qc-field">
+            <span class="qc-label">单价(元)</span>
             <input class="qc-input price" type="digit" v-model.number="item.unit_price" />
-          </view>
-          <view class="qc-subtotal">
-            <text class="qc-st-label">小计</text>
-            <text class="qc-st-val">¥{{ (item.quantity||1)*(item.unit_price||0) }}</text>
-          </view>
-        </view>
-      </view>
+          </div>
+          <div class="qc-subtotal">
+            <span class="qc-st-label">小计</span>
+            <span class="qc-st-val">¥{{ (item.quantity||1)*(item.unit_price||0) }}</span>
+          </div>
+        </div>
+      </div>
 
       <button class="add-btn" @click="showServiceSelector">+ 从项目库添加</button>
-    </view>
+    </div>
 
-    <view class="section">
-      <view class="sec-header"><text class="sec-title">其他费用</text></view>
-      <view class="fee-row">
-        <text class="fee-label">服务费</text>
-        <view class="fee-input-wrap">
+    <div class="section">
+      <div class="sec-header"><span class="sec-title">其他费用</span></div>
+      <div class="fee-row">
+        <span class="fee-label">服务费</span>
+        <div class="fee-input-wrap">
           <input class="fee-input" type="digit" v-model.number="serviceFee" placeholder="0" />
-          <text class="fee-unit">元</text>
-        </view>
-      </view>
-      <view class="fee-row">
-        <text class="fee-label">材料费</text>
-        <view class="fee-input-wrap">
+          <span class="fee-unit">元</span>
+        </div>
+      </div>
+      <div class="fee-row">
+        <span class="fee-label">材料费</span>
+        <div class="fee-input-wrap">
           <input class="fee-input" type="digit" v-model.number="materialFee" placeholder="0" />
-          <text class="fee-unit">元</text>
-        </view>
-      </view>
-    </view>
+          <span class="fee-unit">元</span>
+        </div>
+      </div>
+    </div>
 
-    <view class="total-card">
-      <view class="total-left">
-        <text class="total-label">报价合计</text>
-        <text class="total-hint">含服务费、材料费及各项费用</text>
-      </view>
-      <text class="total-amount">¥{{ totalAmount }}</text>
-    </view>
+    <div class="total-card">
+      <div class="total-left">
+        <span class="total-label">报价合计</span>
+        <span class="total-hint">含服务费、材料费及各项费用</span>
+      </div>
+      <span class="total-amount">¥{{ totalAmount }}</span>
+    </div>
 
-    <view class="bottom-bar">
+    <div class="bottom-bar">
       <button class="btn-cancel" @click="goBack">取消</button>
       <button class="btn-submit" @click="submitQuote" :disabled="submitting">
         {{ submitting ? '提交中...' : '提交报价' }}
       </button>
-    </view>
-  </view>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -218,7 +218,7 @@ export default {
 </script>
 
 <style>
-.page{background:var(--bg-page);min-height:100vh;padding-bottom:80px}
+.page{background:var(--bg-page);min-height:100vh;padding-bottom:80px;width:100%;overflow-x:hidden;box-sizing:border-box;width:100%;overflow-x:hidden;box-sizing:border-box}
 .header-bar{display:flex;align-items:center;justify-content:space-between;padding:var(--spacing-md);background:var(--bg-card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10}
 .back-btn{font-size:var(--font-md);color:var(--primary);font-weight:500}
 .title-txt{font-size:var(--font-lg);font-weight:600;color:var(--text-primary)}

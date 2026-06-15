@@ -1,41 +1,41 @@
 <template>
-  <view class="page">
-    <view class="settings-section">
-      <view class="settings-group">
-        <view class="settings-item" @click="showServicePhone">
-          <text class="si-label">客服电话</text>
-          <text class="si-value">{{ servicePhone }}</text>
-          <text class="mi-arrow">›</text>
-        </view>
-        <view class="settings-item" @click="togglePush">
-          <text class="si-label">消息推送</text>
-          <switch :checked="pushEnabled" color="#E67A2E" @change="togglePush" />
-        </view>
-        <view class="settings-item" @click="clearCache">
-          <text class="si-label">清除缓存</text>
-          <text class="si-value">{{ cacheSize }}</text>
-          <text class="mi-arrow">›</text>
-        </view>
-      </view>
-    </view>
+  <div class="page">
+    <div class="settings-section">
+      <div class="settings-group">
+        <div class="settings-item" @click="showServicePhone">
+          <span class="si-label">客服电话</span>
+          <span class="si-value">{{ servicePhone }}</span>
+          <span class="mi-arrow">›</span>
+        </div>
+        <div class="settings-item" @click="togglePush">
+          <span class="si-label">消息推送</span>
+          <input type="checkbox" class="toggle-switch" :checked="pushEnabled" @change="togglePush" onclick="event.stopPropagation()" />
+        </div>
+        <div class="settings-item" @click="clearCache">
+          <span class="si-label">清除缓存</span>
+          <span class="si-value">{{ cacheSize }}</span>
+          <span class="mi-arrow">›</span>
+        </div>
+      </div>
+    </div>
 
-    <view class="settings-section">
-      <view class="settings-group">
-        <view class="settings-item" @click="navTo('/pages/profile/about')">
-          <text class="si-label">关于黄师傅维修</text>
-          <text class="mi-arrow">›</text>
-        </view>
-        <view class="settings-item">
-          <text class="si-label">版本号</text>
-          <text class="si-value">{{ appVersion }}</text>
-        </view>
-        <view class="settings-item">
-          <text class="si-label">分成比例</text>
-          <text class="si-value">{{ commissionRate }}%</text>
-        </view>
-      </view>
-    </view>
-  </view>
+    <div class="settings-section">
+      <div class="settings-group">
+        <div class="settings-item" @click="navTo('/pages/profile/about')">
+          <span class="si-label">关于黄师傅维修</span>
+          <span class="mi-arrow">›</span>
+        </div>
+        <div class="settings-item">
+          <span class="si-label">版本号</span>
+          <span class="si-value">{{ appVersion }}</span>
+        </div>
+        <div class="settings-item">
+          <span class="si-label">分成比例</span>
+          <span class="si-value">{{ commissionRate }}%</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -96,8 +96,7 @@ export default {
       this.pushEnabled = saved !== false
     },
     togglePush(e) {
-      // e.detail.value for switch event, or we just toggle
-      const val = e?.detail?.value !== undefined ? e.detail.value : !this.pushEnabled
+      const val = e?.target?.checked !== undefined ? e.target.checked : !this.pushEnabled
       this.pushEnabled = val
       uni.setStorageSync('pushEnabled', val)
       // 在原生APP中可以注册/注销推送服务
@@ -131,7 +130,7 @@ export default {
 </script>
 
 <style>
-.page{background:var(--bg-page);min-height:100vh;padding:var(--spacing-md)}
+.page{background:var(--bg-page);min-height:100vh;padding:var(--spacing-md);width:100%;overflow-x:hidden;box-sizing:border-box}
 .settings-section{margin-bottom:var(--spacing-md)}
 .settings-group{background:var(--bg-card);border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-sm);border:1px solid var(--border)}
 .settings-item{display:flex;align-items:center;padding:var(--spacing-lg);border-bottom:1px solid var(--border);font-size:var(--font-md)}

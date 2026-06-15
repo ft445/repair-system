@@ -333,7 +333,7 @@ export default {
 </script>
 
 <style>
-.page{background:var(--bg-page);min-height:100vh;padding:var(--spacing-md)}
+.page{background:var(--bg-page);min-height:100vh;padding:var(--spacing-md);padding-bottom:60px;width:100%;overflow-x:hidden;box-sizing:border-box}
 
 /* 头部 */
 .profile-header{background:var(--primary-gradient);border-radius:var(--radius-lg);padding:32px 20px 22px;text-align:center;color:#fff;margin-bottom:var(--spacing-md);position:relative;overflow:hidden}

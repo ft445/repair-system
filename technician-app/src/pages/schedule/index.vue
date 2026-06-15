@@ -1,60 +1,60 @@
 <template>
-  <view class="page">
+  <div class="page">
     <!-- 月份切换 -->
-    <view class="month-bar">
-      <text class="month-nav" @click="prevMonth">‹</text>
-      <text class="month-title">{{ year }}年{{ month }}月</text>
-      <text class="month-nav" @click="nextMonth">›</text>
-    </view>
+    <div class="month-bar">
+      <span class="month-nav" @click="prevMonth">‹</span>
+      <span class="month-title">{{ year }}年{{ month }}月</span>
+      <span class="month-nav" @click="nextMonth">›</span>
+    </div>
 
     <!-- 星期头 -->
-    <view class="week-header">
-      <text v-for="w in weekdays" :key="w" class="week-day">{{ w }}</text>
-    </view>
+    <div class="week-header">
+      <span v-for="w in weekdays" :key="w" class="week-day">{{ w }}</span>
+    </div>
 
     <!-- 日历网格 -->
-    <view class="calendar-grid">
-      <view v-for="(d, i) in calendarDays" :key="i"
+    <div class="calendar-grid">
+      <div v-for="(d, i) in calendarDays" :key="i"
         :class="'cal-cell '+(d.isToday?'today':'')+' '+(d.isCurrentMonth?'':'other-month')+' '+(d.isSelected?'selected':'')"
         @click="selectDay(d)"
       >
-        <text class="cal-date">{{ d.day }}</text>
-        <view class="cal-dot" v-if="d.hasOrder"></view>
-      </view>
-    </view>
+        <span class="cal-date">{{ d.day }}</span>
+        <div class="cal-dot" v-if="d.hasOrder"></div>
+      </div>
+    </div>
 
     <!-- 繁忙统计 -->
-    <view class="stats-bar">
-      <view class="stats-item"><text class="stats-num">{{ todayOrders.length }}</text><text class="stats-lbl">今日工单</text></view>
-      <view class="stats-item"><text class="stats-num">{{ tomorrowOrders.length }}</text><text class="stats-lbl">明日工单</text></view>
-      <view class="stats-item"><text class="stats-num">{{ monthOrderCount }}</text><text class="stats-lbl">本月工单</text></view>
-    </view>
+    <div class="stats-bar">
+      <div class="stats-item"><span class="stats-num">{{ todayOrders.length }}</span><span class="stats-lbl">今日工单</span></div>
+      <div class="stats-item"><span class="stats-num">{{ tomorrowOrders.length }}</span><span class="stats-lbl">明日工单</span></div>
+      <div class="stats-item"><span class="stats-num">{{ monthOrderCount }}</span><span class="stats-lbl">本月工单</span></div>
+    </div>
 
     <!-- 选中日期工单 -->
-    <view class="section-title" v-if="selectedOrders.length">
-      <text>{{ selectedDateLabel }} 工单（{{ selectedOrders.length }}）</text>
-    </view>
-    <view v-if="selectedOrders.length === 0 && !loading" class="empty-section">
-      <text class="empty-hint">{{ selectedDateLabel }} 暂无安排</text>
-    </view>
-    <view v-for="item in selectedOrders" :key="item.id" class="task-card" @click="goDetail(item.id)">
-      <view class="task-header">
-        <text class="task-time">{{ item.time || '待定' }}</text>
-        <text :class="'task-status ' + item.status">{{ statusTxt(item.status) }}</text>
-      </view>
-      <view class="task-title">{{ item.service_item_name || '维修' }}</view>
-      <view class="task-addr">{{ item.customer_name || '客户' }} · {{ (item.address||'').slice(0,25) }}</view>
-    </view>
+    <div class="section-title" v-if="selectedOrders.length">
+      <span>{{ selectedDateLabel }} 工单（{{ selectedOrders.length }}）</span>
+    </div>
+    <div v-if="selectedOrders.length === 0 && !loading" class="empty-section">
+      <span class="empty-hint">{{ selectedDateLabel }} 暂无安排</span>
+    </div>
+    <div v-for="item in selectedOrders" :key="item.id" class="task-card" @click="goDetail(item.id)">
+      <div class="task-header">
+        <span class="task-time">{{ item.time || '待定' }}</span>
+        <span :class="'task-status ' + item.status">{{ statusTxt(item.status) }}</span>
+      </div>
+      <div class="task-title">{{ item.service_item_name || '维修' }}</div>
+      <div class="task-addr">{{ item.customer_name || '客户' }} · {{ (item.address||'').slice(0,25) }}</div>
+    </div>
 
     <!-- 今日快捷 -->
-    <view class="quick-bar">
-      <text class="quick-btn" @click="jumpToday">📅 今日安排</text>
-      <text class="quick-btn" @click="jumpTomorrow">📆 明日安排</text>
-      <text class="quick-btn" @click="jumpAll">📋 本月全部</text>
-    </view>
+    <div class="quick-bar">
+      <span class="quick-btn" @click="jumpToday">📅 今日安排</span>
+      <span class="quick-btn" @click="jumpTomorrow">📆 明日安排</span>
+      <span class="quick-btn" @click="jumpAll">📋 本月全部</span>
+    </div>
 
-    <view style="height:30px"></view>
-  </view>
+    <div style="height:30px"></div>
+  </div>
 </template>
 
 <script>
@@ -196,7 +196,7 @@ export default {
 </script>
 
 <style>
-.page{background:var(--bg-page);min-height:100vh}
+.page{background:var(--bg-page);min-height:100vh;width:100%;overflow-x:hidden;box-sizing:border-box}
 
 .month-bar{display:flex;align-items:center;justify-content:space-between;background:var(--bg-card);padding:var(--spacing-md) var(--spacing-lg);border-bottom:1px solid var(--border)}
 .month-nav{font-size:28px;color:var(--primary);font-weight:300;padding:0 var(--spacing-sm);line-height:1}
