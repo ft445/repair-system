@@ -74,6 +74,7 @@ h3{font-size:16px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
 .bar-track{flex:1;height:20px;background:#f0f0f0;border-radius:10px;overflow:hidden}
 .bar-fill{height:100%;border-radius:10px;transition:width .6s ease;min-width:4px}
 </style>
+<link rel="icon" href="data:,">
 </head>
 <body>
 <div id="app">
@@ -220,7 +221,9 @@ h3{font-size:16px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
             <el-button :type="orderFilter==='undispatch'?'primary':'default'" size="small" @click="orderFilter='undispatch';loadOrders()" plain>未派单</el-button>
             <el-button :type="orderFilter==='dispatched'?'primary':'default'" size="small" @click="orderFilter='dispatched';loadOrders()" plain>已派单</el-button>
             <el-button :type="orderFilter==='in_progress'?'primary':'default'" size="small" @click="orderFilter='in_progress';loadOrders()" plain>进行中</el-button>
+            <el-button :type="orderFilter==='paid'?'primary':'default'" size="small" @click="orderFilter='paid';loadOrders()" plain>已付款</el-button>
             <el-button :type="orderFilter==='completed'?'primary':'default'" size="small" @click="orderFilter='completed';loadOrders()" plain>已完成</el-button>
+            <el-button :type="orderFilter==='CANCEL_PENDING'?'primary':'default'" size="small" @click="orderFilter='CANCEL_PENDING';loadOrders()" plain>待审核</el-button>
             <el-button :type="orderFilter==='cancelled'?'primary':'default'" size="small" @click="orderFilter='cancelled';loadOrders()" plain>已取消</el-button>
           </div>
           <table class="tbl"><tr><th>工单号</th><th>客户</th><th>地址</th><th>服务</th><th>师傅</th><th>状态</th><th>费用</th><th>时间</th><th>操作</th></tr>
@@ -235,6 +238,8 @@ h3{font-size:16px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
                 <el-button v-if="r.status==='pending'||r.status==='accepted'" text type="primary" size="small" @click="openDispatch(r)">派单</el-button>
                 <el-button v-if="r.status==='pending'||r.status==='accepted'" text type="success" size="small" @click="autoDispatch(r)">智能派</el-button>
                 <el-button v-if="r.status!=='completed'&&r.status!=='done'&&r.status!=='cancelled'" text type="danger" size="small" @click="cancelOrder(r)">取消</el-button>
+                <el-button v-if="r.status==='CANCEL_PENDING'" text type="success" size="small" @click="approveCancel(r)">✓ 同意</el-button>
+                <el-button v-if="r.status==='CANCEL_PENDING'" text type="danger" size="small" @click="rejectCancel(r)">✕ 驳回</el-button>
                 <el-button v-if="r.status==='completed'||r.status==='paid'" text type="warning" size="small" @click="refundOrder(r)">退款</el-button>
               </td>
             </tr>
@@ -902,7 +907,7 @@ h3{font-size:16px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
   if (typeof Vue==='undefined'||typeof ElementPlus==='undefined'){document.getElementById('app').innerHTML='<div style="display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:sans-serif;color:#999"><div style="text-align:center"><h2>Loading...</h2><p style="color:#ccc;margin-top:8px">If this persists, check Console (F12)</p></div></div>';return}
   const {createApp,ref,reactive,computed,onMounted,watch}=Vue; const API=window.location.origin+'/api';
 
-  const STATUS_MAP={pending:'新进订单',dispatched:'已派单',accepted:'已接单',in_progress:'进行中',completed:'已完成',paid:'已付款',done:'已完成',cancelled:'已取消'};
+  const STATUS_MAP={pending:'新进订单',dispatched:'已派单',accepted:'已接单',in_progress:'进行中',completed:'已完成',paid:'已付款',done:'已完成',cancelled:'已取消',CANCEL_PENDING:'待审核'};
   const LEAVE_MAP={sick:'病假',vacation:'年假',personal:'事假',other:'其他'};
   const ORG_MAP={1:'总部',2:'广州分公司',3:'深圳分公司'};
 
@@ -1097,6 +1102,14 @@ h3{font-size:16px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
     }
     async function cancelOrder(r){
       try{const{value:reason}=await ElementPlus.ElMessageBox.prompt('请输入取消原因：','取消工单',{inputValue:'无法完成',confirmButtonText:'确定取消',cancelButtonText:'取消'});await api('/orders/'+r.id+'/cancel',{method:'POST',body:JSON.stringify({reason:reason||'管理员取消'})});setMsg('工单已取消',false);loadOrders();loadDashboard()}
+      catch(e){if(e!=='cancel'&&e!=='close')setMsg(e.message,true)}
+    }
+    async function approveCancel(r){
+      try{await ElementPlus.ElMessageBox.confirm('确认同意取消该工单？','审核',{type:'warning',cancelButtonText:'取消',confirmButtonText:'确认取消'});await api('/orders/'+r.id+'/cancel-review',{method:'PUT',body:JSON.stringify({action:'approve',reason:'管理员审核通过'})});setMsg('取消申请已批准',false);loadOrders();loadDashboard()}
+      catch(e){if(e!=='cancel'&&e!=='close')setMsg(e.message,true)}
+    }
+    async function rejectCancel(r){
+      try{await ElementPlus.ElMessageBox.confirm('驳回取消申请，恢复工单？','审核',{type:'info',cancelButtonText:'取消',confirmButtonText:'确认驳回'});await api('/orders/'+r.id+'/cancel-review',{method:'PUT',body:JSON.stringify({action:'reject',reason:'管理员驳回'})});setMsg('已驳回取消申请',false);loadOrders();loadDashboard()}
       catch(e){if(e!=='cancel'&&e!=='close')setMsg(e.message,true)}
     }
 
@@ -1390,12 +1403,34 @@ h3{font-size:16px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
       document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
       alert('导出成功');
     }
+
+    // ── 转单 ──
+    async function loadTransferTechs() {
+      try {
+        const res = await api('/technician/list')
+        const list = Array.isArray(res.data) ? res.data : (res.data?.items || [])
+        transferTechs.value = list.filter(t => t.id !== detailOrder.value?.technician_id && t.status === 'active')
+      } catch(e) { setMsg('加载师傅列表失败', true) }
+    }
+    async function doAdminTransfer() {
+      if (!transferTargetId.value) { setMsg('请选择目标师傅', true); return }
+      try {
+        const res = await api('/orders/' + detailOrder.value.id + '/transfer', {
+          method: 'POST',
+          body: JSON.stringify({ technician_id: transferTargetId.value, reason: transferReason.value || '' })
+        })
+        showTransferDlg.value = false
+        setMsg(res.message || '转单成功', false)
+        loadOrders()
+      } catch(e) { setMsg(e.message || '转单失败', true) }
+    }
+
     return{
       token,loginForm,loginLoading,doLogin,logout,user,roleTxt,tab,menu,msg,switchTab,autoDispatchEnabled,autoDispatchLoading,toggleAutoDispatch,
       stats,recent,statusTxt,exportCSV,
       orders,orderFilter,orderPage,orderTotal,orderPages,loadOrders,goOrderPage,newOrderCount,newOrderCount,exportOrders,searchKeyword,doSearch,
       showDetailDlg,showTransferDlg,transferTechs,transferTargetId,transferReason,loadTransferTechs,doAdminTransfer,detailOrder,detailLogs,viewOrder,orderImages,imgUrls,currentImgIdx,showMedia,showPreviewDlg,showImg,getImgList,orderParts,showAddPartDlg,partForm,partSaving,openAddPart,savePart,
-      showDispatchDlg,dispatchTechId,dispatchLoading,techOptions,openDispatch,doDispatch,autoDispatch,cancelOrder,refundOrder,goOrders,
+      showDispatchDlg,dispatchTechId,dispatchLoading,techOptions,openDispatch,doDispatch,autoDispatch,cancelOrder,refundOrder,approveCancel,rejectCancel,goOrders,
       techs,techLocations,loadTechLocations,orgTxt,showEditTechDlg,editForm,savingTech,editTech,saveTechProfile,toggleTech,pauseTech,showAddTech,addTechForm,addTechLoading,addTech,orgList,
       showAddSkillDlg,skillTechName,skillForm,skillSaving,allItems,addSkill,saveSkill,delSkill,
       depositPending,depositReqs,depositFilter,loadDepositRequests,loadDepositPending,approveDeposit,rejectDeposit,
