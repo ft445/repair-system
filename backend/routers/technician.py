@@ -583,6 +583,15 @@ def mark_paid(order_id: int, data: dict, db: Session = Depends(get_db)):
     if order.status not in (OrderStatus.COMPLETED.value, OrderStatus.PAID.value, OrderStatus.DONE.value):
         raise HTTPException(400, "仅已完成工单可标记收款")
 
+    # 校验保证金：师傅必须有审核通过的保证金才能收款
+    if order.technician_id:
+        deposit = db.query(DepositRequest).filter(
+            DepositRequest.user_id == order.technician_id,
+            DepositRequest.status == "approved",
+        ).first()
+        if not deposit:
+            raise HTTPException(400, "暂未缴纳保证金，无法收款。请在个人中心缴纳保证金后再操作")
+
     method = data.get("payment_method", "cash")
     order.pay_status = PayStatus.PAID.value
     order.payment_method = method
