@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>云匠 - 报修二维码传单</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'PingFang SC','Microsoft YaHei',sans-serif;background:#f0f0f0;padding:20px;display:flex;flex-direction:column;align-items:center}
+.page{width:210mm;background:#fff;padding:10mm 12mm;margin:0 auto 20px;box-shadow:0 4px 20px rgba(0,0,0,0.1);border-radius:4px;min-height:297mm}
+.page-title{text-align:center;margin-bottom:8mm;font-size:14px;color:#999;letter-spacing:2px;border-bottom:1px dashed #ddd;padding-bottom:6mm}
+.page-title strong{color:#333;font-size:16px}
+
+/* ── 撕条网格 ── */
+.strip-grid{display:grid;grid-template-columns:1fr 1fr;gap:2mm}
+.strip{page-break-inside:avoid;border:1.5px dashed #ccc;padding:5mm 4mm;text-align:center;position:relative;min-height:60mm;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.strip::after{content:'--- 裁剪线 ---';position:absolute;bottom:-1mm;left:0;right:0;text-align:center;font-size:8px;color:#ccc;letter-spacing:2px}
+.strip:last-child::after,.strip:nth-last-child(2)::after{display:none}
+
+/* ── 条内容 ── */
+.strip-brand{font-size:14px;font-weight:800;color:#1A365D;margin-bottom:2mm;letter-spacing:2px}
+.strip-brand span{color:#E67A2E}
+.strip-tagline{font-size:8px;color:#999;margin-bottom:3mm;letter-spacing:4px}
+.strip-qr img{width:50mm;height:50mm;display:block;margin:0 auto;border-radius:2mm}
+.strip-label{font-size:13px;font-weight:700;color:#333;margin:2mm 0 1mm;letter-spacing:2px}
+.strip-phone{font-size:16px;font-weight:900;color:#E67A2E;letter-spacing:1px;margin-bottom:1mm}
+.strip-features{font-size:8px;color:#999;display:flex;gap:3mm;justify-content:center;flex-wrap:wrap}
+.strip-cut{display:none}
+
+/* ── 打印样式 ── */
+@media print{
+body{background:#fff;padding:0}
+.page{box-shadow:none;border-radius:0;margin:0;padding:6mm 10mm}
+.page-title{color:#999}
+.no-print{display:none!important}
+.strip{border-color:#bbb;break-inside:avoid}
+}
+@media(max-width:800px){
+.page{padding:6mm;width:100%}
+.strip-grid{grid-template-columns:1fr}
+.strip-qr img{width:70mm;height:70mm}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ 打印说明 ═══ -->
+<div class="no-print" style="max-width:210mm;width:100%;margin:0 auto 16px;background:#fff3e0;border:1px solid #ffcc80;border-radius:8px;padding:16px 20px;font-size:13px;color:#e65100;line-height:1.7">
+  <strong>🖨️ 打印说明：</strong><br>
+  1. 打印此页 → 沿虚线裁剪 → 每条是一个独立二维码<br>
+  2. 贴在小区公告栏、便利店门口、工具箱上<br>
+  3. 客户扫码直接进入报修页面
+</div>
+
+<!-- ═══ 第1页 ═══ -->
+<div class="page">
+  <div class="page-title"><strong>📱 扫码报修 · 师傅极速上门</strong>　｜　撕下一张，扫码即修</div>
+  <div class="strip-grid">
+
+    <!-- 条1 -->
+    <div class="strip">
+      <div class="strip-brand">云匠<span>.</span> 全国连锁</div>
+      <div class="strip-tagline">专 业 上 门 · 家 庭 维 修</div>
+      <div class="strip-qr"><img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://www.zpqy.cn/repair" alt="扫码报修"></div>
+      <div class="strip-label">📱 扫码报修</div>
+      <div class="strip-phone">134-2763-2071</div>
+      <div class="strip-features"><span>先报价后维修</span><span>·</span><span>一年免费保修</span></div>
+    </div>
+
+    <!-- 条2 -->
+    <div class="strip">
+      <div class="strip-brand">云匠<span>.</span> 全国连锁</div>
+      <div class="strip-tagline">专 业 上 门 · 家 庭 维 修</div>
+      <div class="strip-qr"><img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://www.zpqy.cn/repair" alt="扫码报修"></div>
+      <div class="strip-label">📱 扫码报修</div>
+      <div class="strip-phone">134-2763-2071</div>
+      <div class="strip-features"><span>先报价后维修</span><span>·</span><span>一年免费保修</span></div>
+    </div>
+
+    <!-- 条3 -->
+    <div class="strip">
+      <div class="strip-brand">云匠<span>.</span> 全国连锁</div>
+      <div class="strip-tagline">专 业 上 门 · 家 庭 维 修</div>
+      <div class="strip-qr"><img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://www.zpqy.cn/repair" alt="扫码报修"></div>
+      <div class="strip-label">📱 扫码报修</div>
+      <div class="strip-phone">134-2763-2071</div>
+      <div class="strip-features"><span>先报价后维修</span><span>·</span><span>一年免费保修</span></div>
+    </div>
+
+    <!-- 条4 -->
+    <div class="strip">
+      <div class="strip-brand">云匠<span>.</span> 全国连锁</div>
+      <div class="strip-tagline">专 业 上 门 · 家 庭 维 修</div>
+      <div class="strip-qr"><img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://www.zpqy.cn/repair" alt="扫码报修"></div>
+      <div class="strip-label">📱 扫码报修</div>
+      <div class="strip-phone">134-2763-2071</div>
+      <div class="strip-features"><span>先报价后维修</span><span>·</span><span>一年免费保修</span></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ 第2页（重复） ═══ -->
+<div class="page">
+  <div class="page-title"><strong>📱 扫码报修 · 师傅极速上门</strong>　｜　撕下一张，扫码即修</div>
+  <div class="strip-grid">
+
+    <div class="strip">
+      <div class="strip-brand">云匠<span>.</span> 全国连锁</div>
+      <div class="strip-tagline">专 业 上 门 · 家 庭 维 修</div>
+      <div class="strip-qr"><img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://www.zpqy.cn/repair" alt="扫码报修"></div>
+      <div class="strip-label">📱 扫码报修</div>
+      <div class="strip-phone">134-2763-2071</div>
+      <div class="strip-features"><span>先报价后维修</span><span>·</span><span>一年免费保修</span></div>
+    </div>
+
+    <div class="strip">
+      <div class="strip-brand">云匠<span>.</span> 全国连锁</div>
+      <div class="strip-tagline">专 业 上 门 · 家 庭 维 修</div>
+      <div class="strip-qr"><img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://www.zpqy.cn/repair" alt="扫码报修"></div>
+      <div class="strip-label">📱 扫码报修</div>
+      <div class="strip-phone">134-2763-2071</div>
+      <div class="strip-features"><span>先报价后维修</span><span>·</span><span>一年免费保修</span></div>
+    </div>
+
+    <div class="strip">
+      <div class="strip-brand">云匠<span>.</span> 全国连锁</div>
+      <div class="strip-tagline">专 业 上 门 · 家 庭 维 修</div>
+      <div class="strip-qr"><img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://www.zpqy.cn/repair" alt="扫码报修"></div>
+      <div class="strip-label">📱 扫码报修</div>
+      <div class="strip-phone">134-2763-2071</div>
+      <div class="strip-features"><span>先报价后维修</span><span>·</span><span>一年免费保修</span></div>
+    </div>
+
+    <div class="strip">
+      <div class="strip-brand">云匠<span>.</span> 全国连锁</div>
+      <div class="strip-tagline">专 业 上 门 · 家 庭 维 修</div>
+      <div class="strip-qr"><img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://www.zpqy.cn/repair" alt="扫码报修"></div>
+      <div class="strip-label">📱 扫码报修</div>
+      <div class="strip-phone">134-2763-2071</div>
+      <div class="strip-features"><span>先报价后维修</span><span>·</span><span>一年免费保修</span></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ 打印按钮 ═══ -->
+<div class="no-print" style="max-width:210mm;width:100%;margin:0 auto 40px;text-align:center">
+  <button onclick="window.print()" style="padding:14px 48px;background:#E67A2E;color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;margin-bottom:12px;box-shadow:0 4px 16px rgba(230,122,46,0.3)">🖨️ 打印传单</button>
+  <p style="font-size:13px;color:#999">每页8张撕条，建议打印2-3页</p>
+</div>
+
+</body>
+</html>

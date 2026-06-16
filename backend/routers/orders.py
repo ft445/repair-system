@@ -8,6 +8,7 @@ from typing import Optional
 
 from database import get_db
 from models import WorkOrder, WorkOrderLog, Customer, User, ServiceItem, TechnicianSkill, OrderStatus, PayStatus, Notification
+from services.sms import send_order_notification
 from schemas import (
     WorkOrderCreate, WorkOrderUpdate, WorkOrderOut,
     WorkOrderListOut, ApiResponse,
@@ -61,6 +62,14 @@ def create_order(data: WorkOrderCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(order)
     order_id = order.id
+
+    # 发送短信通知客户
+    try:
+        customer_phone = customer.phone if customer else None
+        if customer_phone:
+            send_order_notification(db, customer_phone, order.order_no, customer.name)
+    except Exception:
+        pass
 
     # 1秒后自动标记为已接单 + 检查自动派单
     async def auto_process():

@@ -118,6 +118,10 @@ def serve_poster_page():
 def serve_qrcodes_page():
     return FileResponse("static/qrcodes.html", media_type="text/html")
 
+@app.get("/flyer")
+def serve_flyer_page():
+    return FileResponse("static/flyer.html", media_type="text/html")
+
 
 @app.get("/admin")
 @app.get("/hilnai")
