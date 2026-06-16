@@ -84,7 +84,10 @@ export const api = {
     return request(`/orders/${orderId}/quote/respond`, { method: 'POST', data: { action } })
   },
   getMyStats(technicianId) {
-    return request(`/technician/list?filter=${technicianId}`)
+    return request(`/technician/list`).then(r => {
+      const data = r.data || []
+      return { data: data.find(t => t.id === technicianId) || null }
+    })
   },
   getTechList() {
     return request('/technician/list')
@@ -96,7 +99,7 @@ export const api = {
   payDeposit(techId, data) { return request(`/technician/deposit/${techId}`, { method: 'POST', data }) },
   getUnreadCount() { return request('/notifications/unread-count') },
   getNotifications(page, pageSize) { return request(`/notifications?page=${page}&page_size=${pageSize}`) },
-  markNotificationRead(id) { return request(`/notifications/${id}`, { method: 'PUT', data: { is_read: true } }) },
+  markNotificationRead(id) { return request(`/notifications/${id}/read`, { method: 'PUT' }) },
   markAllRead() { return request('/notifications/read-all', { method: 'PUT' }) },
   getPublicSettings() { return request('/settings/public') },
   getMyOrdersPaginated(techId, { page=1, pageSize=20, status='' }={}) {
@@ -104,7 +107,7 @@ export const api = {
     if (status) path += `&status=${status}`
     return request(path)
   },
-  getCustomerHistory(customerId, techId) { return request(`/orders?customer_id=${customerId}&technician_id=${techId}&page_size=20`) },
+  getCustomerHistory(customerId, techId) { return request(`/technician/customers/${customerId}/history?technician_id=${techId}`) },
   getSchedule(techId, dateFrom, dateTo) { return request(`/technician/orders?technician_id=${techId}&date_from=${dateFrom}&date_to=${dateTo}&page_size=100`) },
   getMonthlyStats(techId) { return request(`/technician/stats/monthly?technician_id=${techId}`) },
   getMyInfo(userId) { return request(`/users/${userId}/profile`) },

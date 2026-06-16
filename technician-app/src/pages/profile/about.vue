@@ -46,7 +46,7 @@ export default {
   },
   onLoad() {
     try {
-      if (typeof plus !== 'undefined') {
+      if (typeof plus !== 'undefined' && plus.runtime) {
         this.appVersion = plus.runtime.version || '1.0.0'
       }
     } catch(e) {}
@@ -57,7 +57,7 @@ export default {
       uni.makePhoneCall({ phoneNumber: this.servicePhone, fail: () => {} })
     },
     openSite() {
-      plus && plus.runtime.openURL ? plus.runtime.openURL('https://www.zpqy.cn') : uni.showToast({ title: '请在浏览器打开 www.zpqy.cn', icon: 'none' })
+      plus?.runtime?.openURL ? plus.runtime.openURL('https://www.zpqy.cn') : uni.showToast({ title: '请在浏览器打开 www.zpqy.cn', icon: 'none' })
     }
   }
 }

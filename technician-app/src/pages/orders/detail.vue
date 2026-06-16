@@ -301,10 +301,10 @@
         <view class="rmodal" @click.stop>
           <view class="rate-title">申请取消工单</view>
           <text class="reject-hint">说明取消原因，管理员审核后将重新派单</text>
-          <picker :value="rejectReasonIndex" :range="rejectReasons" @change="e=>{rejectReasonIndex=e.detail.value;rejectReason=rejectReasons[e.detail.value]}" style="width:100%;margin-bottom:12px">
+          <picker :value="rejectReasonIndex" :range="rejectReasons" @change="e=>{rejectReasonIndex=e.detail.value;rejectReason=rejectReasons[e.detail.value];rejectReasonInput=''}" style="width:100%;margin-bottom:12px">
             <view class="reject-picker">{{ rejectReason || '请选择原因' }}</view>
           </picker>
-          <input class="rate-input" type="text" v-model="rejectReason" placeholder="或手动输入原因..." />
+          <input class="rate-input" type="text" v-model="rejectReasonInput" placeholder="或手动输入原因..." @input="rejectReason=''" />
           <view class="rate-actions">
             <button class="rate-btn rate-skip" @click="showReject=false">再想想</button>
             <button class="rate-btn rate-submit" style="background:var(--danger)" @click="doReject">确认取消</button>
@@ -347,8 +347,9 @@
 <script>
 import api from '../../api'
 const UPLOAD_URL = ((typeof process !== 'undefined' && process.env?.VITE_API_BASE) || 'https://zpqy.cn/api') + '/upload'
+const BASE_URL = ((typeof process !== 'undefined' && process.env?.VITE_API_BASE) || 'https://zpqy.cn/api').replace('/api', '')
 export default {
-  data() { return { order: null, loading: true, orderId: null, orderParts: [], customerHistory: [], tripFeeAmount: 30, captureBefore: [], captureAfter: [], captureVideo: null, _callRecorder: null, _callRecordingPath: null, showVerify: false, verifyCode: '', showRate: false, rateScore: 5, rateComment: '', verified: false, contacted: false, repairStarted: false, quoteItems: [], showDatePicker: false, pickerDate: '', pickerTime: '', showReject: false, rejectReason: '', rejectReasonIndex: -1, rejectReasons: ['时间冲突，无法上门', '距离太远，无法前往', '技能不匹配，无法维修', '客户态度问题', '个人原因', '其他'], showTransfer: false, transferTechs: [], transferTargetId: null, transferReason: '' } },
+  data() { return { order: null, loading: true, orderId: null, orderParts: [], customerHistory: [], tripFeeAmount: 30, captureBefore: [], captureAfter: [], captureVideo: null, _callRecorder: null, _callRecordingPath: null, showVerify: false, verifyCode: '', showRate: false, rateScore: 5, rateComment: '', verified: false, contacted: false, repairStarted: false, quoteItems: [], showDatePicker: false, pickerDate: '', pickerTime: '', showReject: false, rejectReason: '', rejectReasonInput: '', rejectReasonIndex: -1, rejectReasons: ['时间冲突，无法上门', '距离太远，无法前往', '技能不匹配，无法维修', '客户态度问题', '个人原因', '其他'], showTransfer: false, transferTechs: [], transferTargetId: null, transferReason: '' } },
   onLoad(q) { this.orderId = q.id; setTimeout(()=>this.loadOrder(),100) },
   onShow() { if(this.orderId)this.loadOrder() },
   watch: {
@@ -376,9 +377,10 @@ export default {
       }})
     },
     async doReject() {
-      if (!this.rejectReason || !this.rejectReason.trim()) { uni.showToast({ title:'请选择或输入取消原因', icon:'none' }); return }
+      const reason = this.rejectReasonInput || this.rejectReason
+      if (!reason || !reason.trim()) { uni.showToast({ title:'请选择或输入取消原因', icon:'none' }); return }
       try {
-        const res = await api.rejectOrder(this.orderId, this.rejectReason)
+        const res = await api.rejectOrder(this.orderId, reason)
         this.showReject = false
         uni.showToast({ title: res?.message || '已提交' })
         setTimeout(() => uni.navigateBack(), 800)
@@ -443,7 +445,7 @@ export default {
     smsCustomer() {
       const phone = this.order.customer_phone
       if (!phone) { uni.showToast({ title:'暂无客户电话', icon:'none' }); return }
-      uni.showModal({ title:'发送短信', content:`向 ${phone.slice(0,3)}****${phone.slice(-4)} 发送短信？`, success: (r) => { if (r.confirm && typeof plus !== 'undefined') { plus.runtime.openURL('sms:' + phone) } } })
+      uni.showModal({ title:'发送短信', content:`向 ${phone.slice(0,3)}****${phone.slice(-4)} 发送短信？`, success: (r) => { if (r.confirm && typeof plus !== 'undefined' && plus.runtime) { plus.runtime.openURL('sms:' + phone) } } })
     },
     goToDoor() { this.showVerify = true },
     isToday(t) {
@@ -457,7 +459,7 @@ export default {
       const t = this.pickerTime || '09:00'
       const fullTime = this.pickerDate + 'T' + t + ':00'
       this.order.appointment_time = fullTime.replace('T',' ').slice(0,16)
-      uni.request({ url: 'https://zpqy.cn/api/orders/' + this.orderId, method: 'PUT', header: { 'Authorization': 'Bearer ' + uni.getStorageSync('token'), 'Content-Type': 'application/json' }, data: { appointment_time: fullTime }, fail: () => {} })
+      uni.request({ url: '/api/orders/' + this.orderId, method: 'PUT', header: { 'Authorization': 'Bearer ' + uni.getStorageSync('token'), 'Content-Type': 'application/json' }, data: { appointment_time: fullTime }, fail: () => {} })
       this.showDatePicker = false
       uni.showToast({ title:'上门时间已设置', icon:'none' })
     },
@@ -501,11 +503,11 @@ export default {
     parsePhotos(str) { try{return JSON.parse(str)}catch(e){return str?[str]:[]} },
     takePhoto(type) { uni.chooseImage({ count: 3, sizeType:['compressed'], sourceType:['camera'], success: async (r) => { uni.showLoading({ title: '上传照片中...' }); const urls = []; for (const p of r.tempFilePaths) { try { urls.push(await this.uploadFile(p)) } catch(e) { console.error('照片上传失败', e) } }; if (type === 'before') this.captureBefore = this.captureBefore.concat(urls); else this.captureAfter = this.captureAfter.concat(urls); uni.hideLoading() }}) },
     recordVideo() { uni.chooseVideo({ sourceType:['camera'], maxDuration:30, success: async (r) => { try { this.captureVideo = await this.uploadFile(r.tempFilePath); uni.showToast({ title:'视频上传成功' }) } catch(e) { uni.showToast({ title:'视频上传失败', icon:'none' }) } }}) },
-    uploadFile(filePath) { return new Promise((resolve, reject) => { const token = uni.getStorageSync('token'); uni.uploadFile({ url: UPLOAD_URL, filePath, name: 'file', header: token ? { 'Authorization': `Bearer ${token}` } : {}, success: (res) => { try { const data = typeof res.data === 'string' ? JSON.parse(res.data) : res.data; if (data?.data?.url) resolve('https://zpqy.cn' + data.data.url); else reject('上传返回数据异常') } catch(e) { reject('解析上传结果失败') } }, fail: () => reject('上传失败，请检查网络') }) }) },
+    uploadFile(filePath) { return new Promise((resolve, reject) => { const token = uni.getStorageSync('token'); uni.uploadFile({ url: UPLOAD_URL, filePath, name: 'file', header: token ? { 'Authorization': `Bearer ${token}` } : {}, success: (res) => { try { const data = typeof res.data === 'string' ? JSON.parse(res.data) : res.data; if (data?.data?.url) resolve(BASE_URL + data.data.url); else reject('上传返回数据异常') } catch(e) { reject('解析上传结果失败') } }, fail: () => reject('上传失败，请检查网络') }) }) },
     copyText(text, label) { if (!text) { uni.showToast({ title:'暂无'+label, icon:'none' }); return }; uni.setClipboardData({ data: text, success: () => uni.showToast({ title:label+'已复制' }) }) },
     openMap(type) {
       const addr = this.order.address || ''; const lat = this.order.latitude; const lng = this.order.longitude
-      if (typeof plus !== 'undefined') {
+      if (typeof plus !== 'undefined' && plus.runtime) {
         if (type === 'amap') { const url = lat && lng ? `https://uri.amap.com/navigation?to=${lng},${lat},${encodeURIComponent(addr)}&mode=car&coordinate=gaode` : `https://uri.amap.com/navigation?to=0,0,${encodeURIComponent(addr)}&mode=car`; plus.runtime.openURL(url, err => { uni.showToast({ title:'请安装高德地图', icon:'none' }) }) }
         else { const url = lat && lng ? `https://apis.map.qq.com/uri/v1/navi?car=${lat},${lng}&coord_type=gcj02` : `https://apis.map.qq.com/uri/v1/search?keyword=${encodeURIComponent(addr)}`; plus.runtime.openURL(url, err => { uni.showToast({ title:'请安装腾讯地图', icon:'none' }) }) }
       } else if (lat && lng) { uni.showToast({ title:'仅支持 App 端打开地图导航', icon:'none' }) } else { uni.showToast({ title:'暂无位置信息', icon:'none' }) }

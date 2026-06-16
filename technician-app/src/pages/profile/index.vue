@@ -213,7 +213,7 @@ export default {
           api.getSkills(this.user.id).catch(()=>({data:[]}))
         ])
         const orders = (Array.isArray(res.data) ? res.data : res.data?.items) || []
-        this.totalOrders = orders.filter(o => o.status === 'completed' || o.status === 'done').length
+        this.totalOrders = orders.filter(o => o.status === 'completed' || o.status === 'done' || o.status === 'paid').length
         this.skills = Array.isArray(skillRes.data) ? skillRes.data : (skillRes.data?.skills || [])
         this.skillCount = this.skills.length
         const rated = orders.filter(o => o.rating != null)
@@ -294,7 +294,7 @@ export default {
         const now = new Date()
         const ym = now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')
         const monthLeaves = leaves.filter(l =>
-          (l.status === 'approved' || l.status === 'approved') &&
+          (l.status === 'approved') &&
           (l.created_at||'').startsWith(ym)
         )
         this.leaveDays = monthLeaves.reduce((s, l) => s + (l.days || 1), 0)
