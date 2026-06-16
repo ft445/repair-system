@@ -2,14 +2,14 @@
   <view class="page">
     <view class="about-card">
       <view class="about-logo">🛠️</view>
-      <view class="about-name">黄师傅维修</view>
+      <view class="about-name">云匠</view>
       <view class="about-version">v{{ appVersion }}</view>
     </view>
 
     <view class="info-section">
       <view class="info-row">
         <text class="info-label">应用名称</text>
-        <text class="info-value">黄师傅维修 - 师傅端</text>
+        <text class="info-value">云匠 - 师傅端</text>
       </view>
       <view class="info-row">
         <text class="info-label">版本号</text>
@@ -17,7 +17,7 @@
       </view>
       <view class="info-row">
         <text class="info-label">开发团队</text>
-        <text class="info-value">黄师傅技术团队</text>
+        <text class="info-value">云匠技术团队</text>
       </view>
       <view class="info-row">
         <text class="info-label">客服热线</text>
@@ -30,7 +30,7 @@
     </view>
 
     <view class="copyright">
-      <text>Copyright © 2024-2026 黄师傅维修</text>
+      <text>Copyright © 2024-2026 云匠</text>
       <text>All Rights Reserved</text>
     </view>
   </view>

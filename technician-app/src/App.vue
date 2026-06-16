@@ -4,21 +4,28 @@
 
 <script>
 import wsService from './services/websocket'
-import api from './api'
 export default {
   onLaunch() {
-    console.log('维修通 师傅端 启动')
-    this._autoConnect()
+    console.log('云匠 师傅端 启动')
+    this._autoLogin()
   },
   onShow() {
-    this._autoConnect()
+    this._autoLogin()
   },
   methods: {
-    _autoConnect() {
+    _autoLogin() {
       try {
         const token = uni.getStorageSync('token')
         const user = uni.getStorageSync('user')
-        if (token && user?.id && !wsService.isConnected()) {
+        if (!token || !user?.id) return
+        // 已登录 → 跳过登录页，直接进工作台
+        const pages = getCurrentPages()
+        const isLoginPage = pages.length && pages[0].route === 'pages/login/index'
+        if (isLoginPage) {
+          uni.reLaunch({ url: '/pages/workbench/index' })
+        }
+        // 连接 WebSocket
+        if (!wsService.isConnected()) {
           wsService.connect(user.id, token)
           this._setupListeners()
         }

@@ -1,7 +1,7 @@
 {
   "name": "technician-app",
   "version": "1.0.0",
-  "description": "维修通师傅接单APP",
+  "description": "云匠师傅接单APP",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

@@ -22,7 +22,7 @@
     <view class="settings-section">
       <view class="settings-group">
         <view class="settings-item" @click="navTo('/pages/profile/about')">
-          <text class="si-label">关于黄师傅维修</text>
+          <text class="si-label">关于云匠</text>
           <text class="mi-arrow">›</text>
         </view>
         <view class="settings-item">

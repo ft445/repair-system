@@ -95,7 +95,7 @@ export default {
     this.loadOrders().then(() => uni.stopPullDownRefresh())
   },
   methods: {
-    statusTxt(s) { const m={pending:'待接单',dispatched:'已派单',accepted:'已接单',in_progress:'进行中',completed:'已完成',paid:'已付款',done:'已完成',cancelled:'已取消'}; return m[s]||s },
+    statusTxt(s) { const m={pending:'待接单',dispatched:'已派单',accepted:'已接单',in_progress:'进行中',completed:'已完成',paid:'已付款',done:'已完成',cancelled:'已取消',CANCEL_PENDING:'待审核'}; return m[s]||s },
     goDetail(id) { uni.navigateTo({ url:'/pages/orders/detail?id='+id }) },
     prevMonth() {
       if (this.month === 1) { this.year--; this.month = 12 }

@@ -48,7 +48,7 @@
             <text class="ic-label">今日收入</text>
             <text class="ic-amount">¥{{ todayEarn }}</text>
           </view>
-          <view class="ic-badge">{{ clockedIn?'已接单':'未打卡' }}</view>
+          <view class="ic-badge">{{ stats.inProgress ? '服务中' : '空闲中' }}</view>
         </view>
         <view class="ic-bar">
           <view class="ic-item">
@@ -437,6 +437,11 @@ export default {
       try {
         const res = await api.getUnreadCount()
         this.unreadCount = res.data?.count || 0
+        if (this.unreadCount > 0) {
+          try { uni.setTabBarBadge({ index: 3, text: String(this.unreadCount) }) } catch(e) {}
+        } else {
+          try { uni.removeTabBarBadge({ index: 3 }) } catch(e) {}
+        }
       } catch (e) { }
     },
 
@@ -510,7 +515,7 @@ export default {
   background: var(--bg-page);
   min-height: 100vh;
   padding-bottom: 60px
-;width:100%;overflow-x:hidden;box-sizing:border-box;width:100%;overflow-x:hidden;box-sizing:border-box}
+;width:100%;overflow-x:hidden;box-sizing:border-box}
 .main-content {
   padding: 0 var(--spacing-lg) 60px;
   animation: fadeIn .25s ease

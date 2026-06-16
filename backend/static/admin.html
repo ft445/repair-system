@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>黄师傅家庭维修 - 管理后台</title>
+<title>云匠 - 管理后台</title>
 <link rel="stylesheet" href="/lib/element-plus.css?v=1780817883">
 <style>
-/* ═══ 黄师傅品牌色 ═══ */
+/* ═══ 云匠品牌色 ═══ */
 :root{--primary:#E67A2E;--primary-dark:#C96A1F;--navy:#1A365D;--navy-light:#2B6CB0;--el-color-primary:#E67A2E;--el-color-primary-dark-2:#C96A1F;--el-color-primary-light-3:#F5A623;--el-color-primary-light-5:#FFC286;--el-color-primary-light-7:#FFE0B2;--el-color-primary-light-8:#FFF0E0;--el-color-primary-light-9:#FFF8F0}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,'Helvetica Neue','PingFang SC','Microsoft YaHei',sans-serif;background:#f0f2f5;color:#333;font-size:14px}
@@ -105,10 +105,10 @@ h3{font-size:16px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
           <circle cx="5" cy="0" r="4" fill="#fff"/>
         </g>
         <polygon points="65,24 68,32 77,32 70,38 73,46 65,41 57,46 60,38 53,32 62,32" fill="url(#lgs2)"/>
-        <text x="65" y="100" text-anchor="middle" fill="#fff" font-size="16" font-weight="800" font-family="'PingFang SC','Microsoft YaHei',sans-serif">黄师傅</text>
+        <text x="65" y="100" text-anchor="middle" fill="#fff" font-size="16" font-weight="800" font-family="'PingFang SC','Microsoft YaHei',sans-serif">云匠</text>
         <text x="65" y="115" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="8" font-weight="500" font-family="'PingFang SC','Microsoft YaHei',sans-serif" letter-spacing="3">家庭维修</text>
       </svg>
-      <span style="font-size:24px;font-weight:700">黄师傅 <span style="color:#E67A2E;">管理后台</span></span>
+      <span style="font-size:24px;font-weight:700">云匠 <span style="color:#E67A2E;">管理后台</span></span>
     </h2>
     <div class="sub">专业版 · 维修管理系统</div>
     <el-form @submit.prevent="doLogin">
@@ -141,7 +141,7 @@ h3{font-size:16px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
         <circle cx="5" cy="0" r="4" fill="url(#lg1)" transform="translate(65,58)"/>
         <polygon points="65,24 68,32 77,32 70,38 73,46 65,41 57,46 60,38 53,32 62,32" fill="url(#lg2)"/>
       </svg>
-      <span><b>黄师傅</b><span style="color:#E67A2E;font-weight:700;">维修</span></span>
+      <span><b>云匠</b><span style="color:#E67A2E;font-weight:700;">维修</span></span>
     </div>
     <div v-for="m in menu" :key="m.k" :class="'menu-item'+(tab===m.k?' act':'')" @click="switchTab(m.k)">{{ m.l }}</div>
   </div>
@@ -1297,7 +1297,7 @@ h3{font-size:16px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
       try {
         if (typeof SpeechSynthesisUtterance !== 'undefined' && window.speechSynthesis) {
           window.speechSynthesis.cancel(); // 修复Chrome语音合成卡住问题
-          var msg = new SpeechSynthesisUtterance('黄师傅有新订单来了，请及时处理');
+          var msg = new SpeechSynthesisUtterance('云匠有新订单来了，请及时处理');
           msg.lang = 'zh-CN'; msg.rate = 0.9; msg.pitch = 1;
           window.speechSynthesis.speak(msg);
         }
@@ -1329,7 +1329,7 @@ h3{font-size:16px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
               newOrderCount.value = created - prevTotalOrders.value;
               playNotify();
               if (typeof ElementPlus !== 'undefined') {
-                ElementPlus.ElNotification({ title:'🔔 新订单来了', message:'黄师傅，收到 '+newOrderCount.value+' 张新工单，请及时接单！', type:'success', duration:8000, position:'top-right' });
+                ElementPlus.ElNotification({ title:'🔔 新订单来了', message:'云匠，收到 '+newOrderCount.value+' 张新工单，请及时接单！', type:'success', duration:8000, position:'top-right' });
               }
               if (tab.value === 'a') await loadDashboard();
               if (tab.value === 'b') await loadOrders();

@@ -1,6 +1,6 @@
 {
   "appId": "com.weixiutong.technician",
-  "appName": "黄师傅维修",
+  "appName": "云匠",
   "webDir": "dist",
   "bundledWebRuntime": false,
   "npmClient": "npm",

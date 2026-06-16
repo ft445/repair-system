@@ -22,7 +22,7 @@ git remote add origin https://github.com/YOUR_USERNAME/repair-system.git
 git add -A
 
 # 提交
-git commit -m "初始化：黄师傅维修系统 + 自动打包APK"
+git commit -m "初始化：云匠系统 + 自动打包APK"
 
 # 推送到 GitHub
 git push -u origin main

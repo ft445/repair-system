@@ -26,7 +26,7 @@ async def lifespan(app: FastAPI):
     yield
 
 
-app = FastAPI(title="维修通 API", version="1.0.0", lifespan=lifespan, docs_url="/docs")
+app = FastAPI(title="云匠 API", version="1.0.0", lifespan=lifespan, docs_url="/docs")
 
 app.add_middleware(
     CORSMiddleware,
@@ -153,7 +153,7 @@ def public_settings(db=Depends(get_db)):
     return ApiResponse(data={
         "commission_rate": int(result.get("commission_rate", 80)),
         "customer_service_phone": "13427632071",
-        "platform_name": "黄师傅维修",
+        "platform_name": "云匠",
         "app_version": "1.1.0",
     })
 

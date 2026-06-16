@@ -218,7 +218,7 @@ export default {
 </script>
 
 <style>
-.page{background:var(--bg-page);min-height:100vh;padding-bottom:80px;width:100%;overflow-x:hidden;box-sizing:border-box;width:100%;overflow-x:hidden;box-sizing:border-box}
+.page{background:var(--bg-page);min-height:100vh;padding-bottom:80px;width:100%;overflow-x:hidden;box-sizing:border-box}
 .header-bar{display:flex;align-items:center;justify-content:space-between;padding:var(--spacing-md);background:var(--bg-card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10}
 .back-btn{font-size:var(--font-md);color:var(--primary);font-weight:500}
 .title-txt{font-size:var(--font-lg);font-weight:600;color:var(--text-primary)}

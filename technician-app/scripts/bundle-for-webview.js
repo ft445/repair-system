@@ -81,7 +81,7 @@ const newHtml = `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>黄师傅维修 - 师傅端</title>
+  <title>云匠 - 师傅端</title>
   <link rel="stylesheet" href="./assets/app.css">
 </head>
 <body>

@@ -1,7 +1,7 @@
 <script>
 export default {
   onLaunch() {
-    console.log('维修通 师傅端 启动')
+    console.log('云匠 师傅端 启动')
     const token = uni.getStorageSync('token')
     const user = uni.getStorageSync('user')
     if (token && user) {

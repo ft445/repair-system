@@ -53,7 +53,7 @@ class ChatRequest(BaseModel):
 @router.post("/diagnose")
 async def ai_diagnose(req: DiagnoseRequest):
     """AI 智能诊断：分析故障原因、建议维修方案、预估价格"""
-    system_prompt = """你是一个专业的家庭维修诊断助手，名叫"黄师傅AI诊断"。根据用户描述的故障情况，给出以下三方面的分析：
+    system_prompt = """你是一个专业的家庭维修诊断助手，名叫"云匠AI诊断"。根据用户描述的故障情况，给出以下三方面的分析：
 
 1. 可能原因：列出 2-4 个可能的原因，按可能性从高到低排列
 2. 维修建议：针对每个原因给出建议的维修方案
@@ -108,7 +108,7 @@ async def ai_diagnose(req: DiagnoseRequest):
 @router.post("/chat")
 async def ai_chat(req: ChatRequest):
     """AI 客服：回答用户关于维修服务的问题"""
-    system_prompt = """你是一个家庭维修平台的AI客服助手，名叫"小黄"。你服务于"黄师傅家庭维修"平台。
+    system_prompt = """你是一个家庭维修平台的AI客服助手，名叫"小黄"。你服务于"云匠"平台。
 
 平台信息：
 - 服务范围：家电维修、家政保洁、清洗服务、上门检测、电脑维修

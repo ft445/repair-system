@@ -1,5 +1,5 @@
 #!/bin/bash
-# 黄师傅维修 APK 构建脚本 (标准 Vue 3 + Capacitor)
+# 云匠 APK 构建脚本 (标准 Vue 3 + Capacitor)
 # 用法: ./build-apk.sh
 
 export JAVA_HOME="/c/Program Files/Eclipse Adoptium/jdk-21.0.11.10-hotspot"

@@ -2,7 +2,7 @@
 set -e
 
 echo "=================================="
-echo "  黄师傅维修 - 腾讯云部署脚本"
+echo "  云匠 - 腾讯云部署脚本"
 echo "  适用: Ubuntu 22.04"
 echo "=================================="
 
@@ -50,7 +50,7 @@ python seed_data.py
 echo "[4/7] 配置系统服务..."
 cat > /etc/systemd/system/repair-system.service << SERVICEEOF
 [Unit]
-Description=黄师傅维修 API Service
+Description=云匠 API Service
 After=network.target postgresql.service
 
 [Service]

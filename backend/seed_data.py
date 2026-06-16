@@ -22,7 +22,7 @@ def seed():
         db.close()
         return
 
-    hq = Organization(name="维修通-全国总部", level=OrgLevel.HEADQUARTERS, city="佛山", status="active")
+    hq = Organization(name="云匠-全国总部", level=OrgLevel.HEADQUARTERS, city="佛山", status="active")
     db.add(hq)
     gz = Organization(name="广州分公司", parent_id=1, level=OrgLevel.BRANCH, city="广州", status="active")
     db.add(gz)

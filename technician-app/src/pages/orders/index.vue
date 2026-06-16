@@ -121,7 +121,7 @@ export default {
 </script>
 
 <style>
-.page{background:var(--bg-page);min-height:100vh;padding:var(--spacing-md);padding-bottom:60px;width:100%;overflow-x:hidden;box-sizing:border-box;width:100%;overflow-x:hidden;box-sizing:border-box}
+.page{background:var(--bg-page);min-height:100vh;padding:var(--spacing-md);padding-bottom:60px;width:100%;overflow-x:hidden;box-sizing:border-box}
 
 /* Tabs */
 .tabs{display:flex;background:var(--bg-card);border-radius:var(--radius-md);margin-bottom:var(--spacing-md);padding:4px;box-shadow:var(--shadow-sm);overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch}

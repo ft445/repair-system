@@ -15,7 +15,7 @@
 <script>
 import api from '../../api'
 export default {
-  data() { return { phone: '', password: '', loading: false, brandName: '黄师傅', brandSubtitle: '师傅端 · 接单平台' } },
+  data() { return { phone: '', password: '', loading: false, brandName: '云匠', brandSubtitle: '师傅端 · 接单平台' } },
   methods: {
     onTap(e) { if (e?.target?.focus) try { e.target.focus() } catch(e) {} },
     async doLogin() {
