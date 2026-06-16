@@ -374,8 +374,14 @@ def accept_order(order_id: int, data: dict = {}, db: Session = Depends(get_db), 
         raise HTTPException(404, "工单不存在")
 
     if order.status == OrderStatus.PENDING.value:
-        # 抢单大厅：任何师傅都可接，抢到即锁定
-        pass
+        # 抢单大厅：必须有对应技能才能抢
+        skill = db.query(TechnicianSkill).filter(
+            TechnicianSkill.user_id == technician_id,
+            TechnicianSkill.service_item_id == order.service_item_id,
+            TechnicianSkill.status == "active",
+        ).first()
+        if not skill:
+            raise HTTPException(403, "您没有该服务项目的技能，无法接单")
     elif order.status == OrderStatus.DISPATCHED.value:
         # 系统派单：只能被指派的师傅接
         if order.technician_id != technician_id:
