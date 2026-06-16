@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey, func
+from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey, func, text
 
 from database import Base
 
@@ -13,7 +13,7 @@ class ServiceCategory(Base):
     description = Column(String(200), nullable=True)
     sort_order = Column(Integer, default=0)
     status = Column(String(20), default="active")
-    created_at = Column(DateTime, server_default=func.now())
+    created_at = Column(DateTime, server_default=text("datetime('now','localtime')"))
 
 
 class ServiceItem(Base):
@@ -30,7 +30,7 @@ class ServiceItem(Base):
     description = Column(String(500), nullable=True)
     status = Column(String(20), default="active")
     sort_order = Column(Integer, default=0)
-    created_at = Column(DateTime, server_default=func.now())
+    created_at = Column(DateTime, server_default=text("datetime('now','localtime')"))
 
 
 class TechnicianSkill(Base):
@@ -43,4 +43,4 @@ class TechnicianSkill(Base):
     price = Column(Float, nullable=True)                 # 师傅自定义价格
     level = Column(String(20), default="junior")         # junior / medium / senior
     status = Column(String(20), default="active")
-    created_at = Column(DateTime, server_default=func.now())
+    created_at = Column(DateTime, server_default=text("datetime('now','localtime')"))

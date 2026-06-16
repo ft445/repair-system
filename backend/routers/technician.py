@@ -450,7 +450,7 @@ def complete_order(
     order.video_url = data.get("video_url")
     order.audio_url = data.get("audio_url")
     order.customer_signature = data.get("customer_signature")
-    order.completed_at = func.now()
+    order.completed_at = datetime.now()
 
     db.add(WorkOrderLog(
         order_id=order_id, user_id=technician_id,
@@ -608,7 +608,7 @@ def mark_paid(order_id: int, data: dict, db: Session = Depends(get_db)):
     method = data.get("payment_method", "cash")
     order.pay_status = PayStatus.PAID.value
     order.payment_method = method
-    order.paid_at = func.now()
+    order.paid_at = datetime.now()
     order.status = OrderStatus.PAID.value
 
     method_names = {"cash": "现金", "wechat": "微信", "alipay": "支付宝", "transfer": "转账"}

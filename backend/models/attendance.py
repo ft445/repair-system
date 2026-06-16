@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, Date, Text, func
+from sqlalchemy import Column, Integer, String, DateTime, Date, Text, func, text
 from database import Base
 
 
@@ -14,8 +14,8 @@ class TechnicianAttendance(Base):
     clock_in_addr = Column(String(200), nullable=True, comment="打卡位置")
     status = Column(String(20), default="present", comment="present/late/absent/halfday")
     notes = Column(String(500), nullable=True)
-    created_at = Column(DateTime, server_default=func.now())
-    updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
+    created_at = Column(DateTime, server_default=text("datetime('now','localtime')"))
+    updated_at = Column(DateTime, server_default=text("datetime('now','localtime')"), onupdate=text("datetime('now','localtime')"))
 
 
 class LeaveRequest(Base):
@@ -32,8 +32,8 @@ class LeaveRequest(Base):
     status = Column(String(20), default="pending", comment="pending/approved/rejected/cancelled")
     approver_id = Column(Integer, nullable=True)
     reject_reason = Column(String(500), nullable=True)
-    created_at = Column(DateTime, server_default=func.now())
-    updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
+    created_at = Column(DateTime, server_default=text("datetime('now','localtime')"))
+    updated_at = Column(DateTime, server_default=text("datetime('now','localtime')"), onupdate=text("datetime('now','localtime')"))
 
 
 class TechnicianLocation(Base):
@@ -46,7 +46,7 @@ class TechnicianLocation(Base):
     longitude = Column(String(30), nullable=False, comment="经度")
     address = Column(String(200), nullable=True, comment="位置描述")
     accuracy = Column(String(20), nullable=True, comment="精度")
-    updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
+    updated_at = Column(DateTime, server_default=text("datetime('now','localtime')"), onupdate=text("datetime('now','localtime')"))
 
 
 class TechnicianLocationLog(Base):
@@ -58,5 +58,5 @@ class TechnicianLocationLog(Base):
     latitude = Column(String(30), nullable=False)
     longitude = Column(String(30), nullable=False)
     address = Column(String(200), nullable=True)
-    created_at = Column(DateTime, server_default=func.now())
+    created_at = Column(DateTime, server_default=text("datetime('now','localtime')"))
 

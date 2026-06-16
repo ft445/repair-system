@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, func
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, func, text
 
 from database import Base
 
@@ -12,4 +12,4 @@ class SmsLog(Base):
     template = Column(String(50), nullable=False)
     params = Column(String(500), nullable=True)
     status = Column(String(20), default="sent")  # sent / failed
-    created_at = Column(DateTime, server_default=func.now())
+    created_at = Column(DateTime, server_default=text("datetime('now','localtime')"))

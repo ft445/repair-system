@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, func
+from sqlalchemy import Column, Integer, String, DateTime, func, text
 
 from database import Base
 
@@ -13,5 +13,5 @@ class Customer(Base):
     city = Column(String(50), nullable=True)
     total_orders = Column(Integer, default=0)
     remark = Column(String(500), nullable=True)
-    created_at = Column(DateTime, server_default=func.now())
-    updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
+    created_at = Column(DateTime, server_default=text("datetime('now','localtime')"))
+    updated_at = Column(DateTime, server_default=text("datetime('now','localtime')"), onupdate=text("datetime('now','localtime')"))

@@ -1,5 +1,5 @@
 import enum
-from sqlalchemy import Column, Integer, String, Enum, DateTime, func
+from sqlalchemy import Column, Integer, String, Enum, DateTime, func, text
 
 from database import Base
 
@@ -26,5 +26,5 @@ class User(Base):
     emergency_contact = Column(String(50), nullable=True, comment="紧急联系人")
     emergency_phone = Column(String(20), nullable=True, comment="紧急联系电话")
     hire_date = Column(String(20), nullable=True, comment="入职日期 YYYY-MM-DD")
-    created_at = Column(DateTime, server_default=func.now())
-    updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
+    created_at = Column(DateTime, server_default=text("datetime('now','localtime')"))
+    updated_at = Column(DateTime, server_default=text("datetime('now','localtime')"), onupdate=text("datetime('now','localtime')"))

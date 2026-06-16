@@ -1,5 +1,5 @@
 import enum
-from sqlalchemy import Column, Integer, String, Enum, DateTime, func
+from sqlalchemy import Column, Integer, String, Enum, DateTime, func, text
 
 from database import Base
 
@@ -21,5 +21,5 @@ class Organization(Base):
     level = Column(Enum(OrgLevel), nullable=False)
     contact_phone = Column(String(20), nullable=True)
     status = Column(String(20), default="active")  # active / disabled
-    created_at = Column(DateTime, server_default=func.now())
-    updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
+    created_at = Column(DateTime, server_default=text("datetime('now','localtime')"))
+    updated_at = Column(DateTime, server_default=text("datetime('now','localtime')"), onupdate=text("datetime('now','localtime')"))

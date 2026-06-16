@@ -1,5 +1,5 @@
 import enum
-from sqlalchemy import Column, Integer, String, Float, Enum, DateTime, Text, ForeignKey, func
+from sqlalchemy import Column, Integer, String, Float, Enum, DateTime, Text, ForeignKey, func, text
 
 from database import Base
 
@@ -73,7 +73,7 @@ class WorkOrder(Base):
     warranty_date = Column(DateTime, nullable=True)
 
     # 时间
-    created_at = Column(DateTime, server_default=func.now())
+    created_at = Column(DateTime, server_default=text("datetime('now','localtime')"))
     accepted_at = Column(DateTime, nullable=True)
     completed_at = Column(DateTime, nullable=True)
 
@@ -106,4 +106,4 @@ class WorkOrderLog(Base):
     user_name = Column(String(50), nullable=True)
     action = Column(String(50), nullable=False)
     content = Column(Text, nullable=True)
-    created_at = Column(DateTime, server_default=func.now())
+    created_at = Column(DateTime, server_default=text("datetime('now','localtime')"))

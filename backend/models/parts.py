@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey, Text, func
+from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey, Text, func, text
 from database import Base
 
 
@@ -20,4 +20,4 @@ class WorkOrderPart(Base):
     notes = Column(String(500), nullable=True, comment="备注")
     store_name = Column(String(200), nullable=True, comment="购买店铺")
     store_phone = Column(String(50), nullable=True, comment="店铺电话")
-    created_at = Column(DateTime, server_default=func.now())
+    created_at = Column(DateTime, server_default=text("datetime('now','localtime')"))
