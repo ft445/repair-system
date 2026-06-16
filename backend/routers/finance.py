@@ -317,7 +317,7 @@ def update_finance_settings(data: dict, db: Session = Depends(get_db)):
     for key, val in data.items():
         if key in allowed:
             db.execute(
-                text("UPDATE system_settings SET value = :val, updated_at = NOW() WHERE key = :key"),
+                text("UPDATE system_settings SET value = :val WHERE key = :key"),
                 {"val": str(val), "key": key}
             )
     db.commit()
