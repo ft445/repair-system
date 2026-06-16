@@ -363,7 +363,7 @@ def nearby_orders(technician_id: Optional[int] = Query(None), db: Session = Depe
 
 @router.post("/orders/{order_id}/accept")
 def accept_order(order_id: int, data: dict = {}, db: Session = Depends(get_db), technician_id: Optional[int] = Query(None)):
-    """师傅接单"""
+    """师傅接单（支持抢单大厅 pending + 派单 dispatched）"""
     if not technician_id:
         technician_id = data.get("technician_id")
     if not technician_id:
@@ -372,12 +372,19 @@ def accept_order(order_id: int, data: dict = {}, db: Session = Depends(get_db), 
     order = db.query(WorkOrder).filter(WorkOrder.id == order_id).first()
     if not order:
         raise HTTPException(404, "工单不存在")
-    if order.technician_id != technician_id:
-        raise HTTPException(403, "非指派给你的工单")
-    if order.status != OrderStatus.DISPATCHED.value:
+
+    if order.status == OrderStatus.PENDING.value:
+        # 抢单大厅：任何师傅都可接，抢到即锁定
+        pass
+    elif order.status == OrderStatus.DISPATCHED.value:
+        # 系统派单：只能被指派的师傅接
+        if order.technician_id != technician_id:
+            raise HTTPException(403, "非指派给你的工单")
+    else:
         raise HTTPException(400, f"当前状态不可接单（{order.status}）")
 
     order.status = OrderStatus.ACCEPTED.value
+    order.technician_id = technician_id
     db.add(WorkOrderLog(
         order_id=order_id, user_id=technician_id,
         action="accept", content="师傅已接单",
