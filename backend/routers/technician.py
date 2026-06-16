@@ -580,7 +580,7 @@ def mark_paid(order_id: int, data: dict, db: Session = Depends(get_db)):
     order = db.query(WorkOrder).filter(WorkOrder.id == order_id).first()
     if not order:
         raise HTTPException(404, "工单不存在")
-    if order.status not in (OrderStatus.COMPLETED.value, OrderStatus.PAID.value):
+    if order.status not in (OrderStatus.COMPLETED.value, OrderStatus.PAID.value, OrderStatus.DONE.value):
         raise HTTPException(400, "仅已完成工单可标记收款")
 
     method = data.get("payment_method", "cash")
